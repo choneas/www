@@ -6,9 +6,9 @@ import { useTranslations, useLocale } from "next-intl";
 import { Card, Link } from "@heroui/react";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
-import type { Project, GithubRepoInfo } from "@/types/project";
-import { formatDate } from "@/lib/format";
-import { fetchGithubRepoInfo } from "@/lib/github";
+import type { Project, GithubRepoInfo } from "@/lib/social-feeds";
+import { formatDate } from "@/utils/date-format";
+import { fetchGithubRepoInfo } from "@/utils/github";
 
 interface ProjectCardProps {
     project: Project;
@@ -92,7 +92,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                                 <span>{repoInfo.stargazers_count}</span>
                             </div>
                             <span>·</span>
-                            <span>{formatDate(new Date(repoInfo.updated_at || ''), locale)}</span>
+                            <span>{formatDate(new Date(repoInfo.updated || ''), locale)}</span>
                         </Card.Footer>
                     )}
                 </Card>

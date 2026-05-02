@@ -1,5 +1,5 @@
 import { Link } from "@heroui/react";
-import { navItems } from "@/data/navbar";
+import { navItems } from "@/constants/navbar";
 
 interface NavbarMenuProps {
     pathname: string;

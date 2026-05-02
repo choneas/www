@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Card, Skeleton } from "@heroui/react";
 import { getTranslations, getLocale } from "next-intl/server";
+import { HLine } from "@/app/page";
 import { MomentCard, MomentCardSkeleton } from "@/components/moment-card";
 import { getAllPosts } from "@/lib/content";
 
@@ -25,11 +26,16 @@ export async function MomentList({ sortOrder = 'desc' }: MomentListProps) {
     });
 
     return (
-        <div className="flex flex-col gap-4">
-            {moments.map((moment) => (
-                <Suspense key={moment.id} fallback={<MomentCardSkeleton moment={moment} locale={locale} />}>
-                    <MomentCard moment={moment} />
-                </Suspense>
+        <div className="flex flex-col">
+            {moments.map((moment, index) => (
+                <div
+                    key={moment.id}
+                >
+                    <Suspense fallback={<MomentCardSkeleton moment={moment} locale={locale} />}>
+                        <MomentCard moment={moment} />
+                    </Suspense>
+                    {index < moments.length - 1 && <HLine className="relative left-0 md:left-auto" />}
+                </div>
             ))}
         </div>
     );
@@ -37,28 +43,26 @@ export async function MomentList({ sortOrder = 'desc' }: MomentListProps) {
 
 export async function MomentListSkeleton() {
     return (
-        <div className="flex flex-col gap-4">
-            {[1, 2, 3].map((i) => (
-                <Card key={i} className="relative">
-                    {/* Header */}
-                    <div className="flex gap-3 items-center">
-                        <Skeleton className="w-10 h-10 rounded-full" />
-                        <div className="flex flex-col gap-2 flex-1">
-                            <Skeleton className="h-4 w-24 rounded-lg" />
+        <div className="flex flex-col">
+            {[1, 2, 3].map((i, index, arr) => (
+                <div
+                    key={i}
+                    className={`${index < arr.length - 1 && 'border-b-2 border-accent/20'} space-y-6`}
+                >
+                    <Card className="relative rounded-none bg-background/40 md:bg-background/20 shadow-none ease-out">
+                        <div className="flex items-start justify-between gap-2 mb-1">
                             <Skeleton className="h-3 w-32 rounded-lg" />
+                            <Skeleton className="h-5 w-16 rounded-full" />
                         </div>
-                    </div>
 
-                    {/* Content */}
-                    <div className="space-y-2">
-                        <Skeleton className="h-6 w-3/4 rounded-lg" />
-                        <Skeleton className="h-4 w-full rounded-lg" />
-                        <Skeleton className="h-4 w-5/6 rounded-lg" />
-                    </div>
+                        <Skeleton className="h-6 w-3/4 rounded-lg mb-2" />
 
-                    {/* Footer */}
-                    <Skeleton className="h-10 w-full rounded-lg" />
-                </Card>
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-full rounded-lg" />
+                            <Skeleton className="h-4 w-5/6 rounded-lg" />
+                        </div>
+                    </Card>
+                </div>
             ))}
         </div>
     );

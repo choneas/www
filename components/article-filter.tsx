@@ -6,7 +6,7 @@ import { SearchField, Chip } from "@heroui/react";
 import { motion } from "framer-motion";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
-import type { PostMetadata } from "@/types/content";
+import type { PostMetadata } from "@/lib/content";
 
 interface ArticleFilterProps {
     articles: PostMetadata[];

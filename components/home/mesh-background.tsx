@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { MeshGradient } from "@paper-design/shaders-react";
 
 // Theme-specific gradient colors

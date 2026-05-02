@@ -8,8 +8,8 @@ import { Card } from "@heroui/react";
 import { Avatar } from "@/components/avatar";
 import { Tags } from "@/components/tags";
 import { triggerNavigationLoading } from "@/components/navigation-loader";
-import type { PostMetadata } from "@/types/content";
-import { formatDate } from "@/lib/format";
+import type { PostMetadata } from "@/lib/content";
+import { formatDate } from "@/utils/date-format";
 
 export function ArticleCard({
     article,
@@ -68,7 +68,7 @@ export function ArticleCard({
                 onNavigate={handleNavigate}
             >
                 <article>
-                    <Card className="bg-content2 shadow border-none">
+                    <Card className="bg-content2 border-none shadow-none">
                     <div className="lg:hidden">
                         <div className="relative w-full aspect-video overflow-hidden rounded-b-md rounded-t-[calc(var(--radius-md)*2)]">
                             <Image
@@ -124,7 +124,7 @@ export function ArticleCard({
             onNavigate={handleNavigate}
         >
             <article>
-                <Card className="bg-content2 shadow border-none">
+                <Card className="bg-content2 shadow-none border-none">
                     <Card.Content className="p-3">
                         <div className="flex flex-col gap-3">
                             <AuthorAndDate />

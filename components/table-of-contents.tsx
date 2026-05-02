@@ -644,7 +644,7 @@ function MobileTOC({
                   ? "text-foreground/95 font-medium"
                   : "text-foreground/70"
                   }`}
-                style={{ paddingLeft: `${entry.indentLevel * 1}rem` }}
+                style={{ paddingLeft: `${(entry.indentLevel)}rem` }}
               >
                 {entry.text}
               </button>

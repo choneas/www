@@ -11,6 +11,7 @@ import { NavbarMobileMenu } from "@/components/navbar/navbar-mobile-menu";
 
 interface NavbarProps {
     translations: Record<string, string>;
+    supportedLocales: string[];
 }
 
 // ============================================================================
@@ -19,17 +20,15 @@ interface NavbarProps {
 // ============================================================================
 
 const LAYOUT = {
-    // Desktop positioning (px)
     desktop: {
-        top: 16,                    // 1rem - normal top position
-        homeTop: 32,                // 2rem - Home: below grid line
-        sideInset: 96,              // 5rem + 0.75rem - Home: align with grid
-        normalSideInset: 128,        // 1.5rem - other pages: standard padding
+        top: 16,
+        homeTop: 32,
+        sideInset: 96,
+        normalSideInset: 128,
     },
-    // Mobile positioning (px)
     mobile: {
-        bottom: 16,                 // 1rem - always at bottom
-        sideInset: 16,              // 1rem - horizontal padding
+        bottom: 16,
+        sideInset: 16,
     },
 } as const;
 
@@ -81,16 +80,11 @@ function getIslandStyle(isMenuOpen: boolean) {
     const bg = isMenuOpen
         ? "color-mix(in srgb, var(--color-background) 96%, transparent 4%)"
         : "color-mix(in srgb, color-mix(in srgb, var(--color-background) 90%, var(--color-accent) 10%) 80%, transparent 20%)";
-    // Removed outermost light shadow layer
-    const shadow = isMenuOpen
-        ? "inset 0 0 0 1.5px rgba(255, 255, 255, 0.15)"
-        : "inset 0 0 0 1.5px rgba(255, 255, 255, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)";
 
     return {
         backdropFilter: blur,
         WebkitBackdropFilter: blur,
         backgroundColor: bg,
-        boxShadow: shadow,
     };
 }
 
@@ -109,7 +103,6 @@ function useOceanEffect(scrollY: MotionValue<number>, disabled: boolean) {
         (o) => `color-mix(in srgb, transparent ${100 - o}%, var(--color-background) ${o}%)`
     );
 
-    // Fixed values when menu is open
     const fixedBackdrop = "blur(16px) saturate(150%)";
     const fixedBackground = "color-mix(in srgb, transparent 90%, var(--color-background) 10%)";
 
@@ -135,7 +128,7 @@ function OceanLayer({ backdropFilter, background }: OceanLayerProps) {
     const maskBottom = "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)";
 
     return (
-        <div className="fixed sm:top-0 bottom-0 sm:bottom-auto inset-x-0 z-39 pointer-events-none h-32 md:h-32">
+        <div className="fixed sm:top-0 bottom-0 sm:bottom-auto inset-x-0 z-40 md:z-39 pointer-events-none h-48 md:h-32">
             {/* Desktop: top gradient */}
             <motion.div
                 className="hidden sm:block absolute inset-0"
@@ -154,11 +147,11 @@ function OceanLayer({ backdropFilter, background }: OceanLayerProps) {
                     WebkitMaskImage: maskTop,
                 }}
             />
-            {/* Mobile: bottom gradient */}
-            <motion.div
+            {/* Mobile: bottom gradient - constant background, no blur */}
+            <div
                 className="sm:hidden absolute inset-0"
                 style={{
-                    background,
+                    background: "color-mix(in srgb, var(--color-background) 90%, transparent)",
                     maskImage: maskBottom,
                     WebkitMaskImage: maskBottom,
                 }}
@@ -189,7 +182,7 @@ function Overlay({ onClose }: OverlayProps) {
 // Main Component
 // ============================================================================
 
-export function Navbar({ translations }: NavbarProps) {
+export function Navbar({ translations, supportedLocales }: NavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { scrollY } = useScroll();
@@ -247,7 +240,7 @@ export function Navbar({ translations }: NavbarProps) {
 
             {/* Desktop Navbar - top positioned */}
             <motion.nav
-                className="hidden sm:block fixed inset-x-0 z-41 pointer-events-auto"
+                className={`hidden sm:block fixed inset-x-0 z-41 pointer-events-auto desktop-nav${isMenuOpen ? ' nav-menu-open' : ''}`}
                 initial={false}
                 animate={{ top: desktopTop }}
                 transition={TRANSITIONS.layout}
@@ -255,7 +248,7 @@ export function Navbar({ translations }: NavbarProps) {
                 <div className="flex items-center justify-center gap-3 relative h-14 w-full">
                     {/* Brand island - Left */}
                     <motion.div
-                        className="absolute flex items-center h-14 rounded-full pl-3 pr-4 focus-within:shadow-[0_0_0_3px_var(--color-accent)]"
+                        className="absolute flex items-center h-14 rounded-full pl-3 pr-4 navbar-island"
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(40vw - 180px)",
@@ -271,7 +264,7 @@ export function Navbar({ translations }: NavbarProps) {
 
                     {/* Items island - Center */}
                     <motion.div
-                        className="absolute left-1/2 -translate-x-1/2 flex items-center p-1 h-14 rounded-full overflow-hidden focus-within:shadow-[0_0_0_3px_var(--color-accent)]"
+                        className="absolute left-1/2 -translate-x-1/2 flex items-center p-1 h-14 rounded-full overflow-hidden navbar-island"
                         style={islandStyle}
                         initial={false}
                         whileTap={{ scale: TAP_CONFIG.scale }}
@@ -286,21 +279,24 @@ export function Navbar({ translations }: NavbarProps) {
 
                     {/* Dropdown island - Right */}
                     <motion.div
-                        className="absolute flex items-center justify-center h-14 w-14 rounded-full p-0 has-focus-visible:shadow-[0_0_0_3px_var(--color-accent)]"
+                        className="absolute flex items-center justify-center h-14 w-14 rounded-full p-0 navbar-island"
                         style={islandStyle}
                         initial={false}
                         animate={{ right: sideInset }}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TRANSITIONS.island}
                     >
-                        <NavbarDropdown onVisibilityChange={setIsDropdownOpen} />
+                        <NavbarDropdown
+                            supportedLocales={supportedLocales}
+                            onVisibilityChange={setIsDropdownOpen}
+                        />
                     </motion.div>
                 </div>
             </motion.nav>
 
             {/* Mobile Navbar - always bottom positioned */}
             <nav
-                className="sm:hidden fixed inset-x-0 z-41 pointer-events-auto"
+                className={`sm:hidden fixed inset-x-0 z-41 pointer-events-auto${isMenuOpen ? ' nav-menu-open' : ''}`}
                 style={{ bottom: LAYOUT.mobile.bottom }}
             >
                 <div
@@ -308,7 +304,7 @@ export function Navbar({ translations }: NavbarProps) {
                     style={{ padding: `0 ${LAYOUT.mobile.sideInset}px` }}
                 >
                     <motion.div
-                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0"
+                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island"
                         style={islandStyle}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TAP_CONFIG.transition}
@@ -322,7 +318,7 @@ export function Navbar({ translations }: NavbarProps) {
                     </motion.div>
 
                     <motion.div
-                        className="flex items-center h-14 rounded-full pl-3 pr-4"
+                        className="flex items-center h-14 rounded-full pl-3 pr-4 navbar-island"
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(100vw - 180px)",
@@ -335,12 +331,15 @@ export function Navbar({ translations }: NavbarProps) {
                     </motion.div>
 
                     <motion.div
-                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0"
+                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island"
                         style={islandStyle}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TAP_CONFIG.transition}
                     >
-                        <NavbarDropdown onVisibilityChange={setIsDropdownOpen} />
+                        <NavbarDropdown
+                            supportedLocales={supportedLocales}
+                            onVisibilityChange={setIsDropdownOpen}
+                        />
                     </motion.div>
                 </div>
             </nav>

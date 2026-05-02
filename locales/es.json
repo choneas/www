@@ -44,9 +44,51 @@
   },
   "About": {
     "title": "Acerca de",
-    "description": "👋 Saludos. Mi nombre es Choneas. Poseo un fuerte interés en los campos de la informática, incluyendo programación, diseño de interfaces de usuario y disciplinas relacionadas. Además, tengo un gran interés en ilustración, producción de animación y fotografía. Actualmente, estoy matriculado en estudios académicos.",
+    "description": "Hoy en día, «tecnología» casi siempre apunta a los ordenadores. Para mí, la programación comenzó en W3School, aprendiendo Lenguaje de Marcado de Hipertexto — la razón misma por la que puedes ver esta página. Y años antes, un primer contacto con Python. A ambos los llamaban «código».<br></br><br></br>Disfruté con una alegría inmensa y genuina al implementar funcionalidades una por una. Por aquel entonces usaba el Bloc de notas para cambiar extensiones de <code>txt</code> a <code>html</code> incontables veces; seguí tutoriales para crear un juego de adivinar números y sentí auténtica emoción y alegría.<br></br><br></br>Todo esto se remonta al ordenador que teníamos en casa. Durante gran parte de mi infancia, absorbí todo tipo de términos relacionados con la programación desde todas partes — lenguajes, herramientas, stacks, plataformas, servicios. Estas experiencias fueron enriqueciendo constantemente mi conocimiento tecnológico; quizás, aparte de la personalidad, sea esto lo que me distingue de los demás.<br></br><br></br>Tanto es así que a menudo noto cosas relacionadas con ello. Como deducir un sistema operativo a partir de un cursor en una pantalla pública, o reconocer una tipografía en las pegatinas del suelo de una escalera. Pero, sinceramente, cada cual reconoce sus propias cosas. Un recuerdo curioso: a los ocho años creía que el texto de los documentos que repartía el colegio estaba recortado de las notas al pie de los libros de texto, porque ambos estaban en <i>Fǎngsòng</i> (tipografía de imitación Song).",
+    "bio": "Un desarrollador con debilidad por la <i>cultura tradicional</i>. Apasionado por expresar ideas a través del código y el diseño.",
     "social-links": "Encuéntrame",
-    "tech-stack": "Stack Tecnológico"
+    "tech-stack": "Stack Tecnológico",
+    "modal": {
+      "philosophy": {
+        "title": "Mi Filosofía",
+        "paragraph1": "Creo que <b>la tecnología es una forma de autoexpresión</b>. El código es arte — cada píxel, cada línea es una extensión del pensamiento, como en las formas de arte tradicional.",
+        "paragraph2": "Espero que mi trabajo ayude a otros a sentir la calidez y emoción detrás de la tecnología. <i>Esa es la magia de la creación, supongo.</i>"
+      },
+      "journey": {
+        "title": "Mi Trayectoria",
+        "paragraph1": "Desde la primera vez que escribí código, quedé cautivado por el poder de la creación.<br></br><br></br>Con el tiempo me di cuenta de que lo que realmente me fascina no es la tecnología en sí, sino el proceso de <i>crear valor</i> a través de ella.",
+        "paragraph2": "Este sitio web es un lugar para eso — <b>compartir ideas, documentar el crecimiento</b>. Si has llegado hasta aquí, gracias por tu paciencia."
+      },
+      "paragraph": {
+        "title": "",
+        "paragraph1": "",
+        "paragraph2": ""
+      },
+      "paragraph1": {
+        "title": "Personalidad Mediador (INFP)",
+        "paragraph1": "INFP es uno de los dieciséis tipos de personalidad del Indicador Myers-Briggs (MBTI), abreviado como Introversión, Intuición, Sentimiento, Percepción. Su prototipo proviene de la teoría de tipos psicológicos de Carl Jung como el \"tipo introvertido con sentimiento dominante,\" posteriormente refinado por Myers y Briggs como el \"tipo introvertido con sentimiento dominante e intuición auxiliar.\"<br></br>En el Clasificador de Temperamento de Keirsey, los INFP son llamados \"Sanadores,\" uno de los cuatro temperamentos Idealistas.<br></br>Según diversas estadísticas, los INFP representan aproximadamente entre el 1 % y el 5 % de la población.<br></br><br></br><h2>Características</h2>El Manual MBTI describe a los INFP de la siguiente manera:<br></br><i>Idealistas, leales a sus valores y a las personas que aprecian. Buscan una vida exterior que esté alineada con sus valores internos. Curiosos, ven rápidamente posibilidades y las utilizan para acelerar la puesta en práctica de ideas. Desean comprender a los demás y ayudarles a desarrollar su potencial. Adaptables y flexibles, tienden a ser tolerantes con los demás, siempre que sus valores no se vean amenazados.</i><h3>Fortalezas</h3>Quienes tienen preferencias INFP interactúan con el mundo y toman decisiones siguiendo sus valores fundamentales. Su trabajo ideal es aquel que contribuye al crecimiento y desarrollo interior propio y ajeno — su propósito vital va más allá de un salario. Para los INFP, nada importa más que clarificar sus valores y vivir en coherencia con ellos.<br></br><br></br>Los INFP reconocen las necesidades emocionales y psicológicas de los demás y las respetan profundamente, incluso cuando esas necesidades aún no han sido percibidas o expresadas.<h3>Rasgos</h3>Los INFP utilizan principalmente su preferencia de Sentimiento en su mundo interior, tomando decisiones basadas en sus valores sobre autocomprensión, individualidad y crecimiento. Para ellos, vivir según una convicción moral en la que creen es esencial. Pueden ser:<ul><li>Sensibles, atentos y considerados con los demás</li><li>Idealistas, leales a sus principios</li></ul><br></br>Los INFP disfrutan leyendo, debatiendo y reflexionando sobre las posibilidades de cambio futuro. Sienten curiosidad por las ideas y son muy conscientes de las conexiones y el significado. Pueden ser:<ul><li>Curiosos y creativos</li><li>Visionarios</li></ul><br></br>Los INFP suelen tener un profundo interés por explorar la naturaleza humana, tanto la propia como la ajena. Tienden a rendir mejor cuando están en su pico de energía y, cuando se sumergen por completo en algo, demuestran una concentración y productividad intensas. Generalmente cumplen sus compromisos con fidelidad — ya sea con personas, trabajo o ideas — pero pueden tener dificultades con tareas rutinarias que carecen de significado personal.<h3>Cómo los ven los demás</h3>Para los INFP, los sistemas y las normas pueden sentirse como limitaciones; prefieren trabajar de forma independiente. Son adaptables y resilientes, pero una vez que algo viola sus valores internos, dejan de transigir. Los juicios de valor resultantes pueden expresarse con tal intensidad que sorprenden a los demás.<br></br>Los INFP tienden a compartir sus valores y sentimientos más profundos de manera contenida y selectiva. Valoran las relaciones basadas en la profundidad, autenticidad, confianza y crecimiento mutuo. Los INFP atesoran a quienes se toman el tiempo para comprender sus valores y metas. Los demás pueden ver a los INFP como:<ul><li>Sensibles, introspectivos y complejos</li><li>Únicos e individualistas</li><li>A veces difíciles de entender</li></ul>...",
+        "paragraph2": "<i>Contenido adaptado de la entrada de <a>Wikipedia</a>, bajo CC BY-SA 4.0</i>",
+        "paragraph2Href": "https://es.wikipedia.org/wiki/"
+      }
+    },
+    "tldr": "Tengo un profundo interés por la tecnología.<br></br>A la vez que aprendo a percibir y describir este mundo.",
+    "paragraph": {
+      "before": "«Choneas» es un nombre que inventé hace ya bastante tiempo, guiado por pura intuición lingüística. Mientras escribo esta página, estoy atravesando la juventud. Entre la multitud de ámbitos y capas de las cosas, me atrae especialmente ",
+      "link": "la programación, la inteligencia artificial, las interfaces de usuario, la postproducción",
+      "after": ", así como la cultura, la filosofía y la pintura.<br></br><br></br>Este sitio web — es un blog personal que construí en 2024 tras aprender React, respaldado por Notion como gestor de contenidos. Su código fuente es público. Seguiré anotando aquí mis pensamientos y observaciones desde todos los rincones de la vida. Puedes seguir mis momentos y últimas publicaciones desde la página de inicio."
+    },
+    "subtitle1": "Yo",
+    "paragraph1": {
+      "before": "Comparto muchos de los rasgos que suelen atribuirse a la ",
+      "link": "personalidad Mediador",
+      "after": " (INFP) en la tipología MBTI. Lo siento con claridad — a esta edad, estoy explorando activamente la ética que subyace a muchos fenómenos, e intentando evaluar el significado y propósito de diversos discursos. Más que nada, espero que yo — o las cosas que creo — puedan destacar como algo único entre la multitud. Pero eso no significa que siempre quiera ser visto; al contrario, aprecio la quietud de pasar desapercibido.",
+      "imageAlt": "INFP"
+    },
+    "subtitle2": "Valor",
+    "paragraph2": "Siempre aspiro a llevar las cosas hasta su plenitud — a hacerlas completas. Salvo cuando algo simplemente no merece la inversión, parece que las personas suelen verse frenadas por la inercia o los límites de su percepción. Entre mentes distintas, el estándar de «completud» varía de lo sutil a lo inmenso. Espero situarme en el punto de equilibrio entre esas diferencias — lo que podríamos llamar el terreno común.<br></br><br></br>Ahora que los LLM avanzan a toda velocidad, cualquiera puede aprender casi cualquier cosa rápidamente o construir sus propias aplicaciones. Pero la mayoría de los resultados — moldeados por los prompts que escriben o por los propios modelos — generan brechas. Como las omnipresentes <a>aplicaciones de degradado azul-violeta</a>, que a menudo satisfacen las ganas de convertir una idea en realidad al instante. Sin embargo, hasta sus creadores conocen las carencias, sobre todo en el aspecto visual.<br></br><br></br>Para ser sincero, yo también hago aplicaciones así. Pero me resisto a publicarlas como productos terminados. Los estándares provienen del aprendizaje sistemático — o de una amplia experiencia. Claramente, yo pertenezco a lo segundo. Así que, hasta que encuentre un estándar mejor, haré todo lo posible por llevar mis creaciones hacia la plenitud.",
+    "paragraph2Href": "https://medium.com/@kai.ni/design-observation-why-do-ai-generated-websites-always-favour-blue-purple-gradients-ea91bf038d4c",
+    "subtitle3": "Construyendo conexiones",
+    "paragraph3": "<i>… ¿No es acaso un caballero quien no guarda rencor cuando los demás no le comprenden?</i>"
   },
   "Navbar-Dropdown": {
     "preferences": "Preferencias",
@@ -74,8 +116,8 @@
     "view-details": "Ver detalles"
   },
   "Post-Header": {
-    "created_at": "Publicado el ",
-    "updated_at": "Editado el ",
+    "created": "Publicado el ",
+    "updated": "Editado el ",
     "tweet-details": "Detalles del Tweet"
   },
   "Tag": {
@@ -108,19 +150,6 @@
   },
   "LiveCounter": {
     "title": "Tiempo en la Tierra"
-  },
-  "Format": {
-    "today": "Hoy",
-    "yesterday": "Ayer",
-    "weekdays": [
-      "Domingo",
-      "Lunes",
-      "Martes",
-      "Miércoles",
-      "Jueves",
-      "Viernes",
-      "Sábado"
-    ]
   },
   "Accessibility": {
     "skip-to-content": "Saltar al contenido principal"

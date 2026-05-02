@@ -156,7 +156,7 @@ NOTION_S3_PROXY_DOMAIN=101.32.183.34
 
 个人社交网站地址、项目和文章作者。
 
-*规范化中... 涉及 [data](./data/)*
+*规范化中... 涉及 [data](constants/)*
 
 ## 📦 Deploy
 

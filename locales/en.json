@@ -44,9 +44,40 @@
   },
   "About": {
     "title": "About",
-    "description": "👋 Greetings. My name is Choneas. I possess a strong interest in the fields of computer science, including programming, user interface design, and related disciplines. Additionally, I have a keen interest in illustration, animation production, and photography. At present, I am enrolled in academic studies.",
+    "description": "These days, \"technology\" mostly points to computers. For me, programming began on W3School, learning HyperText Markup Language — the very reason you can see this page. And years before that, an early dabble with Python. Both were called \"code.\"<br></br><br></br>With immense, genuine delight, I enjoyed bringing features to life one by one. Back then I'd use Notepad to change file extensions from <code>txt</code> to <code>html</code> countless times; I followed tutorials to build a number-guessing game and felt genuine excitement and joy.<br></br><br></br>All of this traces back to the computer we had at home. Throughout much of my childhood, I absorbed all manner of programming-related terms from everywhere — languages, tools, stacks, platforms, services. These experiences steadily enriched my knowledge of technology; perhaps, apart from personality, this is what sets me apart from others.<br></br><br></br>So much so that I often notice things related to them. Like deducing an operating system from a cursor on a public screen, or recognizing a typeface from floor stickers on a stairway. But honestly — many people recognize their own kinds of things too. An amusing memory: at age eight, I believed the text on school-distributed documents was cut from textbook endnotes, because both were set in <i>Fǎngsòng</i> (imitation Song typeface).",
     "social-links": "Find Me",
-    "tech-stack": "Tech Stack"
+    "tech-stack": "Tech Stack",
+    "modal": {
+      "paragraph": {
+        "title": "",
+        "paragraph1": "",
+        "paragraph2": ""
+      },
+      "paragraph1": {
+        "title": "Mediator Personality (INFP)",
+        "paragraph1": "INFP is one of the sixteen personality types in the Myers-Briggs Type Indicator (MBTI), abbreviated as Introversion, Intuition, Feeling, Perceiving. Its prototype originates from Carl Jung's theory of psychological types as the \"introverted feeling type,\" later refined by Myers and Briggs as the \"introverted type with feeling dominant and intuition auxiliary.\"<br></br>In the Keirsey Temperament Sorter, INFPs are called \"Healers,\" one of the four Idealist temperaments.<br></br>Across various statistics, INFPs make up roughly 1%–5% of the population.<br></br><br></br><h2>Characteristics</h2>The MBTI Manual describes INFPs as follows:<br></br><i>Idealistic, loyal to their values and to the people they hold dear. They seek an outer life that aligns with their inner values. Curious, they quickly see possibilities and use this to accelerate putting ideas into practice. They desire to understand others and help them develop their potential. Adaptable and flexible, they tend to be accepting of others — as long as their values are not threatened.</i><h3>Strengths</h3>Those with INFP preferences interact with the world and make decisions by following their core values. Their ideal work contributes to personal and others' growth and inner development — their life's purpose goes beyond a paycheck. For INFPs, nothing matters more than clarifying their values and living in alignment with them.<br></br><br></br>INFPs recognize others' emotional and psychological needs and hold them in high regard, even when those needs haven't yet been realized or expressed.<h3>Traits</h3>INFPs primarily use their Feeling preference in their inner world, making decisions based on their values around self-understanding, individuality, and growth. For them, living according to a moral conviction they believe in is essential. They may be:<ul><li>Sensitive, caring, and considerate of others</li><li>Idealistic, loyal to their principles</li></ul><br></br>INFPs enjoy reading, discussing, and contemplating the possibilities of future change. They are curious about ideas and acutely aware of connections and meaning. They may be:<ul><li>Curious and creative</li><li>Visionary</li></ul><br></br>INFPs are generally deeply interested in exploring human nature — both their own and others'. They tend to work best when at peak energy, and when fully immersed in something, they can demonstrate intense focus and productivity. They usually fulfill commitments faithfully — whether to people, work, or ideas — but may struggle with routine tasks that lack personal meaning.<h3>How Others See Them</h3>To INFPs, systems and rules can feel like constraints; they prefer working independently. They are adaptable and resilient, but once something violates their inner values, they will no longer compromise. The resulting value judgments may be expressed with such intensity that they surprise others.<br></br>INFPs tend to share their deepest values and feelings in restrained, selective ways. They value relationships built on depth, authenticity, trust, and mutual growth. INFPs treasure those who take the time to understand their values and goals. Others may see INFPs as:<ul><li>Sensitive, introspective, and complex</li><li>Unique and individualistic</li><li>Sometimes hard to understand</li></ul>...",
+        "paragraph2": "<i>Content adapted from the <a>Wikipedia</a> entry, under CC BY-SA 4.0</i>",
+        "paragraph2Href": "https://en.wikipedia.org/wiki/"
+      }
+    },
+    "tldr": "I'm deeply interested in technology.<br></br>While at the same time learning to perceive and describe this world.",
+    "paragraph": {
+      "before": "\"Choneas\" is a name I coined a long while ago, guided purely by linguistic intuition. As I write this page, I'm passing through my youth. Among the many domains and layers of things, I'm especially drawn to ",
+      "link": "programming, artificial intelligence, user interfaces, post-production",
+      "after": ", as well as culture, philosophy, and painting.<br></br><br></br>This website — it's a personal blog I built in 2024 after learning React, powered by Notion as its content backend. Its source code is public. I'll continue recording my thoughts and observations from all corners of life here. You can catch my moments and latest posts from the homepage."
+    },
+    "subtitle1": "Me",
+    "paragraph1": {
+      "before": "I share many of the traits commonly attributed to the ",
+      "link": "Mediator personality",
+      "after": " (INFP) in the MBTI typology. I feel it distinctly — at this age, I'm actively exploring the ethics behind many phenomena, and trying to evaluate the meaning and purpose behind various claims. More than anything, I hope that I — or the things I create — can stand out as distinct among the many. But that doesn't mean I always want to be seen; on the contrary, I cherish the quiet of going unnoticed.",
+      "imageAlt": "INFP"
+    },
+    "subtitle2": "Value",
+    "paragraph2": "I always want to bring things to completion — to make them whole. Unless something simply isn't worth the investment, it seems people are often held back from perfection by inertia or the limits of their perception. Across different minds, the standard of \"completeness\" varies from subtle to vast. I hope to stand at the balance point between those gaps — what we might call the common ground.<br></br><br></br>Now that LLMs are advancing rapidly, anyone can learn almost anything quickly, or build their own applications. But most results — shaped by the prompts they write or the models themselves — form gaps. Like the ubiquitous <a>blue-purple gradient apps</a>, which often satisfy the urge to turn an idea into reality fast. Yet even their creators know the shortcomings, especially in how they look.<br></br><br></br>Truth be told, I also make such apps. But I resist releasing them as finished products. Standards come from systematic learning — or from broad experience. Clearly, I fall into the latter. So until I find a better standard, I'll do my best to bring what I make toward completeness.",
+    "paragraph2Href": "https://medium.com/@kai.ni/design-observation-why-do-ai-generated-websites-always-favour-blue-purple-gradients-ea91bf038d4c",
+    "subtitle3": "Building Connections",
+    "paragraph3": "<i>… Is it not a gentleman who bears no resentment when others fail to understand him?</i>"
   },
   "Navbar-Dropdown": {
     "preferences": "Preferences",
@@ -74,8 +105,8 @@
     "view-details": "View details"
   },
   "Post-Header": {
-    "created_at": "Posted at ",
-    "updated_at": "Edited at ",
+    "created": "Posted at ",
+    "updated": "Edited at ",
     "tweet-details": "Tweet Details"
   },
   "Tag": {

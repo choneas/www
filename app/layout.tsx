@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import Script from 'next/script';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { Analytics } from "@vercel/analytics/next";
@@ -10,7 +12,8 @@ import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
 import { SkipToContent } from "@/components/skip-to-content";
 import { CopyrightToast } from "@/components/copyright-toast";
-import { Suspense } from "react";
+import { themeInitScript } from "@/utils/theme";
+import { DEFAULT_LOCALE } from "@/lib/locales.server";
 import "overlayscrollbars/overlayscrollbars.css";
 import "./globals.css";
 
@@ -33,48 +36,46 @@ const googleSansCode = Google_Sans_Code({
     fallback: ["Source Code Pro", "monospace"],
 });
 
-export default async function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+async function IntlShell({ children }: { children: React.ReactNode }) {
+    const [locale, messages] = await Promise.all([
+        getLocale(),
+        getMessages(),
+    ]);
+
     return (
-        <Suspense fallback={
-            <html suppressHydrationWarning data-overlayscrollbars-initialize>
-                <body className={`${notoSerif.variable} ${googleSansCode.variable} font-serif text-foreground bg-background antialiased md:subpixel-antialiased`}>
-                </body>
-            </html>
-        }>
-            <LocalizedContent>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+            <Providers>
                 <SkipToContent />
                 <NavbarWrapper />
                 <div className="min-h-[calc(100svh+1px)]">
                     {children}
                 </div>
                 <Footer />
-            </LocalizedContent>
-        </Suspense>
+                <CopyrightToast />
+            </Providers>
+        </NextIntlClientProvider>
     );
 }
 
-async function LocalizedContent({ children }: { children: React.ReactNode }) {
-    const [lang, messages] = await Promise.all([
-        getLocale(),
-        getMessages()
-    ]);
-
+export default async function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
-        <html lang={lang} suppressHydrationWarning data-overlayscrollbars-initialize>
+        <html lang={DEFAULT_LOCALE} suppressHydrationWarning data-overlayscrollbars-initialize>
             <body
                 data-overlayscrollbars-initialize
-                className={`${notoSerif.variable} ${googleSansCode.variable} font-serif text-foreground bg-background antialiased`}
+                className={`${notoSerif.variable} ${googleSansCode.variable} font-serif text-foreground bg-background antialiased scroll-smooth`}
             >
-                <NextIntlClientProvider messages={messages}>
-                    <Providers>
-                        {children}
-                        <CopyrightToast />
-                    </Providers>
-                </NextIntlClientProvider>
+                <Script
+                    id="theme-init"
+                    strategy="beforeInteractive"
+                    dangerouslySetInnerHTML={{ __html: themeInitScript }}
+                />
+                <Suspense fallback={null}>
+                    <IntlShell>{children}</IntlShell>
+                </Suspense>
                 <Analytics />
                 <SpeedInsights />
             </body>

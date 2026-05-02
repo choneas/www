@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { cn } from "@heroui/react";
-import { socialLinks } from "@/data/about";
+import { socialLinks } from "@/constants/about";
 
 interface SwallowProps {
     className?: string;

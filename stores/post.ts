@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PostMetadata } from '@/types/content';
+import type { PostMetadata } from '@/lib/content';
 
 interface PostMetadataStore {
     postMetadata?: PostMetadata

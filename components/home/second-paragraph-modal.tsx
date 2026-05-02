@@ -1,41 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import Link from "next/link";
+import { InlineModal } from "@/components/inline-modal";
 
-import { SecondParagraph } from "@/components/home/second-paragraph";
-
-// Dynamic import for modal content - only loads when needed
-const CultureModalContent = dynamic(
-    () => import("@/components/home/second-paragraph-modal-content").then(mod => ({ default: mod.SecondParagraphModalContent })),
-    {
-        ssr: false,
-        loading: () => null, // No loading state needed for modal
-    }
-);
-
-interface ModalContent {
-    title: string;
-    paragraphs: React.ReactNode[];
-    imageSrc?: string;
-    imageAlt?: string;
-}
-
-interface SecondParagraphWithModalProps {
-    /** Pre-rendered paragraph parts */
+interface SecondParagraphModalProps {
     beforeCulture: React.ReactNode;
     cultureText: React.ReactNode;
     betweenCultureAndLink: React.ReactNode;
     linkText: React.ReactNode;
     afterLink: React.ReactNode;
-    /** Modal content */
-    modal: ModalContent;
+    modal: {
+        title: React.ReactNode;
+        paragraphs: React.ReactNode[];
+    };
 }
 
-/**
- * Second paragraph with embedded culture modal
- * Uses dynamic loading for modal to optimize initial page load
- */
 export function SecondParagraphWithModal({
     beforeCulture,
     cultureText,
@@ -43,36 +22,27 @@ export function SecondParagraphWithModal({
     linkText,
     afterLink,
     modal,
-}: SecondParagraphWithModalProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleCultureClick = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleModalClose = (isOpen: boolean) => {
-        setIsModalOpen(isOpen);
-    };
-
+}: SecondParagraphModalProps) {
     return (
-        <>
-            <SecondParagraph
-                beforeCulture={beforeCulture}
-                cultureText={cultureText}
-                betweenCultureAndLink={betweenCultureAndLink}
-                linkText={linkText}
-                afterLink={afterLink}
-                onCultureClick={handleCultureClick}
-            />
-
-            {/* Modal only renders when needed */}
-            {isModalOpen && (
-                <CultureModalContent
-                    isOpen={isModalOpen}
-                    onOpenChange={handleModalClose}
-                    modal={modal}
-                />
-            )}
-        </>
+        <span className="text-glass-bg text-[1.4rem] lg:text-2xl text-foreground/85 leading-relaxed max-w-[85vw] md:max-w-4xl px-2 md:px-6 block">
+            {beforeCulture}
+            <InlineModal
+                modal={modal}
+                modalProps={{
+                    dialogClassName: "dark"
+                }}
+                className="text-accent hover:text-accent/80 underline underline-offset-4 transition-colors"
+            >
+                {cultureText}
+            </InlineModal>
+            {betweenCultureAndLink}
+            <Link
+                href="/article"
+                className="text-accent hover:text-accent/80 underline underline-offset-4 transition-colors"
+            >
+                {linkText}
+            </Link>
+            {afterLink}
+        </span>
     );
 }

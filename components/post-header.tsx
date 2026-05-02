@@ -4,8 +4,8 @@ import { useEffect } from "react"
 import Image from "next/image"
 import { Tags } from "@/components/tags"
 import { useTranslations, useLocale } from "next-intl"
-import { formatDate } from "@/lib/format"
-import type { PostMetadata } from "@/types/content"
+import { formatDate } from "@/utils/date-format"
+import type { PostMetadata } from "@/lib/content"
 import { usePostMetadata } from "@/stores/post"
 import { Avatar } from "@/components/avatar"
 
@@ -60,7 +60,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                                 <span className="text-5xl font-bold my-2">
                                     {post.icon}
                                 </span>
-                                <h1 role="heading" className="light text-4xl font-bold text-background">
+                                <h1 role="heading" className={`light ${!isTweet ? 'text-3xl' : 'text-4xl'} font-bold text-background`}>
                                     {post.title.length !== 0 ?
                                         post.title
                                         :
@@ -68,7 +68,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                                     }
                                 </h1>
                                 <p className="light backdrop-opacity-50 bg-blend-overlay text-sm mt-4 text-background">
-                                    {t('created_at') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated_at') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
+                                    {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
                                 </p>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                     <h1 className="text-5xl font-bold my-2">
                         {post.icon}
                     </h1>
-                    <h1 className="text-4xl font-bold my-4">
+                    <h1 className={`${!isTweet ? 'text-3xl' : 'text-4xl'} font-bold my-4`}>
                         {post.title.length !== 0 ?
                             post.title
                             :
@@ -92,7 +92,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                         }
                     </h1>
                     <p className="text-content2-foreground">
-                        {t('created_at') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated_at') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
+                        {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
                     </p>
                 </div>
             )}

@@ -7,8 +7,8 @@ import { PostHeader } from "@/components/post-header";
 import NotionPage from "@/components/notion-page";
 import { Comment } from "@/components/comment";
 import { TweetContentSkeleton } from "@/components/moment-card";
-import { formatDate } from "@/lib/format";
-import { PostMetadata } from "@/types/content";
+import { formatDate } from "@/utils/date-format";
+import { PostMetadata } from "@/lib/content";
 
 interface TweetModalProps {
     isLoading?: boolean;
@@ -61,14 +61,19 @@ export function TweetModal({
     return (
         <Modal.Backdrop
             isOpen={isOpen}
+            isDismissable={true}
             onOpenChange={onOpenChange}
             variant="blur"
         >
             <Modal.Container
+                className="pt-0 pb-8 px-0 md:p-4"
                 placement="top"
                 scroll="outside"
             >
-                <Modal.Dialog className="container mx-auto pb-4 px-4 sm:px-8 md:px-12 md:max-w-3xl">
+                <Modal.Dialog
+                    className="container mx-auto p-6 sm:px-10 md:px-14 md:max-w-3xl rounded-none md:rounded-3xl"
+                    aria-label={metadata.title || formatDate(metadata.created_time, locale, true)}
+                >
                     <Modal.CloseTrigger />
                     <Modal.Header className="px-4">
                         {!isLoading && <PostHeader isTweet post={metadata} />}

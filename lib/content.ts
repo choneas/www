@@ -1,11 +1,72 @@
 "use server"
 
 import type { ExtendedRecordMap, PageBlock, Block, NotionMapBox } from "notion-types";
+import type { TableOfContentsEntry } from 'notion-utils'
 import { idToUuid, defaultMapImageUrl, getPageTableOfContents, getPageProperty } from "notion-utils";
 import { unstable_cache } from "next/cache";
 import { NotionAPI } from "notion-client";
-import type { PostMetadata } from "@/types/content";
 import { getReadingTime } from "@/utils/read-time";
+
+// ============================================================================
+// Types (consolidated from @lib/types.ts)
+// ============================================================================
+
+export type Platform = 'notion' | 'x' | 'bluesky';
+
+export interface SocialStats {
+    likeCount: number;
+    repostCount: number;
+    replyCount: number;
+    quoteCount?: number;
+}
+
+export interface SocialPostInfo {
+    postId: string;
+    username: string;
+    stats?: SocialStats;
+}
+
+export interface Author {
+    uuid: string
+    name: string
+    avatar: string
+}
+
+export interface PostMetadata {
+    id?: string
+    notionid?: string
+    title: string
+    type?: "Article" | "Tweet"
+    platform?: Platform
+    social?: SocialPostInfo
+    slug?: string
+    language?: string
+    author?: Author[]
+    tags?: string[]
+    description?: string
+    toc?: TableOfContentsEntry[]
+    icon?: string
+    cover?: string
+    cover_preview?: string
+    cover_position?: number
+    photos?: string[]
+    imagePreview?: boolean
+    created_time: Date
+    last_edited_time: Date
+    readingTimeMinutes?: number
+    readingTime?: string
+}
+
+export interface PropertySchema {
+    prop: string
+    name: string
+    type: string
+    options?: Array<{
+        id: string
+        color: string
+        value: string
+    }>
+}
 
 // Note: The custom Notion proxy is disabled, so we rely on the official SDK directly.
 const notion = new NotionAPI({
@@ -173,7 +234,9 @@ function generateRawPostMetadata(
         metadata.cover_position = block.format.page_cover_position;
     }
 
-    // Tweet photos
+    const imagePreviewProp = getPageProperty<string | boolean>('Image Preview', block, recordMap);
+    metadata.imagePreview = imagePreviewProp === 'Yes' || imagePreviewProp === true;
+
     if (metadata.type === 'Tweet') {
         metadata.photos = getTweetImageUrls(recordMap, pageId);
     }

@@ -1,10 +1,10 @@
 "use client";
 
 import Giscus from "@giscus/react";
-import { useTheme } from "next-themes";
 import { useLocale } from "next-intl";
-import { formatDate } from "@/lib/format";
-import { PostMetadata } from "@/types/content";
+import { useTheme } from "@/components/theme-provider";
+import { formatDate } from "@/utils/date-format";
+import { PostMetadata } from "@/lib/content";
 
 export function Comment({ metadata, className, type }: { metadata?: PostMetadata, className?: string, type?: "article" | "tweet" }) {
     const locale = useLocale();

@@ -3,11 +3,8 @@
 import { useState, useEffect } from "react";
 
 interface LiveCounterProps {
-    /** Birthdate in format YYYY-MM-DD */
     birthDate: string;
-    /** Locale for formatting */
     locale: string;
-    /** Title label */
     title: string;
 }
 
@@ -18,44 +15,13 @@ interface TimeElapsed {
     seconds: number;
 }
 
-/**
- * Convert locale code to BCP 47 format for Intl API
- */
-function toBCP47(locale: string): string {
-    const mapping: Record<string, string> = {
-        "zh-cn": "zh-CN",
-        "zh-tw": "zh-TW",
-        "en": "en-US",
-        "es": "es-ES",
-    };
-    return mapping[locale.toLowerCase()] || locale;
-}
-
-/**
- * Format unit label only (without number) using Intl.NumberFormat
- */
-function formatUnitLabel(value: number, unit: "day" | "hour" | "minute" | "second", locale: string): string {
-    const bcp47 = toBCP47(locale);
-    try {
-        // Get full formatted string then extract unit part
-        const full = new Intl.NumberFormat(bcp47, {
-            style: "unit",
-            unit,
-            unitDisplay: "long",
-        }).format(value);
-        // Remove the number part to get only the unit label
-        const numStr = new Intl.NumberFormat(bcp47).format(value);
-        return full.replace(numStr, "").trim();
-    } catch {
-        // Fallback for older browsers
-        return `${unit}${value !== 1 ? "s" : ""}`;
-    }
-}
-
-/** Calculate elapsed time from birth date */
 function calculateElapsed(birthDate: Date): TimeElapsed {
     const now = new Date();
-    const diff = now.getTime() - birthDate.getTime();
+    const start = new Date(birthDate);
+    
+    const utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+    const utcStart = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes(), start.getSeconds());
+    const diff = utcNow - utcStart;
 
     return {
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -63,6 +29,28 @@ function calculateElapsed(birthDate: Date): TimeElapsed {
         minutes: Math.floor(diff / (1000 * 60)) % 60,
         seconds: Math.floor(diff / 1000) % 60,
     };
+}
+
+function formatUnitParts(value: number, unit: Intl.NumberFormatOptions["unit"], locale: string): React.ReactNode {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "unit",
+        unit,
+        unitDisplay: "long",
+    });
+
+    return formatter.formatToParts(value).map((part, index) => {
+        const key = `${part.type}-${index}`;
+
+        if (part.type === "unit") {
+            return <span key={key} className="text-accent/70">{part.value}</span>;
+        }
+
+        if (part.type === "integer" || part.type === "group") {
+            return <span key={key} className="font-bold text-accent">{part.value}</span>;
+        }
+
+        return <span key={key}>{part.value}</span>;
+    });
 }
 
 export function LiveCounter({ birthDate, locale, title }: LiveCounterProps) {
@@ -84,68 +72,64 @@ export function LiveCounter({ birthDate, locale, title }: LiveCounterProps) {
     if (!mounted || !elapsed) {
         return (
             <div className="text-left">
-                <p className="text-xs md:text-sm text-accent/60 font-medium tracking-widest uppercase md:mb-2">
+                <p className="text-glass-bg text-xs md:text-sm text-accent/60 font-medium tracking-widest uppercase md:mb-2">
                     {title}
                 </p>
-                <p className="text-sm md:text-lg text-accent/90 font-serif opacity-60">...</p>
+                <p className="text-glass-bg text-sm md:text-lg text-accent/90 font-serif opacity-60">...</p>
             </div>
         );
     }
 
-    // Format number with locale-specific separators
-    const fmt = (n: number) => new Intl.NumberFormat(toBCP47(locale)).format(n);
+    const localeBcp = locale.replace("_", "-");
+    const timeParts: React.ReactNode[] = [];
 
-    const timeParts = [];
-    
     if (elapsed.days > 0) {
         timeParts.push(
             <span key="days">
-                <span className="font-bold text-accent">{fmt(elapsed.days)}</span>
-                <span className="text-accent/70"> {formatUnitLabel(elapsed.days, "day", locale)}</span>
+                {formatUnitParts(elapsed.days, "day", localeBcp)}
             </span>
         );
     }
-    
+
     if (elapsed.hours > 0) {
         timeParts.push(
             <span key="hours">
-                <span className="font-bold text-accent">{elapsed.hours}</span>
-                <span className="text-accent/70"> {formatUnitLabel(elapsed.hours, "hour", locale)}</span>
+                {formatUnitParts(elapsed.hours, "hour", localeBcp)}
             </span>
         );
     }
-    
+
     if (elapsed.minutes > 0) {
         timeParts.push(
             <span key="minutes">
-                <span className="font-bold text-accent">{elapsed.minutes}</span>
-                <span className="text-accent/70"> {formatUnitLabel(elapsed.minutes, "minute", locale)}</span>
+                {formatUnitParts(elapsed.minutes, "minute", localeBcp)}
             </span>
         );
     }
-    
+
     timeParts.push(
         <span key="seconds">
-            <span className="font-bold text-accent">{elapsed.seconds}</span>
-            <span className="text-accent/70"> {formatUnitLabel(elapsed.seconds, "second", locale)}</span>
+            {formatUnitParts(elapsed.seconds, "second", localeBcp)}
         </span>
     );
 
-    const formattedTime = timeParts.reduce((acc, part, index) => {
+    const formattedTime: React.ReactNode[] = timeParts.flatMap((part, index) => {
         if (index === 0) return [part];
-        return [...acc, <span key={`comma-${index}`} className="text-accent/70">, </span>, part];
-    }, [] as React.ReactNode[]);
+        return [<span key={`comma-${index}`} className="text-accent/70">, </span>, part];
+    });
 
     return (
+        <>
         <div className="text-left">
-            {/* Title */}
-            <p className="text-xs md:text-sm text-accent/60 font-medium tracking-widest uppercase mb-2">
+            <p className="text-glass-bg text-xs md:text-sm text-accent/60 font-medium tracking-widest uppercase mb-2 inline-block">
                 {title}
             </p>
-            {/* Counter - bold numbers with different color */}
-            <p className="text-sm md:text-lg text-accent/90 font-serif">
+        </div>
+        <div className="text-left">
+            <p className="text-glass-bg text-sm md:text-lg text-accent/90 font-serif inline-block">
                 {formattedTime}
             </p>
         </div>
+        </>
     );
 }

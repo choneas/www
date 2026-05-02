@@ -5,7 +5,7 @@ import { Button } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import { triggerNavigationLoading } from "@/components/navigation-loader";
-import { navItems } from "@/data/navbar";
+import { navItems } from "@/constants/navbar";
 
 interface NavbarItemsProps {
     /** Current active path (may be pending navigation target) */
@@ -86,7 +86,7 @@ export function NavbarItems({ pathname, translations, onPendingNavigation }: Nav
                         onHoverEnd={handleCollapse}
                         onFocus={() => handleExpand(index)}
                         onBlur={handleCollapse}
-                        className={`h-11 p-4 min-h-0 min-w-0 text-accent rounded-full whitespace-nowrap outline-none focus-visible:shadow-[0_0_0_3px_var(--color-accent)] transition-all duration-300 hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent_92%)] ${isActive ? "font-bold" : ""}`}
+                        className={`h-11 p-4 min-h-0 min-w-0 text-accent rounded-full whitespace-nowrap outline-none transition-all duration-300 hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent_92%)] ${isActive ? "font-bold" : ""}`}
                     >
                         <motion.div
                             className="flex items-center justify-center"

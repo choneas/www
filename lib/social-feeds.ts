@@ -1,7 +1,41 @@
 "use server"
 
 import { cache } from 'react';
-import type { PostMetadata } from "@/types/content";
+import type { ReactNode } from "react";
+import type { PostMetadata } from "./content";
+
+// ============================================================================
+// Types (consolidated from @constants/types.ts)
+// ============================================================================
+
+export interface SocialLink {
+    platform: string
+    name?: string
+    href?: string
+    color?: string
+    icon?: ReactNode
+}
+
+export interface TechStack {
+    name: string
+    icon: ReactNode
+    href?: string
+}
+
+export interface Project {
+    isGithubRepo?: boolean
+    repo?: string
+    name?: string
+    link?: string
+    description?: string
+    cover?: string
+}
+
+export interface GithubRepoInfo {
+    description: string
+    stargazers_count: number
+    updated: string
+}
 
 // Bluesky API base URL
 const BLUESKY_API_BASE = 'https://public.api.bsky.app/xrpc';

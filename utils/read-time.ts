@@ -1,6 +1,6 @@
 import { estimatePageReadTime } from "notion-utils"
 import type { Block, ExtendedRecordMap, NotionMapBox } from "notion-types"
-import { formatReadingTime } from "@/lib/format"
+import { formatReadingTime } from "@/utils/date-format"
 
 /**
  * Get formatted reading time for a Notion page

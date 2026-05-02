@@ -278,8 +278,17 @@
 
 @layer components {
 
+  /* Semi-transparent glass background for secondary button */
   .button--secondary {
+    --button-bg: color-mix(in srgb, var(--color-default) 65%, transparent);
+    --button-bg-hover: color-mix(in srgb, var(--color-default) 78%, transparent);
+    --button-bg-pressed: color-mix(in srgb, var(--color-default) 78%, transparent);
     --button-fg: var(--color-accent) !important;
+  }
+
+  /* Semi-transparent glass background for secondary chip */
+  .chip--secondary {
+    --chip-bg: color-mix(in srgb, var(--color-default) 65%, transparent);
   }
 
   [class*="ListBoxItem"] .font-code,
@@ -344,21 +353,42 @@
     display: none !important;
   }
 
-  /* Tweet 预览模式：标题样式统一 */
-  .tweet-preview h1,
-  .tweet-preview h2,
-  .tweet-preview h3,
-  .tweet-preview h4,
-  .tweet-preview h5,
-  .tweet-preview h6 {
-    font-size: var(--text-lg) !important;
-    margin-top: 0 !important;
-    font-weight: normal !important;
+  /* Tweet 预览模式：基础文本大小 - 与 moment-card description 一致 */
+  .tweet-preview .notion {
+    font-size: var(--text-base) !important;
+    line-height: var(--line-height-snug) !important;
   }
 
-  .tweet-preview p {
-    font-size: var(--text-lg) !important;
+  .tweet-preview p,
+  .tweet-preview .notion-text {
+    font-size: var(--text-base) !important;
     margin-top: 0 !important;
+  }
+
+  .tweet-preview .notion-inline-code {
+    font-size: inherit !important;
+  }
+
+  .tweet-preview .notion-list {
+    font-size: var(--text-base) !important;
+  }
+
+  .tweet-preview .notion-list li {
+    padding-top: 0.15em !important;
+    padding-bottom: 0.15em !important;
+  }
+
+  .tweet-preview .notion p {
+    margin-top: 0 !important;
+  }
+
+  @media (max-width: 639px) {
+    .tweet-preview .notion,
+    .tweet-preview p,
+    .tweet-preview .notion-text,
+    .tweet-preview .notion p {
+      font-size: var(--text-sm) !important;
+    }
   }
 
   /* Tweet 预览模式：内容透明度效果 */
@@ -380,9 +410,7 @@
     display: none !important;
   }
 
-  /* Moment Card 高度变化动画 */
   .moment-card-content {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     overflow: hidden !important;
   }
 
@@ -630,7 +658,7 @@
   .tweet-preview .notion h6 {
     font-size: var(--text-base) !important;
     margin-top: 0 !important;
-    font-weight: var(--font-normal) !important;
+    font-weight: 600 !important;
   }
 
   .tweet-preview .notion p {
@@ -713,9 +741,96 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     background-color: color-mix(in srgb, var(--color-background) 96%, transparent 4%);
   }
+
+  /* Navbar islands — fading border highlight */
+  .navbar-island::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    padding: 1px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.20) 0%,
+      rgba(255, 255, 255, 0.12) 15%,
+      rgba(255, 255, 255, 0.06) 40%,
+      rgba(255, 255, 255, 0.03) 65%,
+      rgba(255, 255, 255, 0.015) 85%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Mobile default menu-open */
+  .nav-menu-open .navbar-island::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.16) 15%,
+      rgba(255, 255, 255, 0.08) 40%,
+      rgba(255, 255, 255, 0.04) 65%,
+      rgba(255, 255, 255, 0.02) 85%
+    );
+  }
+
+  /* Desktop: reversed — highlight at bottom, fades up */
+  .desktop-nav .navbar-island::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.015) 0%,
+      rgba(255, 255, 255, 0.03) 15%,
+      rgba(255, 255, 255, 0.06) 40%,
+      rgba(255, 255, 255, 0.12) 65%,
+      rgba(255, 255, 255, 0.20) 85%,
+      rgba(255, 255, 255, 0.22) 100%
+    );
+  }
+
+  /* Desktop menu-open */
+  .desktop-nav.nav-menu-open .navbar-island::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.04) 15%,
+      rgba(255, 255, 255, 0.08) 40%,
+      rgba(255, 255, 255, 0.16) 65%,
+      rgba(255, 255, 255, 0.24) 85%,
+      rgba(255, 255, 255, 0.26) 100%
+    );
+  }
+
+  /* Text background glass effect */
+  .text-glass-bg {
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .text-glass-bg {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-color: transparent;
+    }
+  }
+
+  .swallow-glass {
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+  }
+
+  @media (min-width: 768px) {
+    .swallow-glass {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
 }
-
-
 
 /* OverlayScrollbars custom theme */
 .os-theme-custom {

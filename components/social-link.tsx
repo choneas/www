@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@heroui/react";
-import type { SocialLink as SocialLinkProps } from "@/types/about";
+import type { SocialLink as SocialLinkProps } from "@/lib/social-feeds";
 
 // Shared styles for both Button and Link
 const sharedClassName = "inline-flex items-center justify-center gap-2 font-medium";

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 
 import { triggerNavigationLoading } from "@/components/navigation-loader";
-import { navItems } from "@/data/navbar";
+import { navItems } from "@/constants/navbar";
 
 interface NavbarMobileMenuProps {
     isOpen: boolean;

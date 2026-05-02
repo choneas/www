@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
-import { projects } from "@/data/project"
+import { projects } from "@/constants/project"
 import { ProjectCard } from "@/components/project-card"
 
 export async function generateMetadata(): Promise<Metadata> {

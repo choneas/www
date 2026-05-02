@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import type { PostMetadata } from "@/types/content"
+import type { PostMetadata } from "@/lib/content"
 import { ArticleCard } from "@/components/article-card"
 import { ArticleFilter } from "@/components/article-filter"
 

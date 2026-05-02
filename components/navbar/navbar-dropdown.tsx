@@ -5,16 +5,16 @@ import { Dropdown, Spinner, ListBox, Label, Link } from "@heroui/react";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { FiMoreHorizontal, FiGithub } from "react-icons/fi";
 import { CgDarkMode } from "react-icons/cg";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CLIENT_LOCALES } from "@/lib/locales.client";
 
 interface NavbarDropdownProps {
+    supportedLocales: string[];
     onVisibilityChange?: (isOpen: boolean) => void;
 }
 
-export function NavbarDropdown({ onVisibilityChange }: NavbarDropdownProps) {
+export function NavbarDropdown({ supportedLocales, onVisibilityChange }: NavbarDropdownProps) {
     const { theme, setTheme } = useTheme();
     const t = useTranslations("Navbar-Dropdown");
     const router = useRouter();
@@ -64,7 +64,7 @@ export function NavbarDropdown({ onVisibilityChange }: NavbarDropdownProps) {
                 onOpenChange={handleOpenChange}
             >
                 <Dropdown.Trigger
-                    className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none focus-visible:shadow-[0_0_0_3px_var(--color-accent)]"
+                    className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none"
                     aria-label={t("preferences")}
                 >
                     <FiMoreHorizontal className="text-accent" size={20} />
@@ -85,7 +85,7 @@ export function NavbarDropdown({ onVisibilityChange }: NavbarDropdownProps) {
                                     if (key) handleLangChange(key);
                                 }}
                             >
-                                {CLIENT_LOCALES.map((locale) => (
+                                {supportedLocales.map((locale) => (
                                     <ListBox.Item
                                         key={locale}
                                         id={locale}
@@ -169,7 +169,7 @@ export function NavbarDropdown({ onVisibilityChange }: NavbarDropdownProps) {
             onOpenChange={handleOpenChange}
         >
             <Dropdown.Trigger
-                className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none focus-visible:shadow-[0_0_0_3px_var(--color-accent)]"
+                className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none"
                 aria-label={t("preferences")}
             >
                 <FiMoreHorizontal className="text-accent" size={20} />
@@ -191,7 +191,7 @@ export function NavbarDropdown({ onVisibilityChange }: NavbarDropdownProps) {
                                 if (key) handleLangChange(key);
                             }}
                         >
-                            {CLIENT_LOCALES.map((locale) => (
+                            {supportedLocales.map((locale) => (
                                 <ListBox.Item
                                     key={locale}
                                     id={locale}
