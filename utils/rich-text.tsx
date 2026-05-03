@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 
-type RichRenderer = (chunks: ReactNode, options?: Record<string, string>) => ReactNode;
+type RichOptions = Record<string, string | number | Date | undefined>;
+type RichRenderer = (chunks: ReactNode, options?: RichOptions) => ReactNode;
+type TranslatorLike = (key: string, values?: Record<string, string | number | Date>) => ReactNode;
 
 export function rt(overrides: Record<string, RichRenderer> = {}) {
   return {
@@ -16,9 +18,6 @@ export function plainText(value: unknown): string {
   return "";
 }
 
-export function richText<T extends (key: string, values?: Record<string, unknown>) => ReactNode>(
-  t: T,
-  values: Record<string, RichRenderer> = {},
-) {
-  return (key: string) => t(key, rt(values));
+export function richText(t: TranslatorLike, values: Record<string, RichRenderer> = {}) {
+  return (key: string) => t(key, rt(values) as unknown as Record<string, string | number | Date>);
 }
