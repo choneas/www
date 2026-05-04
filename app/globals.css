@@ -832,6 +832,15 @@
   }
 }
 
+/* ——— Native scrollbar (kill it everywhere, keep scroll functionality) ——— */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* OverlayScrollbars custom theme */
 .os-theme-custom {
   --os-size: 12px;
@@ -842,14 +851,18 @@
   --os-track-bg-hover: transparent;
   --os-track-bg-active: transparent;
   --os-handle-border-radius: 4px;
-  --os-handle-bg: color-mix(in srgb, var(--color-surface-secondary) 92%, var(--color-foreground) 8%);
-  --os-handle-bg-hover: color-mix(in srgb, var(--color-surface-secondary) 85%, var(--color-foreground) 15%);
-  --os-handle-bg-active: color-mix(in srgb, var(--color-surface-secondary) 75%, var(--color-foreground) 25%);
+  --os-handle-bg: color-mix(in srgb, color-mix(in srgb, var(--color-surface-secondary) 92%, var(--color-foreground) 8%) 85%, transparent);
+  --os-handle-bg-hover: color-mix(in srgb, color-mix(in srgb, var(--color-surface-secondary) 85%, var(--color-foreground) 15%) 85%, transparent);
+  --os-handle-bg-active: color-mix(in srgb, color-mix(in srgb, var(--color-surface-secondary) 75%, var(--color-foreground) 25%) 85%, transparent);
   --os-handle-min-size: 40px;
   --os-handle-max-size: none;
   --os-handle-perpendicular-size: 100%;
   --os-handle-perpendicular-size-hover: 100%;
   --os-handle-perpendicular-size-active: 100%;
+}
+
+.os-theme-custom .os-scrollbar-handle {
+  mix-blend-mode: plus-lighter;
 }
 
 /* Mobile Dropdown positioning fixes */
