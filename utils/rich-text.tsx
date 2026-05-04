@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 import type { RichTranslationValues, RichTagsFunction } from "next-intl";
 
 const defaultTags = {
-    h1: ((chunks: ReactNode) => <h1 className="mt-6">{chunks}</h1>) as RichTagsFunction,
-    h2: ((chunks: ReactNode) => <h2 className="mt-5">{chunks}</h2>) as RichTagsFunction,
-    h3: ((chunks: ReactNode) => <h3 className="mt-4">{chunks}</h3>) as RichTagsFunction,
+    h1: ((chunks: ReactNode) => <div className="mt-6 text-3xl font-bold">{chunks}</div>) as RichTagsFunction,
+    h2: ((chunks: ReactNode) => <div className="mt-5 text-2xl font-bold">{chunks}</div>) as RichTagsFunction,
+    h3: ((chunks: ReactNode) => <div className="mt-4 text-xl font-bold">{chunks}</div>) as RichTagsFunction,
     b: ((chunks: ReactNode) => <strong className="font-semibold">{chunks}</strong>) as RichTagsFunction,
     i: ((chunks: ReactNode) => <em className="italic">{chunks}</em>) as RichTagsFunction,
     br: (() => <br />) as RichTagsFunction,

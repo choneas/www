@@ -122,9 +122,9 @@ export function InlineModal({ children, modal, className = "", modalProps }: Inl
 
                             <div className="p-6 pb-20 space-y-4">
                                 {paragraphs.map((paragraph, index) => (
-                                    <p key={index} className="text-foreground leading-relaxed text-xl">
+                                    <div key={index} className="text-foreground leading-relaxed text-xl">
                                         {paragraph}
-                                    </p>
+                                    </div>
                                 ))}
                             </div>
                         </ScrollShadow>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { InlineModal } from "@/components/inline-modal";
 import { plainText, richText } from "@/utils/rich-text";
@@ -14,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function About() {
+    const locale = await getLocale();
     const t = await getTranslations("About");
     const tr = richText(t, {
         a: (chunks: ReactNode, options?: { href?: string }) =>
@@ -31,10 +32,10 @@ export default async function About() {
     return (
         <main id="main-content" className="main-content container mx-auto px-8 sm:px-24">
             <div className="pt-[40vh] mb-12">
-                <p className="font-light text-3xl md:text-4xl">{tr("tldr")}</p>
+                <p className={`font-light${ locale !== "zh-CN" ? " text-2xl md:text-3xl leading-relaxed max-w-3xl lg:max-w-5xl" : " text-3xl md:text-4xl"}`}>{tr("tldr")}</p>
             </div>
 
-            <div className="space-y-6 mt-20 md:mt-40 mb-16">
+            <div className={`space-y-6 mb-16${locale !== "zh-CN" ? " mt-12 md:mt-24" : " mt-20 md:mt-40"}`}>
                 <p className="text-xl md:text-2xl text-foreground/85 leading-relaxed">
                     {tr("description")}
                 </p>
@@ -86,7 +87,7 @@ export default async function About() {
                 <p className="text-xl md:text-2xl leading-relaxed">{tr("paragraph2")}</p>
             </section>
 
-            <section className="space-y-6 -mb-16 text-center">
+            <section className="space-y-6 -mb-16 text-center mx-auto md:max-w-2xl">
                 <h2>{t("subtitle3")}</h2>
                 <p className="text-foreground/85 leading-relaxed">{tr("paragraph3")}</p>
             </section>
