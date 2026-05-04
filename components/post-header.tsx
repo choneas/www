@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { Tags } from "@/components/tags"
 import { useTranslations, useLocale } from "next-intl"
 import { formatDate } from "@/utils/date-format"
@@ -12,6 +13,18 @@ import { Avatar } from "@/components/avatar"
 interface PostHeaderProps {
     post: PostMetadata;
     isTweet?: boolean;
+}
+
+const TITLE_SPRING = {
+    type: "spring" as const,
+    stiffness: 300,
+    damping: 18,
+    mass: 0.3,
+}
+
+const fadeUp = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
 }
 
 export function PostHeader({ post, isTweet }: PostHeaderProps) {
@@ -42,7 +55,12 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
         <>
             {post.cover ? (
                 <div className="relative -mt-[72px] max-w-screen overflow-hidden mb-3">
-                    <div className="relative md:h-[50vh] h-[80vh]">
+                    <motion.div
+                        className="relative md:h-[50vh] h-[80vh]"
+                        initial={{ scale: 1.015 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+                    >
                         <Image
                             fill
                             src={post.cover}
@@ -52,48 +70,77 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent">
                             <div className={`h-full flex flex-col justify-end pb-8 ${!isTweet ? 'max-w-6xl mx-auto px-8 sm:px-24 md:px-48' : 'px-8'}`}>
-                                <Tags
-                                    tags={post.tags || []}
-                                    variant="soft"
-                                    size="lg"
-                                />
-                                <span className="text-5xl font-bold my-2">
+                                <motion.div {...fadeUp} transition={{ ...TITLE_SPRING, delay: 0.01 }}>
+                                    <Tags
+                                        tags={post.tags || []}
+                                        variant="soft"
+                                        size="lg"
+                                    />
+                                </motion.div>
+                                <motion.span
+                                    className="text-5xl font-bold my-2"
+                                    {...fadeUp}
+                                    transition={{ ...TITLE_SPRING, delay: 0.03 }}
+                                >
                                     {post.icon}
-                                </span>
-                                <h1 role="heading" className={`light ${!isTweet ? 'text-3xl' : 'text-4xl'} font-bold text-background`}>
+                                </motion.span>
+                                <motion.h1
+                                    role="heading"
+                                    className="text-3xl text-muted mix-blend-plus-lighter font-bold !text-[#CCCCCC]"
+                                    {...fadeUp}
+                                    transition={{ ...TITLE_SPRING, delay: 0.05 }}
+                                >
                                     {post.title.length !== 0 ?
                                         post.title
                                         :
                                         t('tweet-details')
                                     }
-                                </h1>
-                                <p className="light backdrop-opacity-50 bg-blend-overlay text-sm mt-4 text-background">
+                                </motion.h1>
+                                <motion.p
+                                    className="light backdrop-opacity-50 mix-blend-plus-lighter text-sm mt-4 !text-[#CCCCCC]"
+                                    {...fadeUp}
+                                    transition={{ ...TITLE_SPRING, delay: 0.07 }}
+                                >
                                     {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
-                                </p>
+                                </motion.p>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             ) : (
                 <div className={isTweet ? 'pt-6 pb-4' : 'max-w-6xl mx-auto px-8 sm:mt-20 sm:px-24 md:px-48 pt-8 pb-4'}>
-                    <Tags
-                        tags={post.tags || []}
-                        variant="soft"
-                        size="lg"
-                    />
-                    <h1 className="text-5xl font-bold my-2">
+                    <motion.div {...fadeUp} transition={{ ...TITLE_SPRING, delay: 0.01 }}>
+                        <Tags
+                            tags={post.tags || []}
+                            variant="soft"
+                            size="lg"
+                        />
+                    </motion.div>
+                    <motion.h1
+                        className="text-5xl font-bold my-2"
+                        {...fadeUp}
+                        transition={{ ...TITLE_SPRING, delay: 0.03 }}
+                    >
                         {post.icon}
-                    </h1>
-                    <h1 className={`${!isTweet ? 'text-3xl' : 'text-4xl'} font-bold my-4`}>
+                    </motion.h1>
+                    <motion.h1
+                        className="text-3xl font-bold my-4"
+                        {...fadeUp}
+                        transition={{ ...TITLE_SPRING, delay: 0.05 }}
+                    >
                         {post.title.length !== 0 ?
                             post.title
                             :
                             t('tweet-details')
                         }
-                    </h1>
-                    <p className="text-content2-foreground">
+                    </motion.h1>
+                    <motion.p
+                        className="text-content2-foreground"
+                        {...fadeUp}
+                        transition={{ ...TITLE_SPRING, delay: 0.07 }}
+                    >
                         {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
-                    </p>
+                    </motion.p>
                 </div>
             )}
         </>

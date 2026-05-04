@@ -25,7 +25,7 @@ export function NavbarMobileMenu({ isOpen, onOpenChange, pathname, translations 
 
     const handleNavigation = (href: string) => {
         if (currentPathname !== href) {
-            triggerNavigationLoading(href);
+            triggerNavigationLoading(href, { source: "mobile" });
         }
         router.push(href);
         onOpenChange(false);

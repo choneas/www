@@ -33,7 +33,7 @@ export function NavbarItems({ pathname, translations, onPendingNavigation }: Nav
 
         // Only trigger loading if navigating to a different page
         if (currentPathname !== href) {
-            triggerNavigationLoading(href);
+            triggerNavigationLoading(href, { source: "items" });
         }
         router.push(href);
     };

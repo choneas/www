@@ -3,6 +3,12 @@
 
 @config "../tailwind.config.ts";
 
+@property --sweep-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @layer base {
 
   /* Vicissitude Light Theme */
@@ -764,6 +770,7 @@
     mask-composite: exclude;
     pointer-events: none;
     z-index: 1;
+    transition: opacity 0.4s ease-in;
   }
 
   /* Mobile default menu-open */
@@ -802,6 +809,45 @@
       rgba(255, 255, 255, 0.24) 85%,
       rgba(255, 255, 255, 0.26) 100%
     );
+  }
+
+  /* Sweeping light beam around island edge during navigation */
+  @keyframes sweep-rotate {
+    0% { --sweep-angle: 0deg; }
+    100% { --sweep-angle: 360deg; }
+  }
+
+  .navbar-island-glow {
+    /* Uniform glow removed — diffuse light follows the beam via ::after drop-shadow */
+  }
+
+  .navbar-island.navbar-island-glow::after {
+    padding: 2px !important;
+    background: conic-gradient(
+      from var(--sweep-angle),
+      transparent 0deg,
+      transparent 270deg,
+      color-mix(in srgb, var(--color-accent) 12%, transparent) 300deg,
+      var(--color-accent) 328deg,
+      color-mix(in srgb, var(--color-accent) 12%, transparent) 350deg,
+      transparent 360deg
+    ) !important;
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-accent) 35%, transparent));
+    transition: filter 0.6s ease, opacity 0.6s ease;
+  }
+
+  /* Fast first surround — one quick full lap then hold */
+  .navbar-island.navbar-island-glow.glow-fast::after {
+    animation: sweep-rotate 0.56s linear 1 forwards !important;
+  }
+
+  /* Normal continuous rotation */
+  .navbar-island.navbar-island-glow.glow-normal::after {
+    animation: sweep-rotate 1.8s linear infinite !important;
+  }
+
+  .navbar-island-glow.fading::after {
+    opacity: 0;
   }
 
   /* Text background glass effect */

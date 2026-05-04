@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { NavbarContext } from "@/components/navbar/navbar-context";
@@ -185,6 +185,11 @@ function Overlay({ onClose }: OverlayProps) {
 export function Navbar({ translations, supportedLocales }: NavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [glowingIsland, setGlowingIsland] = useState<'brand' | 'items' | 'mobile' | null>(null);
+    const [isFadingOut, setIsFadingOut] = useState(false);
+    const [glowPhase, setGlowPhase] = useState<'fast' | 'normal'>('normal');
+    const fadeTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
+    const speedTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
     const { scrollY } = useScroll();
     const pathname = usePathname();
 
@@ -200,6 +205,52 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
             setPendingPath(null);
         }
     }, [pathname, pendingPath]);
+
+    // Listen for navigation events to activate island glow
+    useEffect(() => {
+        const handleNavStart = (e: Event) => {
+            const detail = (e as CustomEvent<{ source?: string }>).detail;
+            if (fadeTimerRef.current) {
+                clearTimeout(fadeTimerRef.current);
+                fadeTimerRef.current = null;
+            }
+            if (speedTimerRef.current) {
+                clearTimeout(speedTimerRef.current);
+                speedTimerRef.current = null;
+            }
+            setIsFadingOut(false);
+            setGlowPhase('fast');
+            setGlowingIsland((detail?.source as 'brand' | 'items' | 'mobile') || null);
+            speedTimerRef.current = setTimeout(() => {
+                setGlowPhase('normal');
+                speedTimerRef.current = null;
+            }, 650);
+        };
+        window.addEventListener("navigation-start", handleNavStart);
+        return () => window.removeEventListener("navigation-start", handleNavStart);
+    }, []);
+
+    // Fade out glow when page loads, then clear entirely
+    useEffect(() => {
+        if (glowingIsland) {
+            setIsFadingOut(true);
+            fadeTimerRef.current = setTimeout(() => {
+                setGlowingIsland(null);
+                setIsFadingOut(false);
+                fadeTimerRef.current = null;
+            }, 600);
+        }
+        return () => {
+            if (fadeTimerRef.current) {
+                clearTimeout(fadeTimerRef.current);
+                fadeTimerRef.current = null;
+            }
+            if (speedTimerRef.current) {
+                clearTimeout(speedTimerRef.current);
+                speedTimerRef.current = null;
+            }
+        };
+    }, [pathname]);
 
     const handleNavigationStart = useCallback((path: string) => {
         if (path !== pathname) {
@@ -217,6 +268,14 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
 
     // Island glass style
     const islandStyle = useMemo(() => getIslandStyle(isMenuOpen), [isMenuOpen]);
+
+    // Per-island glow — sweeps a focused light beam around the border edge
+    const getIslandGlowClass = (island: 'brand' | 'items' | 'mobile') => {
+        if (glowingIsland !== island) return "";
+        const phaseClass = glowPhase === 'fast' ? ' glow-fast' : ' glow-normal';
+        return isFadingOut ? ` navbar-island-glow${phaseClass} fading` : ` navbar-island-glow${phaseClass}`;
+    };
+
 
     // Context for child components
     const contextValue = useMemo(() => ({
@@ -248,7 +307,7 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                 <div className="flex items-center justify-center gap-3 relative h-14 w-full">
                     {/* Brand island - Left */}
                     <motion.div
-                        className="absolute flex items-center h-14 rounded-full pl-3 pr-4 navbar-island"
+                        className={`absolute flex items-center h-14 rounded-full pl-3 pr-4 navbar-island${getIslandGlowClass('brand')}`}
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(40vw - 180px)",
@@ -264,7 +323,7 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
 
                     {/* Items island - Center */}
                     <motion.div
-                        className="absolute left-1/2 -translate-x-1/2 flex items-center p-1 h-14 rounded-full overflow-hidden navbar-island"
+                        className={`absolute left-1/2 -translate-x-1/2 flex items-center p-1 h-14 rounded-full overflow-hidden navbar-island${getIslandGlowClass('items')}`}
                         style={islandStyle}
                         initial={false}
                         whileTap={{ scale: TAP_CONFIG.scale }}
@@ -304,7 +363,7 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                     style={{ padding: `0 ${LAYOUT.mobile.sideInset}px` }}
                 >
                     <motion.div
-                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island"
+                        className={`flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island${getIslandGlowClass('mobile')}`}
                         style={islandStyle}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TAP_CONFIG.transition}
@@ -318,7 +377,7 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                     </motion.div>
 
                     <motion.div
-                        className="flex items-center h-14 rounded-full pl-3 pr-4 navbar-island"
+                        className={`flex items-center h-14 rounded-full pl-3 pr-4 navbar-island${getIslandGlowClass('brand')}`}
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(100vw - 180px)",

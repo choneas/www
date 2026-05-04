@@ -8,7 +8,28 @@ import { Spinner, Skeleton } from "@heroui/react";
 interface NavigationState {
     isLoading: boolean;
     targetPath: string | null;
+    hasCover: boolean;
+    hasIcon: boolean;
 }
+
+const TRANSITION_EASE = [0.76, 0, 0.24, 1] as const;
+
+const OVERLAY_ENTER = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: {
+        opacity: 0,
+        scale: 1.02,
+        filter: "blur(4px)",
+        transition: { duration: 0.45, ease: TRANSITION_EASE },
+    },
+} as const;
+
+const CONTENT_ENTER = {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.3, delay: 0.1, ease: TRANSITION_EASE },
+} as const;
 
 /**
  * Global navigation loading overlay
@@ -19,20 +40,22 @@ export function NavigationLoader() {
     const searchParams = useSearchParams();
     const [state, setState] = useState<NavigationState>({
         isLoading: false,
-        targetPath: null
+        targetPath: null,
+        hasCover: false,
+        hasIcon: false,
     });
 
-    // Clear loading when route changes
     useEffect(() => {
-        setState({ isLoading: false, targetPath: null });
+        setState({ isLoading: false, targetPath: null, hasCover: false, hasIcon: false });
     }, [pathname, searchParams]);
 
-    // Listen for navigation start via custom event
     useEffect(() => {
-        const handleNavigationStart = (e: CustomEvent<{ targetPath?: string }>) => {
+        const handleNavigationStart = (e: CustomEvent<{ targetPath?: string; hasCover?: boolean; hasIcon?: boolean }>) => {
             setState({
                 isLoading: true,
-                targetPath: e.detail?.targetPath || null
+                targetPath: e.detail?.targetPath || null,
+                hasCover: e.detail?.hasCover ?? false,
+                hasIcon: e.detail?.hasIcon ?? false,
             });
         };
 
@@ -42,21 +65,20 @@ export function NavigationLoader() {
         };
     }, []);
 
-    // Get skeleton component based on target path
     const SkeletonContent = getSkeletonForPath(state.targetPath);
 
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {state.isLoading && (
                 <motion.div
+                    key="nav-loading-overlay"
                     className="fixed inset-0 z-41 bg-background overflow-hidden"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    {...OVERLAY_ENTER}
                 >
                     {SkeletonContent ? (
-                        <SkeletonContent />
+                        <motion.div {...CONTENT_ENTER}>
+                            <SkeletonContent hasCover={state.hasCover} hasIcon={state.hasIcon} />
+                        </motion.div>
                     ) : (
                         <DefaultLoadingSpinner />
                     )}
@@ -84,9 +106,9 @@ function DefaultLoadingSpinner() {
 }
 
 /**
- * Article page skeleton
+ * Article list page skeleton
  */
-function ArticleSkeleton() {
+function ArticleListSkeleton(_props: { hasCover: boolean; hasIcon: boolean }) {
     return (
         <main className="container mx-auto px-8 sm:mt-20 sm:px-24 pt-8">
             <Skeleton className="h-12 w-48 rounded-lg" />
@@ -110,15 +132,69 @@ function ArticleSkeleton() {
 }
 
 /**
+ * Article detail page skeleton — mimics PostHeader + content layout
+ */
+function ArticleDetailSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon: boolean }) {
+    return (
+        <main>
+            {hasCover && (
+                <div className="relative -mt-[72px] max-w-screen overflow-hidden mb-3">
+                    <Skeleton className="md:h-[50vh] h-[80vh] w-full rounded-none" />
+                </div>
+            )}
+
+            <div className={hasCover
+                ? "max-w-6xl mx-auto px-8 sm:px-24 md:px-48 pt-8 pb-4"
+                : "max-w-6xl mx-auto px-8 sm:mt-20 sm:px-24 md:px-48 pt-8 pb-4"
+            }>
+                <div className="flex gap-2 mb-3">
+                    <Skeleton className="h-8 w-16 rounded-full" />
+                    <Skeleton className="h-8 w-20 rounded-full" />
+                    <Skeleton className="h-8 w-14 rounded-full" />
+                </div>
+
+                {hasIcon && (
+                    <Skeleton className="h-14 w-14 rounded-lg mb-2" />
+                )}
+
+                <Skeleton className="h-10 w-3/4 rounded-lg mb-3" />
+                <Skeleton className="h-10 w-1/2 rounded-lg mb-4" />
+
+                <Skeleton className="h-5 w-48 rounded-lg" />
+            </div>
+
+            <div className="max-w-6xl mx-auto px-8 sm:px-24 md:px-48 mt-8">
+                <Skeleton className="h-5 w-full rounded mb-3" />
+                <Skeleton className="h-5 w-11/12 rounded mb-3" />
+                <Skeleton className="h-5 w-4/5 rounded mb-3" />
+                <Skeleton className="h-5 w-full rounded mb-3" />
+                <Skeleton className="h-5 w-3/4 rounded mb-8" />
+
+                <Skeleton className="h-5 w-full rounded mb-3" />
+                <Skeleton className="h-5 w-5/6 rounded mb-3" />
+                <Skeleton className="h-5 w-full rounded mb-3" />
+                <Skeleton className="h-5 w-2/3 rounded mb-8" />
+
+                <Skeleton className="h-5 w-full rounded mb-3" />
+                <Skeleton className="h-5 w-4/5 rounded mb-3" />
+                <Skeleton className="h-5 w-full rounded mb-3" />
+            </div>
+        </main>
+    );
+}
+
+/**
  * Route to skeleton mapping
- * Add new routes here to show custom skeletons
  */
 function getSkeletonForPath(path: string | null): React.ComponentType | null {
     if (!path) return null;
 
-    // Match route patterns
     if (path === "/article" || path.startsWith("/article?")) {
-        return ArticleSkeleton;
+        return ArticleListSkeleton;
+    }
+
+    if (path.startsWith("/article/")) {
+        return ArticleDetailSkeleton;
     }
 
     return null;
@@ -128,10 +204,10 @@ function getSkeletonForPath(path: string | null): React.ComponentType | null {
  * Trigger navigation loading state
  * @param targetPath - Optional target path for route-specific skeleton
  */
-export function triggerNavigationLoading(targetPath?: string) {
+export function triggerNavigationLoading(targetPath?: string, meta?: { hasCover?: boolean; hasIcon?: boolean; source?: string }) {
     if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("navigation-start", {
-            detail: { targetPath }
+            detail: { targetPath, ...meta }
         }));
     }
 }

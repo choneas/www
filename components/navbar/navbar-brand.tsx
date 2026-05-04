@@ -23,7 +23,7 @@ export function NavbarBrand() {
     // Handle navigation with loading trigger
     const handleNavigation = () => {
         if (currentPathname !== "/") {
-            triggerNavigationLoading("/");
+            triggerNavigationLoading("/", { source: "brand" });
         }
         router.push("/");
     };

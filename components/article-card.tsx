@@ -56,7 +56,10 @@ export function ArticleCard({
 
     // Trigger loading overlay on navigation
     const handleNavigate = () => {
-        triggerNavigationLoading(href);
+        triggerNavigationLoading(href, {
+            hasCover: !!article.cover,
+            hasIcon: !!article.icon,
+        });
     };
 
     if (article.cover) {
