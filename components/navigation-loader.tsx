@@ -183,10 +183,15 @@ function ArticleDetailSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIc
     );
 }
 
+interface SkeletonProps {
+    hasCover: boolean;
+    hasIcon: boolean;
+}
+
 /**
  * Route to skeleton mapping
  */
-function getSkeletonForPath(path: string | null): React.ComponentType | null {
+function getSkeletonForPath(path: string | null): React.ComponentType<SkeletonProps> | null {
     if (!path) return null;
 
     if (path === "/article" || path.startsWith("/article?")) {
