@@ -47,13 +47,14 @@ export function CountryTable({ countryMap }: CountryTableProps) {
                 <Table.Body items={items}>
                     {(item) => (
                         <Table.Row>
-                            {(columnKey) => (
-                                <Table.Cell>
-                                    {columnKey === "flag"
+                                    {(columnKey) => {
+                                        const col = String(columnKey)
+                                        return (<Table.Cell>
+                                    {col === "flag"
                                         ? (countryFlags[item.code] || "🏳")
-                                        : columnKey === "country"
+                                        : col === "country"
                                             ? <span className="text-xs">{item.code}</span>
-                                            : columnKey === "visits"
+                                            : col === "visits"
                                                 ? <span className="tabular-nums">{item.count.toLocaleString()}</span>
                                                 : <div className="flex items-center gap-2">
                                                     <div className="flex-1 h-1.5 rounded-full bg-foreground/10 overflow-hidden max-w-[80px]">
@@ -62,8 +63,8 @@ export function CountryTable({ countryMap }: CountryTableProps) {
                                                     <span className="text-xs tabular-nums">{item.pct.toFixed(1)}%</span>
                                                 </div>
                                     }
-                                </Table.Cell>
-                            )}
+                                </Table.Cell>)
+                            }}
                         </Table.Row>
                     )}
                 </Table.Body>

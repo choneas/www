@@ -58,8 +58,8 @@ export function MomentCard({moment}: MomentCardProps) {
   const [canPrompt, setCanPrompt] = useState(false)
   const [phase, setPhase] = useState<'idle' | 'thanking'>('idle')
   const [isHovering, setIsHovering] = useState(false)
-  const thankTimerRef = useRef<ReturnType<typeof setTimeout>>()
-  const leaveTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const thankTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const [floatingClaps, setFloatingClaps] = useState<{ id: number }[]>([])
 
   const handleClapEnter = () => {
@@ -156,7 +156,7 @@ export function MomentCard({moment}: MomentCardProps) {
   }
 
   const handleViewAllClick = () => {
-    trackView(moment.slug || moment.id)
+    trackView(slug)
     if (isTweet) {
       setIsModalOpen(true)
     } else {

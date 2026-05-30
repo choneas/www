@@ -79,7 +79,7 @@ export async function getAnalyticsData(): Promise<AnalyticsData | null> {
     let cursor = 0
     do {
         const [nextCursor, keys] = await redis.scan(cursor, { match: 'blog:*:views', count: 100 })
-        cursor = nextCursor
+        cursor = Number(nextCursor)
         for (const k of keys) {
             const match = k.match(/^blog:(.+):views$/)
             if (match) foundSlugs.add(match[1])

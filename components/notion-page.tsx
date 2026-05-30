@@ -52,12 +52,12 @@ const Modal = dynamic(
 )
 
 interface NotionPageProps {
-    className: string;
+    className?: string;
     recordMap: ExtendedRecordMap;
     type?: "tweet-preview" | "tweet-details";
 }
 
-const NotionPage = ({ className, recordMap, type }: NotionPageProps) => {
+const NotionPage = ({ className = '', recordMap, type }: NotionPageProps) => {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = React.useState(false);
 

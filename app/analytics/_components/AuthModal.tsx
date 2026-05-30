@@ -41,7 +41,6 @@ export function AuthModal({ onSuccess }: AuthModalProps) {
     return (
         <Modal.Backdrop
             isOpen
-            onClose={() => {}}
             variant="opaque"
             isDismissable={false}
             isKeyboardDismissDisabled
@@ -60,18 +59,17 @@ export function AuthModal({ onSuccess }: AuthModalProps) {
                         onChange={(e) => { setPassword(e.target.value); setError(false) }}
                         onKeyDown={(e) => { if (e.key === "Enter") handleSubmit() }}
                         autoFocus
-                        isDisabled={loading}
+                        disabled={loading}
                     />
                     {error && (
-                        <Chip color="danger" variant="flat" size="sm" className="mt-3" role="alert" aria-live="assertive">
+                        <Chip color="danger" variant="soft" size="sm" className="mt-3" role="alert" aria-live="assertive">
                             {t("auth-error")}
                         </Chip>
                     )}
                     <div className="flex justify-end mt-4">
                         <Button
-                            color="primary"
                             onPress={handleSubmit}
-                            isLoading={loading}
+                            isPending={loading}
                             isDisabled={!password}
                         >
                             {t("auth-submit")}

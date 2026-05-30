@@ -74,8 +74,8 @@ export const RecentEventsTable = memo(function RecentEventsTable({ events, onRef
             if (typeFilter === "view" && e.type !== "view") return false
             if (typeFilter === "clap" && e.type !== "clap") return false
             if (countryFilter !== "all" && e.type === "view" && e.c !== countryFilter) return false
-            if (deviceFilter !== "all" && e.type === "view" && e.d !== deviceFilter) return false
-            return true
+            return !(deviceFilter !== "all" && e.type === "view" && e.d !== deviceFilter);
+
         }).slice(0, 100)
     }, [events, typeFilter, countryFilter, deviceFilter])
 
@@ -120,7 +120,7 @@ export const RecentEventsTable = memo(function RecentEventsTable({ events, onRef
                     ]}
                 />
                 {onRefresh && (
-                    <Button variant="flat" size="sm" onPress={onRefresh} isIconOnly>
+                    <Button variant="ghost" size="sm" onPress={onRefresh} isIconOnly>
                         <LuRefreshCw size={14} />
                     </Button>
                 )}
@@ -135,26 +135,27 @@ export const RecentEventsTable = memo(function RecentEventsTable({ events, onRef
                     <Table.Body items={filtered}>
                         {(item) => (
                             <Table.Row>
-                                {(columnKey) => (
-                                    <Table.Cell>
-                                        {columnKey === "time"
+                                    {(columnKey) => {
+                                        const col = String(columnKey)
+                                        return (<Table.Cell>
+                                        {col === "time"
                                             ? <span className="text-xs text-foreground/60">{relativeTime(item.t, ta)}</span>
-                                            : columnKey === "type"
-                                                ? <Chip size="sm" variant="flat" color={item.type === "view" ? "primary" : "warning"}>
+                                            : col === "type"
+                                                ? <Chip size="sm" variant="primary" color={item.type === "view" ? "accent" : "warning"}>
                                                     {item.type === "view" ? ta("events-type-view") : ta("events-type-clap")}
                                                 </Chip>
-                                                : columnKey === "country"
+                                                : col === "country"
                                                     ? <span className="text-xs">{item.type === "view" && item.c ? `${countryFlags[item.c] || ""} ${item.c}` : "-"}</span>
-                                                    : columnKey === "device"
+                                                    : col === "device"
                                                         ? <span className="text-sm">{item.type === "view" && item.d ? deviceIcons[item.d] || item.d : "-"}</span>
-                                                        : columnKey === "lang"
+                                                        : col === "lang"
                                                             ? <span className="text-xs">{item.type === "view" && item.lang ? item.lang : "-"}</span>
-                                                            : columnKey === "ref"
+                                                            : col === "ref"
                                                                 ? <span className="font-mono text-xs max-w-[150px] truncate block">{item.type === "view" && item.ref ? item.ref : "-"}</span>
                                                                 : <span className="tabular-nums text-xs">{item.type === "clap" ? item.n : "-"}</span>
                                     }
-                                    </Table.Cell>
-                                )}
+                                    </Table.Cell>)
+                                }}
                             </Table.Row>
                         )}
                     </Table.Body>

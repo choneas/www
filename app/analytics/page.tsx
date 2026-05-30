@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
     if (error || !data) return (
         <div className="max-w-7xl mx-auto px-4 py-16 text-center" role="alert">
             <p className="text-foreground/60 mb-4">{t("error-load-failed")}</p>
-                                        <Button variant="flat" onPress={() => { setLoading(true); setError(false); fetch("/api/analytics/data/overview").then(r => r.json()).then(d => setData(d)).catch(() => setError(true)).finally(() => setLoading(false)) }}>{t("error-retry")}</Button>
+                                        <Button variant="outline" onPress={() => { setLoading(true); setError(false); fetch("/api/analytics/data/overview").then(r => r.json()).then(d => setData(d)).catch(() => setError(true)).finally(() => setLoading(false)) }}>{t("error-retry")}</Button>
         </div>
     )
 

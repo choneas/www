@@ -12,7 +12,7 @@ echarts.use([
     CanvasRenderer,
 ])
 
-type EChartsOption = echarts.EChartsOption
+type EChartsOption = echarts.EChartsCoreOption
 
 export { echarts, type EChartsOption }
 

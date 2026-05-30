@@ -3,7 +3,6 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./ChartWrapper"
-import type { EChartsOption } from "./ChartWrapper"
 
 interface DualAxisTrendChartProps {
     days: { date: string; views: number; claps: number }[]
@@ -14,9 +13,9 @@ interface DualAxisTrendChartProps {
 export function DualAxisTrendChart({ days, showViews, showClaps }: DualAxisTrendChartProps) {
     const t = useTranslations("Analytics")
 
-    const option = useMemo<EChartsOption>(() => {
-        const series: EChartsOption["series"] = []
-        const yAxis: EChartsOption["yAxis"] = []
+    const option = useMemo(() => {
+        const series: any[] = []
+        const yAxis: any[] = []
 
         if (showViews) {
             series.push({

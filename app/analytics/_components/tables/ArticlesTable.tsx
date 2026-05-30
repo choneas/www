@@ -47,7 +47,6 @@ export function ArticlesTable({ articles }: ArticlesTableProps) {
                 placeholder={t("filter-search-slug")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                size="sm"
                 className="max-w-xs"
             />
             <Table>
@@ -62,27 +61,28 @@ export function ArticlesTable({ articles }: ArticlesTableProps) {
                     <Table.Body items={filtered}>
                         {(item) => (
                             <Table.Row>
-                                {(columnKey) => (
-                                    <Table.Cell>
-                                        {columnKey === "slug"
+                                    {(columnKey) => {
+                                        const col = String(columnKey)
+                                        return (<Table.Cell>
+                                        {col === "slug"
                                             ? <span className="font-mono text-xs max-w-[200px] truncate block">{item.slug}</span>
-                                            : columnKey === "views"
+                                            : col === "views"
                                                 ? <span className="tabular-nums">{item.views.toLocaleString()}</span>
-                                                : columnKey === "claps"
+                                                : col === "claps"
                                                     ? <span className="tabular-nums">{item.claps.toLocaleString()}</span>
-                                                    : columnKey === "clapRate"
+                                                    : col === "clapRate"
                                                         ? <div className="flex items-center gap-2">
                                                             <div className="flex-1 h-1.5 rounded-full bg-foreground/10 overflow-hidden max-w-[80px]">
                                                                 <div className="h-full bg-accent rounded-full" style={{ width: `${Math.min(item.clapRate, 100)}%` }} />
                                                             </div>
                                                             <span className="text-xs tabular-nums">{item.clapRate.toFixed(1)}%</span>
                                                         </div>
-                                                        : columnKey === "firstSeen"
+                                                        : col === "firstSeen"
                                                             ? <span className="text-xs text-foreground/60">{formatTimestamp(item.firstSeen)}</span>
                                                             : <span className="text-xs text-foreground/60">{formatTimestamp(item.lastSeen)}</span>
                                     }
-                                    </Table.Cell>
-                                )}
+                                    </Table.Cell>)
+                                }}
                             </Table.Row>
                         )}
                     </Table.Body>

@@ -37,12 +37,12 @@ export function ReferrerTable({ referrerMap }: ReferrerTableProps) {
         external: t("referrer-category-other"),
     }
 
-    const catColorMap: Record<string, "primary" | "warning" | "success" | "default" | "secondary"> = {
-        search: "primary",
+    const catColorMap: Record<string, "accent" | "warning" | "success" | "default"> = {
+        search: "accent",
         social: "warning",
         internal: "success",
         direct: "default",
-        external: "secondary",
+        external: "default",
     }
 
     const columns = [
@@ -65,25 +65,26 @@ export function ReferrerTable({ referrerMap }: ReferrerTableProps) {
                 <Table.Body items={items}>
                     {(item) => (
                         <Table.Row>
-                            {(columnKey) => (
-                                <Table.Cell>
-                                    {columnKey === "referrer"
+                                    {(columnKey) => {
+                                        const col = String(columnKey)
+                                        return (<Table.Cell>
+                                    {col === "referrer"
                                         ? <span className="font-mono text-xs max-w-[300px] truncate block">{item.ref || "(direct)"}</span>
-                                        : columnKey === "visits"
+                                        : col === "visits"
                                             ? <span className="tabular-nums">{item.count.toLocaleString()}</span>
-                                            : columnKey === "pct"
+                                            : col === "pct"
                                                 ? <div className="flex items-center gap-2">
                                                     <div className="flex-1 h-1.5 rounded-full bg-foreground/10 overflow-hidden max-w-[60px]">
                                                         <div className="h-full bg-accent rounded-full" style={{ width: `${Math.min(item.pct, 100)}%` }} />
                                                     </div>
                                                     <span className="text-xs tabular-nums">{item.pct.toFixed(1)}%</span>
                                                 </div>
-                                                : <Chip size="sm" variant="flat" color={catColorMap[item.cat]}>
+                                                : <Chip size="sm" variant="soft" color={catColorMap[item.cat]}>
                                                     {catMap[item.cat]}
                                                 </Chip>
                                 }
-                                </Table.Cell>
-                            )}
+                                </Table.Cell>)
+                            }}
                         </Table.Row>
                     )}
                 </Table.Body>
