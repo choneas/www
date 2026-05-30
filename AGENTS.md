@@ -1,6 +1,8 @@
-- Package manager is **Bun** (enforced via `packageManager` field), never use npm/yarn/pnpm.
+- Package manager is **Bun**, never use npm/yarn/pnpm.
 - Dev server uses Bun's native runtime: `bun dev` runs Next.js with `--bun` flag, not Node.js.
-- Do not build the project unless this is going to be deployed. Use Lint to check for errors.
+- I always open dev server, do not open dev server for me.
+- Do not build the project unless this is going to be deployed.
+- Use LSP server first to check if errors(maybe the agent tool auto checks that doesn't tell you). If the environment has not, use Lint to check for errors.
 - Lint: `bun lint` runs ESLint with no additional configuration.
 - All site content is sourced from Notion via `react-notion-x`; no local content files. Modify content via the connected Notion database.
 - i18n uses `next-intl`, currently in standardization.
@@ -8,5 +10,4 @@
 - No test or typecheck scripts are configured.
 - Define types and interfaces inside where they are used.
 - Always prefer SSR.
-- **NEVER run `git checkout -- <file>` or `git checkout .`** — these DESTROY uncommitted working directory changes. The user may have uncommitted edits. Use `git diff` to inspect changes and manually reverse them.
-- **Before reverting or rolling back**: always check `git status` and `git diff --stat` first. Ask the user what specifically they want to revert — your AI changes or everything.
+- **Before reverting or rolling back**: always check `git status` and `git diff --stat` first. Be sure to know the user specifically want to revert the commit or a feature. If not, ask them.

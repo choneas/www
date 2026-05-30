@@ -5,10 +5,20 @@ import { ArticleList } from '@/components/article-list'
 
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations('Article')
-    const tm = await getTranslations('Metadata')
     return {
-        title: t('title') + tm('suffix'),
+        title: t('title'),
         description: t('description'),
+        openGraph: {
+            title: t('title'),
+            description: t('description'),
+            type: 'website',
+            url: '/article',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: t('title'),
+            description: t('description'),
+        },
     }
 }
 

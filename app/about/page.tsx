@@ -6,10 +6,20 @@ import { plainText, richText } from "@/utils/rich-text";
 
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("About");
-    const tm = await getTranslations("Metadata");
     return {
-        title: t("title") + tm("suffix"),
+        title: t("title"),
         description: plainText(t.raw("description")),
+        openGraph: {
+            title: t("title"),
+            description: plainText(t.raw("description")),
+            type: 'website',
+            url: '/about',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: t("title"),
+            description: plainText(t.raw("description")),
+        },
     };
 }
 

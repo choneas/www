@@ -66,19 +66,17 @@ export function TweetModal({
             variant="blur"
         >
             <Modal.Container
-                className="pt-0 pb-8 px-0 md:p-4"
+                className="p-0 min-w-screen md:p-4 md:pb-8"
                 placement="top"
-                scroll="outside"
+                scroll="inside"
             >
                 <Modal.Dialog
-                    className="w-full px-0 py-6 sm:px-10 md:px-14 md:max-w-3xl rounded-none md:rounded-3xl relative"
+                    className="max-w-screen! max-h-full p-0 sm:px-16 md:px-10 md:max-w-3xl! rounded-none md:rounded-3xl relative"
                     aria-label={metadata.title || formatDate(metadata.created_time, locale, true)}
                 >
                     <Modal.CloseTrigger className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 transition-colors rounded-full" />
-                    <Modal.Header className="px-4">
+                    <Modal.Body className="px-4 sm:pb-16 md:pb-10 transition-transform duration-100 text-foreground">
                         {!isLoading && <PostHeader isTweet post={metadata} />}
-                    </Modal.Header>
-                    <Modal.Body className="px-4 pb-4 transition-transform duration-100">
                         <div className="space-y-4">
                             {isLoading ? (
                                 <TweetContentSkeleton

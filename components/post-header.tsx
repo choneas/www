@@ -13,6 +13,7 @@ import { Avatar } from "@/components/avatar"
 interface PostHeaderProps {
     post: PostMetadata;
     isTweet?: boolean;
+    views?: number;
 }
 
 const TITLE_SPRING = {
@@ -27,7 +28,7 @@ const fadeUp = {
     animate: { opacity: 1, y: 0 },
 }
 
-export function PostHeader({ post, isTweet }: PostHeaderProps) {
+export function PostHeader({ post, isTweet, views }: PostHeaderProps) {
     const t = useTranslations("Post-Header")
     const locale = useLocale()
     const { setPostMetadata } = usePostMetadata()
@@ -86,7 +87,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                                 </motion.span>
                                 <motion.h1
                                     role="heading"
-                                    className="text-3xl text-muted mix-blend-plus-lighter font-bold !text-[#CCCCCC]"
+                                    className="text-3xl text-muted mix-blend-plus-lighter font-bold"
                                     {...fadeUp}
                                     transition={{ ...TITLE_SPRING, delay: 0.05 }}
                                 >
@@ -97,11 +98,11 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                                     }
                                 </motion.h1>
                                 <motion.p
-                                    className="light backdrop-opacity-50 mix-blend-plus-lighter text-sm mt-4 !text-[#CCCCCC]"
+                                    className="light backdrop-opacity-50 mix-blend-plus-lighter text-sm mt-4 text-muted!"
                                     {...fadeUp}
                                     transition={{ ...TITLE_SPRING, delay: 0.07 }}
                                 >
-                                    {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
+                                    {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '') + (views != null && views > 0 ? ' · ' + views + ' ' + t('views') : '')}
                                 </motion.p>
                             </div>
                         </div>
@@ -124,7 +125,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                         {post.icon}
                     </motion.h1>
                     <motion.h1
-                        className="text-3xl font-bold my-4"
+                        className={`${isTweet ? 'text-3xl!' : 'text-4xl!'} font-bold my-4`}
                         {...fadeUp}
                         transition={{ ...TITLE_SPRING, delay: 0.05 }}
                     >
@@ -139,7 +140,7 @@ export function PostHeader({ post, isTweet }: PostHeaderProps) {
                         {...fadeUp}
                         transition={{ ...TITLE_SPRING, delay: 0.07 }}
                     >
-                        {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '')}
+                        {t('created') + (post.created_time ? formatDate(post.created_time, locale) : '') + (!isTweet ? ' · ' + t('updated') + (post.last_edited_time ? formatDate(post.last_edited_time, locale) : '') : '') + (views != null && views > 0 ? ' · ' + views + ' ' + t('views') : '')}
                     </motion.p>
                 </div>
             )}

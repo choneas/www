@@ -30,14 +30,14 @@ async function fetchRemoteAsDataUrl(url: string): Promise<string | null> {
  * Generate OG/Twitter image for an article slug.
  * Shared between opengraph-image.tsx and twitter-image.tsx.
  */
-export async function generateArticleOgImage(slug: string): Promise<ImageResponse | Response> {
+export async function generateArticleOgImage(slug: string, isTweet?: boolean): Promise<ImageResponse | Response> {
     const locale = await getLocale()
     const tagT = await getTranslations('Tag')
     const tm = await getTranslations('Metadata')
 
     let metadata
     try {
-        const post = await getPost(slug, (key: string) => tagT(key), locale)
+        const post = await getPost(slug, (key: string) => tagT(key), locale, isTweet)
         metadata = post.metadata
     } catch {
         return new Response('Not Found', { status: 404 })

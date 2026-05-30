@@ -4,7 +4,7 @@ import { getLocale } from 'next-intl/server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const locale = await getLocale();
-    const { articles } = await getAllPostsRaw(locale);
+    const { articles, tweets } = await getAllPostsRaw(locale);
 
     const articleUrls: MetadataRoute.Sitemap = articles.map(article => {
         const item: MetadataRoute.Sitemap[number] = {
@@ -21,6 +21,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         return item;
     });
 
+    const tweetUrls: MetadataRoute.Sitemap = tweets.map(tweet => ({
+        url: `https://choneas.com/tweet/${tweet.slug}`,
+        lastModified: new Date(tweet.last_edited_time),
+        changeFrequency: 'monthly',
+        priority: 0.5,
+    }));
+
     const routes: MetadataRoute.Sitemap = ['', 'article', 'project', 'about'].map((route) => ({
         url: `https://choneas.com/${route}`,
         lastModified: new Date(),
@@ -28,5 +35,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === '' ? 1 : 0.8,
     }));
 
-    return [...routes, ...articleUrls];
+    return [...routes, ...articleUrls, ...tweetUrls];
 }

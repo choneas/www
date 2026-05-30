@@ -26,6 +26,8 @@
 .kiro/
 .DS_Store
 *.pem
+mem0*/
+mem0*.md
 
 # debug
 npm-debug.log*

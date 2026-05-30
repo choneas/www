@@ -19,6 +19,26 @@ import "./globals.css";
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://choneas.com'),
+    title: {
+        template: '%s – Choneas',
+        default: 'Choneas',
+    },
+    description: "Coding, Recording and life shares.",
+    openGraph: {
+        siteName: 'Choneas',
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+    },
+    icons: {
+        icon: '/favicon.ico',
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
 const notoSerif = Noto_Serif_SC({

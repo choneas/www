@@ -307,6 +307,10 @@
     max-width: unset;
   }
 
+  .modal__body {
+    color: var(--color-foreground) !important;
+  }
+
   .article-container {
     @apply max-w-6xl mx-auto px-8 sm:px-24 md:px-48;
   }
@@ -337,6 +341,87 @@
     font-size: var(--text-lg) !important;
     line-height: var(--line-height-relaxed) !important;
     --notion-max-width: 720px;
+  }
+
+  /* ===== Notion Heading Overrides (HeroUI Typography values) ===== */
+
+  /* Base reset — override all react-notion-x heading defaults */
+  .notion .notion-h {
+    display: block !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    padding: 0 !important;
+    margin-bottom: 0.5em !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    width: auto !important;
+    max-width: none !important;
+    letter-spacing: -0.025em !important;
+    position: relative !important;
+  }
+
+  /* Per-level font sizes (HeroUI defaults) */
+  .notion .notion-h1 { font-size: var(--text-4xl) !important; margin-top: 1.5em !important; }
+  .notion .notion-h2 { font-size: var(--text-3xl) !important; margin-top: 1.25em !important; }
+  .notion .notion-h3 { font-size: var(--text-2xl) !important; margin-top: 1.25em !important; }
+  .notion .notion-h4 { font-size: var(--text-xl) !important; margin-top: 1em !important; }
+
+  /* Tweet details — smaller headings */
+  .tweet-details .notion .notion-h1 { font-size: 1.625rem !important; margin-top: 0.875em !important; }
+  .tweet-details .notion .notion-h2 { font-size: 1.375rem !important; margin-top: 0.75em !important; }
+  .tweet-details .notion .notion-h3 { font-size: 1.2rem !important; margin-top: 0.625em !important; }
+  .tweet-details .notion .notion-h4 { font-size: 1.05rem !important; margin-top: 0.5em !important; }
+  .tweet-details .notion .notion-h { margin-bottom: 0.25em !important; }
+
+  /* Heading inner title span */
+  .notion .notion-h .notion-h-title {
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  /* Hash link — reposition for block headings */
+  .notion .notion-hash-link {
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -1.25em !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin-left: 0 !important;
+    padding-right: 0.25rem !important;
+    float: none !important;
+    text-decoration: none !important;
+  }
+
+  .notion .notion-h:hover .notion-hash-link {
+    opacity: 1 !important;
+  }
+
+  /* Anchor scroll offset */
+  .notion .notion-header-anchor {
+    position: absolute !important;
+    top: -80px !important;
+    left: 0 !important;
+  }
+
+  /* Sync block headings stay block */
+  .notion .notion-sync-block .notion-h {
+    display: block !important;
+  }
+
+  /* Toggle headings stay inline */
+  .notion details.notion-toggle .notion-h {
+    display: inline !important;
+  }
+
+  /* Remove top margin when heading follows page title or is first child */
+  .notion .notion-title + .notion-h,
+  .notion .notion-title + .notion-h1,
+  .notion .notion-title + .notion-h2,
+  .notion .notion-title + .notion-h3,
+  .notion .notion-title + .notion-h4,
+  .notion .notion-h1:first-child,
+  .notion .notion-h:first-child {
+    margin-top: 0 !important;
   }
 
   .notion ::selection {
@@ -461,6 +546,9 @@
 
   .notion-quote {
     border-radius: 0 !important;
+    font-style: normal !important;
+    color: var(--color-foreground) !important;
+    margin-top: 0 !important;
   }
 
   .notion-callout {
@@ -536,9 +624,7 @@
     opacity: 1 !important;
   }
 
-  .notion .notion-hash-link {
-    opacity: 0.0 !important;
-  }
+  /* hash-link opacity overridden in heading section above */
 
   .notion .notion-external-mention,
   .notion .notion-link-mention-link {
@@ -656,15 +742,10 @@
     background: var(--color-surface-tertiary) !important;
   }
 
-  .tweet-preview .notion h1,
-  .tweet-preview .notion h2,
-  .tweet-preview .notion h3,
-  .tweet-preview .notion h4,
-  .tweet-preview .notion h5,
-  .tweet-preview .notion h6 {
+  .tweet-preview .notion .notion-h {
     font-size: var(--text-base) !important;
     margin-top: 0 !important;
-    font-weight: 600 !important;
+    margin-bottom: 0 !important;
   }
 
   .tweet-preview .notion p {

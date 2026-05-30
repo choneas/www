@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from 'react'
-import { Link } from '@heroui/react'
+import { Link, Typography } from '@heroui/react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { type ExtendedRecordMap } from 'notion-types'
@@ -52,11 +52,12 @@ const Modal = dynamic(
 )
 
 interface NotionPageProps {
+    className: string;
     recordMap: ExtendedRecordMap;
     type?: "tweet-preview" | "tweet-details";
 }
 
-const NotionPage = ({ recordMap, type }: NotionPageProps) => {
+const NotionPage = ({ className, recordMap, type }: NotionPageProps) => {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = React.useState(false);
 
@@ -65,24 +66,32 @@ const NotionPage = ({ recordMap, type }: NotionPageProps) => {
     }, []);
 
     const isPreview = type === "tweet-preview";
+    const isTweetDetails = type === "tweet-details";
+    const typeClass = isPreview
+        ? " notion tweet-preview"
+        : isTweetDetails
+            ? " notion main-content tweet-details"
+            : " notion main-content";
 
     return (
-        <div className={isPreview ? "notion tweet-preview" : "notion main-content"}>
-            <NotionRenderer
-                disableHeader
-                recordMap={recordMap}
-                darkMode={mounted ? resolvedTheme === 'dark' : false}
-                fullPage={false}
-                components={{
-                    Code,
-                    Collection,
-                    Equation,
-                    Modal,
-                    Pdf,
-                    nextImage: Image,
-                    nextLink: Link
-                }}
-            />
+        <div className={className + typeClass}>
+            <Typography.Prose>
+                <NotionRenderer
+                    disableHeader
+                    recordMap={recordMap}
+                    darkMode={mounted ? resolvedTheme === 'dark' : false}
+                    fullPage={false}
+                    components={{
+                        Code,
+                        Collection,
+                        Equation,
+                        Modal,
+                        Pdf,
+                        nextImage: Image,
+                        nextLink: Link
+                    }}
+                />
+            </Typography.Prose>
             {/* TODO: Re-enable when HeroUI 3.0 Table component is available */}
             {/* <NotionTableReplacer /> */}
         </div>

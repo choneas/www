@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import NumberFlow from "@number-flow/react";
 
 interface LiveCounterProps {
     birthDate: string;
@@ -31,26 +32,21 @@ function calculateElapsed(birthDate: Date): TimeElapsed {
     };
 }
 
-function formatUnitParts(value: number, unit: Intl.NumberFormatOptions["unit"], locale: string): React.ReactNode {
+function TimeUnit({ value, unit, locale }: { value: number; unit: string; locale: string }) {
     const formatter = new Intl.NumberFormat(locale, {
         style: "unit",
         unit,
         unitDisplay: "long",
     });
+    const parts = formatter.formatToParts(value);
+    const label = parts.find(p => p.type === "unit")?.value || unit;
 
-    return formatter.formatToParts(value).map((part, index) => {
-        const key = `${part.type}-${index}`;
-
-        if (part.type === "unit") {
-            return <span key={key} className="text-accent/70">{part.value}</span>;
-        }
-
-        if (part.type === "integer" || part.type === "group") {
-            return <span key={key} className="font-bold text-accent">{part.value}</span>;
-        }
-
-        return <span key={key}>{part.value}</span>;
-    });
+    return (
+        <span>
+            <NumberFlow value={value} locales={locale} className="font-bold text-accent"/>
+            <span className="text-accent/70"> {label}</span>
+        </span>
+    );
 }
 
 export function LiveCounter({ birthDate, locale, title }: LiveCounterProps) {
@@ -85,32 +81,24 @@ export function LiveCounter({ birthDate, locale, title }: LiveCounterProps) {
 
     if (elapsed.days > 0) {
         timeParts.push(
-            <span key="days">
-                {formatUnitParts(elapsed.days, "day", localeBcp)}
-            </span>
+            <TimeUnit key="days" value={elapsed.days} unit="day" locale={localeBcp}/>
         );
     }
 
     if (elapsed.hours > 0) {
         timeParts.push(
-            <span key="hours">
-                {formatUnitParts(elapsed.hours, "hour", localeBcp)}
-            </span>
+            <TimeUnit key="hours" value={elapsed.hours} unit="hour" locale={localeBcp}/>
         );
     }
 
     if (elapsed.minutes > 0) {
         timeParts.push(
-            <span key="minutes">
-                {formatUnitParts(elapsed.minutes, "minute", localeBcp)}
-            </span>
+            <TimeUnit key="minutes" value={elapsed.minutes} unit="minute" locale={localeBcp}/>
         );
     }
 
     timeParts.push(
-        <span key="seconds">
-            {formatUnitParts(elapsed.seconds, "second", localeBcp)}
-        </span>
+        <TimeUnit key="seconds" value={elapsed.seconds} unit="second" locale={localeBcp}/>
     );
 
     const formattedTime: React.ReactNode[] = timeParts.flatMap((part, index) => {

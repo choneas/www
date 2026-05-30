@@ -108,9 +108,10 @@ function DefaultLoadingSpinner() {
 /**
  * Article list page skeleton
  */
-function ArticleListSkeleton(_props: { hasCover: boolean; hasIcon: boolean }) {
+function ArticleListSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon: boolean }) {
     return (
-        <main className="container mx-auto px-8 sm:mt-20 sm:px-24 pt-8">
+        <main className={`container mx-auto px-8 ${hasCover ? "" : "sm:mt-20"} sm:px-24 pt-8`}>
+            {hasIcon && <Skeleton className="h-14 w-14 rounded-lg mb-2" />}
             <Skeleton className="h-12 w-48 rounded-lg" />
             <Skeleton className="h-9 w-80 mt-2 rounded-lg" />
 
