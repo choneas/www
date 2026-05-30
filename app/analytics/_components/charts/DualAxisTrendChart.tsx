@@ -14,8 +14,8 @@ export function DualAxisTrendChart({ days, showViews, showClaps }: DualAxisTrend
     const t = useTranslations("Analytics")
 
     const option = useMemo(() => {
-        const series: any[] = []
-        const yAxis: any[] = []
+        const series: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
+        const yAxis: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
 
         if (showViews) {
             series.push({
