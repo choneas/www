@@ -18,9 +18,7 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
 
   useEffect(() => {
     const headingTree = buildHeadingTree(toc);
-    // Use Intersection Observer if supported
     if (supportsIntersectionObserver) {
-      // Get all heading elements
       const headingElements = toc.map(entry => {
         const domId = uuidToId(entry.id);
         return document.getElementById(domId);
@@ -30,21 +28,17 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
         return;
       }
 
-      // Create Intersection Observer
       observerRef.current = new IntersectionObserver(
         (entries) => {
-          // Find all visible headings
           const visibleEntries = entries.filter(entry => entry.isIntersecting);
 
           if (visibleEntries.length > 0) {
-            // Sort by position in document (top to bottom)
             visibleEntries.sort((a, b) => {
               const rectA = a.target.getBoundingClientRect();
               const rectB = b.target.getBoundingClientRect();
               return rectA.top - rectB.top;
             });
 
-            // Get the topmost visible heading
             const topmostEntry = visibleEntries[0];
             const headingId = topmostEntry.target.id;
 
@@ -56,7 +50,6 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
               if (!clickedHeadingId || clickedHeadingId === uuidId) {
                 setActiveHeadingId(uuidId);
 
-                // Calculate heading path (includes parent headings)
                 const node = findNodeById(headingTree, uuidId);
                 if (node) {
                   setActiveHeadingPath(getHeadingPath(node));
@@ -72,10 +65,8 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
         }
       );
 
-      // Observe all heading elements
       headingElements.forEach(el => observerRef.current?.observe(el));
 
-      // Cleanup
       return () => {
         if (observerRef.current) {
           observerRef.current.disconnect();
@@ -90,19 +81,16 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
           return document.getElementById(domId);
         }).filter(Boolean) as HTMLElement[];
 
-        // Find the first heading that is in the viewport
         for (const element of headingElements) {
           const rect = element.getBoundingClientRect();
           // Check if heading is in the top 30% of viewport
           if (rect.top >= 0 && rect.top <= window.innerHeight * 0.3) {
             const headingId = element.id;
-            // Convert DOM ID back to UUID format
             const uuidId = toc.find(entry => uuidToId(entry.id) === headingId)?.id;
 
             if (uuidId && uuidId !== activeHeadingId) {
               setActiveHeadingId(uuidId);
 
-              // Calculate heading path
               const node = findNodeById(headingTree, uuidId);
               if (node) {
                 setActiveHeadingPath(getHeadingPath(node));
@@ -113,7 +101,6 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
         }
       };
 
-      // Throttle scroll events
       let timeoutId: ReturnType<typeof setTimeout> | undefined;
       const throttledScroll = () => {
         if (timeoutId) {
@@ -144,11 +131,9 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
   }, []);
 
   const handleHeadingClick = (headingId: string) => {
-    // Set clicked heading immediately
     setClickedHeadingId(headingId);
     setActiveHeadingId(headingId);
 
-    // Calculate and set path
     const headingTree = buildHeadingTree(toc);
     const node = findNodeById(headingTree, headingId);
     if (node) {
@@ -167,27 +152,17 @@ export function useActiveHeading(toc: TableOfContentsEntry[]) {
   return { activeHeadingId, activeHeadingPath, handleHeadingClick };
 }
 
-/**
- * Custom hook to detect media query breakpoint
- * @param query - Media query string (e.g., "(min-width: 640px)")
- * @returns boolean indicating if the media query matches
- */
+/** Tracks whether a media query currently matches. */
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia(query);
-
-    // Set initial value
     setMatches(media.matches);
 
-    // Create event listener
     const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
-
-    // Add listener
     media.addEventListener("change", listener);
 
-    // Cleanup
     return () => media.removeEventListener("change", listener);
   }, [query]);
 

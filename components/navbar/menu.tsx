@@ -16,7 +16,6 @@ export function NavbarMenu({ pathname, translations }: NavbarMenuProps) {
             {
                 navItems.map((item, index) => {
                     const isActive = pathname.includes(item.href) && pathname !== "/";
-                    // Use filled icon when active, outline when inactive
                     const currentIcon = isActive ? item.icon.filled : item.icon.outline;
 
                     return (

@@ -25,14 +25,11 @@ export function DesktopTOC({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLLIElement>(null);
 
-  // Track article container right edge for positioning
   const [articleContainerRight, setArticleContainerRight] = useState(0);
 
-  // Hover state management
   const [isContainerHovered, setIsContainerHovered] = useState(false);
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
 
-  // Measure article container position
   useEffect(() => {
     const updatePosition = () => {
       const articleContainer = document.querySelector('.notion');
@@ -64,7 +61,6 @@ export function DesktopTOC({
       const itemTop = item.offsetTop;
       const itemHeight = item.offsetHeight;
 
-      // Calculate scroll position to center the item
       const scrollCenter = itemTop - (containerHeight / 2) + (itemHeight / 2);
 
       container.scrollTo({
@@ -81,7 +77,7 @@ export function DesktopTOC({
     scrollToHeading(headingId);
   };
 
-  // Simplified positioning: fixed at right side of content, vertically centered
+  // Fixed at right side of content, vertically centered
   const getPositionStyles = () => {
     const gap = 48; // 3rem gap from article container
     const leftPosition = articleContainerRight + gap;

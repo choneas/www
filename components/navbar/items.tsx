@@ -27,11 +27,9 @@ export function NavbarItems({ pathname, translations, onPendingNavigation }: Nav
     const [collapseTimeout, setCollapseTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const handleNavigation = (href: string) => {
-        // Notify parent of pending navigation immediately
-        // This allows navbar layout to update before navigation completes
+        // Notify parent first so the layout updates before navigation completes
         onPendingNavigation?.(href);
 
-        // Only trigger loading if navigating to a different page
         if (currentPathname !== href) {
             triggerNavigationLoading(href, { source: "items" });
         }
@@ -68,13 +66,11 @@ export function NavbarItems({ pathname, translations, onPendingNavigation }: Nav
     return (
         <div className="flex items-center gap-1 px-0.5">
             {navItems.map((item, index) => {
-                // Check if this item matches the active path (including pending navigation)
                 const isActive = pathname === "/"
                     ? false  // No item is active on Home
                     : pathname.includes(item.href);
                 const isExpanded = expandedIndex === index;
 
-                // Use filled icon only when on active page
                 const currentIcon = isActive ? item.icon.filled : item.icon.outline;
 
                 return (

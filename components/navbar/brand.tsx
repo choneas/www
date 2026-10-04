@@ -23,7 +23,6 @@ export function NavbarBrand() {
 
     const isArticlePage = pathname.includes("article/");
 
-    // Handle navigation with loading trigger
     const handleNavigation = () => {
         if (currentPathname !== "/") {
             triggerNavigationLoading("/", { source: "brand" });
@@ -31,18 +30,15 @@ export function NavbarBrand() {
         router.push("/");
     };
 
-    // Text animation values
     const headTextY = useTransform(scrollY, [0, TITLE_TRANSITION_SCROLL_PX], [-6, -15]);
     const contentTextY = useTransform(scrollY, [0, TITLE_TRANSITION_SCROLL_PX], [30, 0]);
     const headTextOpacity = useTransform(scrollY, [0, TITLE_TRANSITION_SCROLL_PX], [1, 0.8]);
     const headTextScale = useTransform(scrollY, [0, TITLE_TRANSITION_SCROLL_PX], [1, 0.8]);
     const contentTextOpacity = useTransform(scrollY, [0, TITLE_TRANSITION_SCROLL_PX], [0, 1]);
 
-    // Measure actual title width
     const titleRef = useRef<HTMLDivElement>(null);
     const [measuredWidth, setMeasuredWidth] = useState(400);
 
-    // Width animation for article title container
     const titleWidth = useMotionValue(80);
     const titleWidthSpring = useSpring(titleWidth, { stiffness: 300, damping: 30 });
 
@@ -59,7 +55,6 @@ export function NavbarBrand() {
         };
 
         measureWidth();
-        // Measure again after fonts load
         if (document.fonts) {
             document.fonts.ready.then(measureWidth);
         }
@@ -71,7 +66,6 @@ export function NavbarBrand() {
             return;
         }
 
-        // Set initial width based on current scroll position
         const currentScroll = scrollY.get();
         const initialProgress = Math.min(Math.max(currentScroll / TITLE_TRANSITION_SCROLL_PX, 0), 1);
         const initialWidth = 80 + (measuredWidth - 80) * initialProgress;

@@ -81,7 +81,6 @@ export function NavbarMobileMenu({ isOpen, onOpenChange, pathname, translations 
                 >
                     {navItems.map((item) => {
                         const isActive = pathname.includes(item.href) && pathname !== "/";
-                        // Use filled icon when active, outline when inactive
                         const currentIcon = isActive ? item.icon.filled : item.icon.outline;
 
                         return (

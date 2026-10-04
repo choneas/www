@@ -31,13 +31,11 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
     const { scrollY } = useScroll();
     const pathname = usePathname();
 
-    // Pending navigation for immediate UI feedback
     const [pendingPath, setPendingPath] = useState<string | null>(null);
     const effectivePath = pendingPath ?? pathname;
     const isHome = effectivePath === "/";
     const isMenuOpen = isDropdownOpen || isMobileMenuOpen;
 
-    // Clear pending path when navigation completes
     useEffect(() => {
         if (pendingPath && pathname === pendingPath) {
             setPendingPath(null);
@@ -68,7 +66,6 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
         return () => window.removeEventListener("navigation-start", handleNavStart);
     }, []);
 
-    // Fade out glow when page loads, then clear entirely
     useEffect(() => {
         if (glowingIsland) {
             setIsFadingOut(true);
@@ -101,10 +98,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
         setIsMobileMenuOpen(false);
     }, []);
 
-    // Ocean blur effect
     const ocean = useOceanEffect(scrollY, isMenuOpen);
 
-    // Island glass style
     const islandStyle = useMemo(() => getIslandStyle(isMenuOpen), [isMenuOpen]);
 
     // Per-island glow — sweeps a focused light beam around the border edge
@@ -115,14 +110,12 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
     };
 
 
-    // Context for child components
     const contextValue = useMemo(() => ({
         scrollY,
         navbarBlur: ocean.blur,
         pathname: effectivePath,
     }), [scrollY, ocean.blur, effectivePath]);
 
-    // Calculate desktop positioning based on page
     const desktopTop = isHome ? LAYOUT.desktop.homeTop : LAYOUT.desktop.top;
     const sideInset = isHome ? LAYOUT.desktop.sideInset : LAYOUT.desktop.normalSideInset;
 
