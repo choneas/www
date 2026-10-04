@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { cn, Modal, ScrollShadow } from "@heroui/react";
+import { cn } from "@heroui/react";
 import type { ReactNode } from "react";
+import { ModalShell, ModalScrollBody } from "@/components/modal-shell";
 
 interface InlineModalImageProps {
     src?: string;
@@ -29,27 +30,6 @@ interface InlineModalProps {
         closeButton?: ReactNode;
     };
 }
-
-const fluidSlideAnimation = {
-    backdrop: [
-        "data-[entering]:duration-500",
-        "data-[entering]:ease-[cubic-bezier(0.25,1,0.5,1)]",
-        "data-[exiting]:duration-250",
-        "data-[exiting]:ease-[cubic-bezier(0.7,0,0.84,0)]",
-    ].join(" "),
-    container: [
-        "data-[entering]:animate-in",
-        "data-[entering]:fade-in-0",
-        "data-[entering]:slide-in-from-bottom-4",
-        "data-[entering]:duration-500",
-        "data-[entering]:ease-[cubic-bezier(0.25,1,0.5,1)]",
-        "data-[exiting]:animate-out",
-        "data-[exiting]:fade-out-0",
-        "data-[exiting]:slide-out-to-bottom-2",
-        "data-[exiting]:duration-250",
-        "data-[exiting]:ease-[cubic-bezier(0.7,0,0.84,0)]",
-    ].join(" "),
-} as const;
 
 export function InlineModal({ children, modal, className = "", modalProps }: InlineModalProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -84,58 +64,46 @@ export function InlineModal({ children, modal, className = "", modalProps }: Inl
                 {children}
             </button>
 
-            <Modal.Backdrop
+            <ModalShell
                 isOpen={isOpen}
                 onOpenChange={setIsOpen}
-                className={`${fluidSlideAnimation.backdrop} ${backdropClassName || "bg-linear-to-t from-foreground/70 via-accent/20 to-transparent"}`}
-                variant={backdropVariant}
+                label={titleString}
+                backdropClassName={backdropClassName}
+                backdropVariant={backdropVariant}
                 isDismissable={isDismissable}
                 isKeyboardDismissDisabled={isKeyboardDismissDisabled}
+                dialogClassName={cn(dialogClassName, "overflow-hidden pt-0 px-0 md:min-w-3xl relative max-h-180")}
+                hideCloseButton={hideCloseButton}
+                footer={closeButton}
             >
-                <Modal.Container className={fluidSlideAnimation.container}>
-                    <Modal.Dialog
-                        aria-label={titleString}
-                        className={cn(dialogClassName, "overflow-hidden pt-0 px-0 md:min-w-3xl relative max-h-180")}
-                    >
-                        {!hideCloseButton && (
-                            <Modal.CloseTrigger className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 transition-colors rounded-full" />
-                        )}
-                        <ScrollShadow className="max-h-[80vh]" hideScrollBar>
-                            <div className="relative w-full h-48 md:h-64">
-                                <Image
-                                    src={image.src}
-                                    alt={image.alt}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                    loading="lazy"
-                                    className={`object-cover ${image.className}`}
-                                    quality={75}
-                                />
-                                <div className="absolute dark inset-0 bg-linear-to-t from-background/60 to-transparent" />
-                                <div className="absolute dark bottom-4 left-6 right-16">
-                                    <h2 className="text-2xl md:text-3xl font-bold text-muted mix-blend-plus-lighter drop-shadow-lg">
-                                        {title}
-                                    </h2>
-                                </div>
-                            </div>
+                <ModalScrollBody>
+                    <div className="relative w-full h-48 md:h-64">
+                        <Image
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            loading="lazy"
+                            className={`object-cover ${image.className}`}
+                            quality={75}
+                        />
+                        <div className="absolute dark inset-0 bg-linear-to-t from-background/60 to-transparent" />
+                        <div className="absolute dark bottom-4 left-6 right-16">
+                            <h2 className="text-2xl md:text-3xl font-bold text-muted mix-blend-plus-lighter drop-shadow-lg">
+                                {title}
+                            </h2>
+                        </div>
+                    </div>
 
-                            <div className="p-6 pb-20 space-y-4">
-                                {paragraphs.map((paragraph, index) => (
-                                    <div key={index} className="text-foreground leading-relaxed text-xl">
-                                        {paragraph}
-                                    </div>
-                                ))}
+                    <div className="p-6 pb-20 space-y-4">
+                        {paragraphs.map((paragraph, index) => (
+                            <div key={index} className="text-foreground leading-relaxed text-xl">
+                                {paragraph}
                             </div>
-                        </ScrollShadow>
-
-                        {closeButton && (
-                            <Modal.Footer className="absolute bottom-0 left-0 right-0 flex justify-center p-6 bg-linear-to-t from-background via-background/90 to-transparent">
-                                {closeButton}
-                            </Modal.Footer>
-                        )}
-                    </Modal.Dialog>
-                </Modal.Container>
-            </Modal.Backdrop>
+                        ))}
+                    </div>
+                </ModalScrollBody>
+            </ModalShell>
         </>
     );
 }
