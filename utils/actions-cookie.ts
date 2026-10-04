@@ -1,5 +1,7 @@
 const COOKIE_NAME = 'actions'
-const MAX_AGE = 31536000
+// Cookie lifetime: one year in seconds. Mirrored server-side in
+// app/api/post/[slug]/clap/route.ts via COOKIE_MAX_AGE.
+export const COOKIE_MAX_AGE = 31536000
 
 export interface ActionsCookie {
   clapped: Record<string, number>
@@ -18,7 +20,7 @@ export function getCookie(): ActionsCookie {
 
 export function setCookie(data: ActionsCookie): void {
   if (typeof document === 'undefined') return
-  document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=${MAX_AGE}; SameSite=Lax`
+  document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`
 }
 
 export function decodeValue(raw: string | undefined): ActionsCookie {

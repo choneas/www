@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { PostMetadata } from "./content";
 
 // ============================================================================
-// Types (consolidated from @constants/types.ts)
+// Social feed types
 // ============================================================================
 
 export interface SocialLink {
@@ -211,6 +211,7 @@ export const getXPosts = cache(async (username: string, limit: number = 10): Pro
 
             return data.items.slice(0, limit).map((item): PostMetadata => {
                 const postId = item.guid.split('/').pop() || item.guid;
+                // RSS descriptions ship with HTML tags; strip them to plain text.
                 const text = item.description.replace(/<[^>]*>/g, '').trim();
 
                 return {
@@ -249,6 +250,8 @@ export const getXAvatar = cache(async (username: string): Promise<string | null>
             if (!res.ok) continue;
 
             const html = await res.text();
+            // Nitter serves proxied thumbnails as relative "/pic/..." paths;
+            // rewrite them to the Twimg CDN origin for next/image.
             const match = html.match(/<img[^>]*class="profile-avatar"[^>]*src="([^"]*)"/);
             if (match) {
                 return match[1].replace(/^\/pic/, 'https://pbs.twimg.com');
@@ -258,21 +261,6 @@ export const getXAvatar = cache(async (username: string): Promise<string | null>
         }
     }
     return null;
-});
-
-/**
- * Get social media avatars for configured accounts
- */
-export const getSocialAvatars = cache(async () => {
-    const xUsername = process.env.X_USERNAME;
-    const blueskyHandle = process.env.BLUESKY_HANDLE;
-
-    const [xAvatar, blueskyAvatar] = await Promise.all([
-        xUsername ? getXAvatar(xUsername) : Promise.resolve(null),
-        blueskyHandle ? getBlueskyAvatar(blueskyHandle) : Promise.resolve(null),
-    ]);
-
-    return { xAvatar, blueskyAvatar };
 });
 
 /**

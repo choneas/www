@@ -80,7 +80,6 @@ export function InlineModal({ children, modal, className = "", modalProps }: Inl
                 type="button"
                 onClick={() => setIsOpen(true)}
                 className={`inline bg-transparent border-none p-0 font-inherit whitespace-normal break-words box-decoration-clone cursor-pointer ${className}`}
-                style={{ whiteSpace: "normal", wordBreak: "break-word" }}
             >
                 {children}
             </button>

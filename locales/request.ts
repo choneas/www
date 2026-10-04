@@ -5,7 +5,7 @@ import {
     DEFAULT_LOCALE,
     findBestMatch,
     parseAcceptLanguage
-} from '@/lib/locales.server';
+} from '@/lib/locale';
 
 export default getRequestConfig(async ({ requestLocale }) => {
     const supportedLocales = await getSupportedLocales();

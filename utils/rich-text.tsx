@@ -58,6 +58,9 @@ export function richText<T extends RichTranslator>(
 }
 
 export function plainText(value: string) {
+    // Collapse rich-text markup to plain text in order: paired <br></br>,
+    // lone <br>, then any remaining tag, then whitespace. Order matters —
+    // the generic tag strip alone would leave stray gaps from line breaks.
     return value
         .replace(/<br\s*\/?><\/br>/g, " ")
         .replace(/<br\s*\/?>/g, " ")

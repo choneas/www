@@ -9,8 +9,7 @@ async function fetchGithubRepoInfo(repo: string) {
 
         if (!response.ok) return null;
         return await response.json();
-    } catch (error) {
-        console.error('Error fetching Github repo:', error);
+    } catch {
         return null;
     }
 }

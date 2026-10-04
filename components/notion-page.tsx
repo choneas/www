@@ -92,82 +92,11 @@ const NotionPage = ({ className = '', recordMap, type }: NotionPageProps) => {
                     }}
                 />
             </Typography.Prose>
-            {/* TODO: Re-enable when HeroUI 3.0 Table component is available */}
-            {/* <NotionTableReplacer /> */}
         </div>
     )
 }
 
-// TODO: Verify HeroUI 3.0 Table API before re-enabling
-// HeroUI 3.0 beta does not include a Table component yet.
-// The Table component from v2 is not available in v3.0.0-beta.1.
-// This component needs to be updated once the Table API is available in HeroUI 3.0.
-// Requirements: 6.3, 6.4
-// Temporarily disabled - HeroUI 3.0 Table component not available
-// const NotionTableReplacer = () => {
-    // React.useEffect(() => {
-    //     if (typeof document === 'undefined') return;
-    //     const notionTables = document.querySelectorAll('.notion-simple-table');
-    //     notionTables.forEach((notionTable, tableIndex) => {
-    //         if ((notionTable as HTMLElement).dataset.herouiReplaced) return;
-    //         const rows = Array.from(notionTable.querySelectorAll('tr'));
-    //         if (rows.length === 0) return;
-    //         const headerRow = rows[0];
-    //         const dataRows = rows.slice(1);
-    //         const headerCells = Array.from(headerRow.querySelectorAll('td'));
-    //         const columns = headerCells.map((td, index) => ({
-    //             key: `col_${index}`,
-    //             label: <>{Array.from(td.querySelectorAll('.notion-simple-table-cell')).map((cell, i) => <span key={i} dangerouslySetInnerHTML={{ __html: cell.innerHTML }} />)}</>
-    //         }));
-    //         const items = dataRows.map((row, rowIndex) => {
-    //             const cells = Array.from(row.querySelectorAll('td'));
-    //             const rowData: { [key: string]: React.ReactNode; id: string } = { id: `row_${rowIndex}` };
-    //             columns.forEach((col, cellIndex) => {
-    //                 const cell = cells[cellIndex];
-    //                 if (!cell) return;
-    //                 const notionCellDivs = cell.querySelectorAll('.notion-simple-table-cell');
-    //                 rowData[col.key] = (
-    //                     <>
-    //                         {Array.from(notionCellDivs).map((div, i) => (
-    //                             <span key={i} dangerouslySetInnerHTML={{ __html: div.innerHTML }} />
-    //                         ))}
-    //                     </>
-    //                 );
-    //             });
-    //             return rowData;
-    //         });
-    //         const tableWrapper = document.createElement('div');
-    //         tableWrapper.className = 'my-4 w-full outline-(--outline)';
-    //         tableWrapper.setAttribute('data-heroui-table', 'true');
-    //         notionTable.parentNode?.insertBefore(tableWrapper, notionTable.nextSibling);
-    //         import('@heroui/react').then(({ Table, TableHeader, TableBody, TableColumn, TableRow, TableCell }) => {
-    //             import('react-dom/client').then(({ createRoot }) => {
-    //                 const root = createRoot(tableWrapper);
-    //                 root.render(
-    //                     <Table aria-label={`Notion Table ${tableIndex + 1}`}>
-    //                         <TableHeader columns={columns}>
-    //                             {(column) => (
-    //                                 <TableColumn key={column.key} className='bg-content2'>{column.label}</TableColumn>
-    //                             )}
-    //                         </TableHeader>
-    //                         <TableBody items={items}>
-    //                             {(item) => (
-    //                                 <TableRow key={item.id}>
-    //                                     {columns.map((col) => (
-    //                                         <TableCell key={col.key}>{item[col.key]}</TableCell>
-    //                                     ))}
-    //                                 </TableRow>
-    //                             )}
-    //                         </TableBody>
-    //                     </Table>
-    //                 );
-    //                 (notionTable as HTMLElement).style.display = 'none';
-    //                 (notionTable as HTMLElement).dataset.herouiReplaced = 'true';
-    //             });
-    //         });
-    //     });
-    // }, []);
-    // return null;
-// };
+// NOTE: Notion tables render with the default react-notion-x markup for now.
+// Rewriting them with the HeroUI 3.2 compound Table API is a separate task.
 
 export default NotionPage;

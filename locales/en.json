@@ -3,13 +3,16 @@
     "name": "Choneas",
     "title": "Choneas",
     "description": "Choneas is a student only by definition. He thinks differently from people like him. Coding, Recording and life shares.",
+    "site-description": "Coding, Recording and life shares.",
     "suffix": " – Choneas"
   },
   "Navbar": {
     "articles": "Articles",
     "projects": "Projects",
     "about": "About",
-    "moments": "Moments"
+    "moments": "Moments",
+    "mobile-menu-label": "Navigation menu",
+    "nav-list-label": "Navigation"
   },
   "Home": {
     "intro": {
@@ -86,7 +89,9 @@
     "light": "Light",
     "dark": "Dark",
     "system": "Follow System",
-    "view-on": "View on"
+    "view-on": "View on",
+    "label-language": "Language selection",
+    "label-theme": "Theme selection"
   },
   "Table-Of-Contents": {
     "toc": "Table of Contents",
@@ -107,7 +112,10 @@
     "view-details": "View details",
     "clap": "Clap",
     "clap-prompt": "Give applause",
-    "clap-thanks": "Thanks!"
+    "clap-thanks": "Thanks!",
+    "images-label": "Images",
+    "photo-alt": "Attached photo",
+    "detail-loading": "Detail will be available once the content finishes loading."
   },
   "Post-Header": {
     "created": "Posted at ",
@@ -134,7 +142,9 @@
     "label-search": "",
     "not-found": "No result.",
     "placeholder-tags": "Tag",
-    "filter-tags": "Filter tags"
+    "filter-tags": "Filter tags",
+    "scroll-left": "Scroll tags left",
+    "scroll-right": "Scroll tags right"
   },
   "Footer": {
     "copyright": "© 2024-2026 Choneas",
@@ -233,7 +243,7 @@
     "lang-match-supported": "Supported",
     "lang-match-unsupported": "Not Supported",
     "lang-match-description": "Does your blog support the languages your readers use?",
-    "lang-match-blog-langs": "Your blog's supported languages",
+    "lang-match-blog-langs": "Your blog's supported languages: {langs}",
     "device-mobile": "Mobile",
     "device-desktop": "Desktop",
     "device-tablet": "Tablet",
@@ -255,6 +265,14 @@
     "error-retry": "Try Again",
     "toggle-show-views": "Views",
     "toggle-show-claps": "Claps",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "summary": "{articles} articles · {views} total views",
+    "tablist-label": "Dashboard sections",
+    "percent-label": "Percent"
+  },
+  "NotFound": {
+    "title": "What are you looking for?",
+    "image-alt": "Theresa nodding",
+    "go-home": "Go Home"
   }
 }

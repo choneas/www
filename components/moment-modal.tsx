@@ -1,0 +1,120 @@
+import { useEffect, useRef } from "react";
+import { Modal } from "@heroui/react";
+import type { ExtendedRecordMap } from "notion-types";
+import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
+import { PostHeader } from "@/components/post-header";
+import NotionPage from "@/components/notion-page";
+import { Comment } from "@/components/comment";
+import { MomentContentSkeleton } from "@/components/moment-card";
+import { formatDate } from "@/utils/date-format";
+import type { PostMetadata } from "@/lib/content";
+
+interface MomentModalProps {
+    isLoading?: boolean;
+    isOpen: boolean;
+    onOpenChange: (open: boolean) => void;
+    recordMap?: ExtendedRecordMap;
+    metadata: PostMetadata;
+}
+
+export function MomentModal({
+    isLoading,
+    isOpen,
+    onOpenChange,
+    recordMap,
+    metadata
+}: MomentModalProps) {
+    const locale = useLocale();
+    const t = useTranslations("Metadata");
+    const tm = useTranslations("Moment");
+    const originalTitleRef = useRef<string>("");
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        // Only update title for Notion posts, not for social platform posts
+        const isNotionPost = metadata.platform === 'notion' || !metadata.platform;
+        if (!isNotionPost) return;
+
+        if (isOpen) {
+            // Save original title when opening modal
+            originalTitleRef.current = document.title;
+            document.title = (metadata.title || formatDate(metadata.created_time, locale, true)) + t("suffix");
+
+            const metaDescription = document.querySelector('meta[name="description"]');
+            if (metaDescription) {
+                metaDescription.setAttribute("content", metadata.description || "");
+            }
+
+            let metaBacklink = document.querySelector('meta[name="giscus:backlink"]');
+            if (!metaBacklink) {
+                metaBacklink = document.createElement("meta");
+                metaBacklink.setAttribute("name", "giscus:backlink");
+                document.head.appendChild(metaBacklink);
+            }
+            metaBacklink.setAttribute("content", `https://choneas.com/moment/${metadata.slug || metadata.id}`);
+        } else if (originalTitleRef.current) {
+            // Only restore title if we have a saved original title
+            document.title = originalTitleRef.current;
+        }
+    }, [isOpen, metadata, locale, t]);
+
+    return (
+        <Modal.Backdrop
+            isOpen={isOpen}
+            isDismissable={true}
+            onOpenChange={onOpenChange}
+            variant="blur"
+        >
+            <Modal.Container
+                className="p-0 min-w-screen md:p-4 md:pb-8"
+                placement="top"
+                scroll="inside"
+            >
+                <Modal.Dialog
+                    className="max-w-screen! max-h-full p-0 sm:px-16 md:px-10 md:max-w-3xl! rounded-none md:rounded-3xl relative"
+                    aria-label={metadata.title || formatDate(metadata.created_time, locale, true)}
+                >
+                    <Modal.CloseTrigger className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 transition-colors rounded-full" />
+                    <Modal.Body className="px-4 sm:pb-16 md:pb-10 transition-transform duration-100 text-foreground">
+                        {!isLoading && <PostHeader isTweet post={metadata} />}
+                        <div className="space-y-4">
+                            {isLoading ? (
+                                <MomentContentSkeleton
+                                    images={metadata.photos?.length ? Array(metadata.photos.length).fill(0) : undefined}
+                                />
+                            ) : metadata.platform != 'notion' ? (
+                                <>
+                                    <p className="text-foreground/90 text-base whitespace-pre-wrap">{metadata.description}</p>
+                                    {metadata.photos && metadata.photos.length > 0 && (
+                                        <div className="flex flex-col gap-2">
+                                            {metadata.photos.map((photo, i) => (
+                                                <div key={i} className="relative w-full h-64 overflow-hidden rounded-lg">
+                                                    <Image
+                                                        src={photo}
+                                                        alt={metadata.title || tm('photo-alt')}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </>
+                            ) : recordMap ? (
+                                <>
+                                    <NotionPage recordMap={recordMap} type="tweet-details" />
+                                    <Comment type="tweet" metadata={metadata} />
+                                </>
+                            ) : (
+                                <p className="text-md">
+                                    {tm('detail-loading')}
+                                </p>
+                            )}
+                        </div>
+                    </Modal.Body>
+                </Modal.Dialog>
+            </Modal.Container>
+        </Modal.Backdrop>
+    );
+}

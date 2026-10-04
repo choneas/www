@@ -9,7 +9,7 @@ import { MomentList, MomentListSkeleton } from "@/components/moment-list";
 import { LiveCounter } from "@/components/home/live-counter";
 import { MeshBackground } from "@/components/home/mesh-background";
 import { SecondParagraphWithModal } from "@/components/home/second-paragraph-modal";
-import { techStacks } from "@/constants/about";
+import { techStacks } from "@/components/site-links";
 import { rt } from "@/utils/rich-text";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -88,7 +88,6 @@ export function HLine({className = ""}: { className?: string }) {
 /** Icon links - social & tech stack */
 function IconLinks() {
     const allLinks = [
-        // ...socialLinks.filter(l => l.href),
         ...techStacks.filter(s => s.href),
     ];
 

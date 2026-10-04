@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { cn } from "@heroui/react";
-import { socialLinks } from "@/constants/about";
+import { socialLinks } from "@/components/site-links";
 
 interface SwallowProps {
     className?: string;
@@ -33,7 +33,7 @@ export async function Footer() {
     const links = socialLinks.filter(l => l.href);
 
     return (
-        <footer className="relative w-full flex flex-col items-center overflow-hidden py-6 md:py-12 z-40" style={{ background: 'linear-gradient(to bottom, transparent 30%, var(--heroui-overlay) 70%)' }}>
+        <footer className="relative w-full flex flex-col items-center overflow-hidden py-6 md:py-12 z-40 bg-[linear-gradient(to_bottom,transparent_30%,var(--heroui-overlay)_70%)]">
             <div className="w-full max-w-5xl mx-auto px-6 md:px-12 relative flex items-center justify-center min-h-[200px]">
                 {/* Left Swallow - Lower */}
                 <Swallow className="absolute left-6 md:left-[5vh] top-[60%] md:top-[80%] -translate-y-1/2 w-[80px] h-[63px] md:w-[140px] md:h-[123px] opacity-90" />

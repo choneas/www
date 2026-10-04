@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { recordClap } from '@/utils/redis-interactions'
-import { decodeValue, encodeValue } from '@/utils/actions-cookie'
+import { decodeValue, encodeValue, COOKIE_MAX_AGE } from '@/utils/actions-cookie'
 
 const MAX_CLAPS = 25
 
@@ -41,7 +41,7 @@ export async function POST(
     const res = NextResponse.json({ claps, userClaps })
     res.cookies.set('actions', encodeValue(actions), {
         path: '/',
-        maxAge: 31536000,
+        maxAge: COOKIE_MAX_AGE,
         sameSite: 'lax',
     })
 

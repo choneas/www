@@ -1,77 +1,24 @@
 "use server"
 
 import type { ExtendedRecordMap, PageBlock, Block, NotionMapBox } from "notion-types";
-import type { TableOfContentsEntry } from 'notion-utils'
 import { idToUuid, defaultMapImageUrl, getPageTableOfContents, getPageProperty } from "notion-utils";
 import { unstable_cache } from "next/cache";
 import { NotionAPI } from "notion-client";
 import { getReadingTime } from "@/utils/read-time";
 
-// ============================================================================
-// Types (consolidated from @lib/types.ts)
-// ============================================================================
+export type {
+    Platform,
+    SocialStats,
+    SocialPostInfo,
+    Author,
+    PostMetadata,
+    PropertySchema,
+} from "./content-types";
 
-export type Platform = 'notion' | 'x' | 'bluesky';
-
-export interface SocialStats {
-    likeCount: number;
-    repostCount: number;
-    replyCount: number;
-    quoteCount?: number;
-}
-
-export interface SocialPostInfo {
-    postId: string;
-    username: string;
-    stats?: SocialStats;
-}
-
-export interface Author {
-    uuid: string
-    name: string
-    avatar: string
-}
-
-export interface PostMetadata {
-    id?: string
-    notionid?: string
-    title: string
-    type?: "Article" | "Tweet"
-    platform?: Platform
-    social?: SocialPostInfo
-    slug?: string
-    language?: string
-    author?: Author[]
-    tags?: string[]
-    description?: string
-    toc?: TableOfContentsEntry[]
-    icon?: string
-    cover?: string
-    cover_preview?: string
-    cover_position?: number
-    photos?: string[]
-    imagePreview?: boolean
-    created_time: Date
-    last_edited_time: Date
-    readingTimeMinutes?: number
-    readingTime?: string
-}
-
-export interface PropertySchema {
-    prop: string
-    name: string
-    type: string
-    options?: Array<{
-        id: string
-        color: string
-        value: string
-    }>
-}
-
-// Note: The custom Notion proxy is disabled, so we rely on the official SDK directly.
+// The SDK's default API base URL already targets the current Notion domain,
+// so no override is needed here.
 const notion = new NotionAPI({
     authToken: process.env.NOTION_AUTH_TOKEN,
-    apiBaseUrl: process.env.NOTION_API_BASE_URL
 });
 
 // ============================================================================
@@ -110,11 +57,12 @@ async function withRetry<T>(
 /** Cache root page for 5 minutes */
 const getCachedRootPage = unstable_cache(
     async () => {
-        if (!process.env.NOTION_ROOT_PAGE_ID) {
+        const rootPageId = process.env.NOTION_ROOT_PAGE_ID;
+        if (!rootPageId) {
             throw new Error('NOTION_ROOT_PAGE_ID is not configured');
         }
         return await withRetry(
-            () => notion.getPage(process.env.NOTION_ROOT_PAGE_ID!),
+            () => notion.getPage(rootPageId),
             3,
             1000
         );
@@ -161,7 +109,10 @@ function getTweetImageUrls(recordMap: ExtendedRecordMap, blockId: string): strin
             const child = getBlockValue(recordMap, childId);
             if (child?.type === 'image') {
                 const source = recordMap.signed_urls?.[child.id] || child.properties?.source?.[0]?.[0];
-                if (source && !source.includes('file.notion.so')) {
+                // Map all sources via the Notion image proxy (handles both
+                // file.notion.com and legacy file.notion.so). Do not filter by
+                // host here — covers use the same path with no filter.
+                if (source) {
                     const imageUrl = defaultMapImageUrl(source, child);
                     if (imageUrl) images.push(imageUrl);
                 }
@@ -330,6 +281,8 @@ const getCachedAllPostsData = unstable_cache(
                 // Skip if language is missing
                 if (!metadata.language) continue;
 
+                // Placeholder descriptions come from the Notion database itself
+                // (both languages are used there), so match both literals.
                 if (metadata.description === '无内容' || metadata.description === 'No content') {
                     metadata.description = undefined;
                 }
@@ -340,10 +293,12 @@ const getCachedAllPostsData = unstable_cache(
                 } else if (metadata.type === 'Article' && Boolean(metadata.id)) {
                     processedIds.add(id);
                     if (metadata.slug) {
-                        if (!articlesMap.has(metadata.slug)) {
-                            articlesMap.set(metadata.slug, []);
+                        let group = articlesMap.get(metadata.slug);
+                        if (!group) {
+                            group = [];
+                            articlesMap.set(metadata.slug, group);
                         }
-                        articlesMap.get(metadata.slug)!.push(metadata);
+                        group.push(metadata);
                     } else {
                         articlesWithoutSlug.push(metadata);
                     }

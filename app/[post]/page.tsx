@@ -20,7 +20,7 @@ export default async function SmartRoute({
         );
 
         if (metadata.type === "Tweet") {
-            redirect(`/tweet/${metadata.slug || metadata.id}`);
+            redirect(`/moment/${metadata.slug || metadata.id}`);
         } else {
             redirect(`/article/${metadata.slug || metadata.id}`);
         }

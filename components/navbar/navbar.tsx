@@ -1,181 +1,19 @@
 "use client"
 
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { NavbarContext } from "@/components/navbar/navbar-context";
-import { NavbarBrand } from "@/components/navbar/navbar-brand";
-import { NavbarItems } from "@/components/navbar/navbar-items";
-import { NavbarDropdown } from "@/components/navbar/navbar-dropdown";
-import { NavbarMobileMenu } from "@/components/navbar/navbar-mobile-menu";
+import { NavbarContext } from "@/components/navbar/context";
+import { NavbarBrand } from "@/components/navbar/brand";
+import { NavbarItems } from "@/components/navbar/items";
+import { NavbarDropdown } from "@/components/navbar/dropdown";
+import { NavbarMobileMenu } from "@/components/navbar/mobile-menu";
+import { LAYOUT, TRANSITIONS, TAP_CONFIG } from "./layout-config";
+import { getIslandStyle, useOceanEffect, OceanLayer, Overlay } from "./ocean";
 
 interface NavbarProps {
     translations: Record<string, string>;
     supportedLocales: string[];
-}
-
-// ============================================================================
-// Layout Configuration
-// Sync with page.tsx GridLines for Home alignment
-// ============================================================================
-
-const LAYOUT = {
-    desktop: {
-        top: 16,
-        homeTop: 32,
-        sideInset: 96,
-        normalSideInset: 128,
-    },
-    mobile: {
-        bottom: 16,
-        sideInset: 16,
-    },
-} as const;
-
-// ============================================================================
-// Animation Configuration
-// ============================================================================
-
-const TRANSITIONS = {
-    layout: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 30,
-        mass: 0.8,
-    },
-    island: {
-        type: "spring" as const,
-        stiffness: 200,
-        damping: 25,
-        mass: 1,
-    },
-    // Mobile: no position animation, instant
-    mobileIsland: {
-        type: "spring" as const,
-        stiffness: 400,
-        damping: 30,
-    },
-    overlay: { duration: 0.2 },
-} as const;
-
-// Refined tap animation configuration
-// Uses precise spring physics for tactile feedback on both press and release
-const TAP_CONFIG = {
-    scale: 0.97,
-    transition: {
-        type: "spring" as const,
-        stiffness: 500,
-        damping: 20,
-        mass: 0.6,
-    },
-} as const;
-
-// ============================================================================
-// Style Helpers
-// ============================================================================
-
-/** Glass effect styles for navbar islands */
-function getIslandStyle(isMenuOpen: boolean) {
-    const blur = isMenuOpen ? "blur(20px) saturate(180%)" : "blur(18px) saturate(160%)";
-    const bg = isMenuOpen
-        ? "color-mix(in srgb, var(--color-background) 96%, transparent 4%)"
-        : "color-mix(in srgb, color-mix(in srgb, var(--color-background) 90%, var(--color-accent) 10%) 80%, transparent 20%)";
-
-    return {
-        backdropFilter: blur,
-        WebkitBackdropFilter: blur,
-        backgroundColor: bg,
-    };
-}
-
-/** Ocean blur layer hook - handles scroll-based blur effect */
-function useOceanEffect(scrollY: MotionValue<number>, disabled: boolean) {
-    const blur = useTransform(scrollY, [0, 400], [0, 16]);
-    const saturate = useTransform(scrollY, [0, 400], [100, 150]);
-    const opacity = useTransform(scrollY, [0, 400], [0, 10]);
-
-    const backdropFilter = useTransform(
-        [blur, saturate],
-        ([b, s]) => `blur(${b}px) saturate(${s}%)`
-    );
-    const background = useTransform(
-        opacity,
-        (o) => `color-mix(in srgb, transparent ${100 - o}%, var(--color-background) ${o}%)`
-    );
-
-    const fixedBackdrop = "blur(16px) saturate(150%)";
-    const fixedBackground = "color-mix(in srgb, transparent 90%, var(--color-background) 10%)";
-
-    return {
-        blur,
-        backdropFilter: disabled ? fixedBackdrop : backdropFilter,
-        background: disabled ? fixedBackground : background,
-    };
-}
-
-// ============================================================================
-// Sub-components
-// ============================================================================
-
-interface OceanLayerProps {
-    backdropFilter: MotionValue<string> | string;
-    background: MotionValue<string> | string;
-}
-
-/** Gradient blur layer at top (desktop) and bottom (mobile) */
-function OceanLayer({ backdropFilter, background }: OceanLayerProps) {
-    const maskTop = "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)";
-    const maskBottom = "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)";
-
-    return (
-        <div className="fixed sm:top-0 bottom-0 sm:bottom-auto inset-x-0 z-40 md:z-39 pointer-events-none h-48 md:h-32">
-            {/* Desktop: top gradient */}
-            <motion.div
-                className="hidden sm:block absolute inset-0"
-                style={{
-                    backdropFilter,
-                    WebkitBackdropFilter: backdropFilter,
-                    maskImage: maskTop,
-                    WebkitMaskImage: maskTop,
-                }}
-            />
-            <motion.div
-                className="hidden sm:block absolute inset-0"
-                style={{
-                    background,
-                    maskImage: maskTop,
-                    WebkitMaskImage: maskTop,
-                }}
-            />
-            {/* Mobile: bottom gradient - constant background, no blur */}
-            <div
-                className="sm:hidden absolute inset-0"
-                style={{
-                    background: "color-mix(in srgb, var(--color-background) 90%, transparent)",
-                    maskImage: maskBottom,
-                    WebkitMaskImage: maskBottom,
-                }}
-            />
-        </div>
-    );
-}
-
-interface OverlayProps {
-    onClose: () => void;
-}
-
-/** Dark overlay when menu is open */
-function Overlay({ onClose }: OverlayProps) {
-    return (
-        <motion.div
-            className="fixed inset-0 z-41 bg-black/50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={TRANSITIONS.overlay}
-            onClick={onClose}
-        />
-    );
 }
 
 // ============================================================================

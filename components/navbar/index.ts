@@ -1,8 +1,8 @@
 export { Navbar } from "./navbar";
-export { NavbarWrapper } from "./navbar-wrapper";
-export { NavbarBrand } from "./navbar-brand";
-export { NavbarItems } from "./navbar-items";
-export { NavbarMenu } from "./navbar-menu";
-export { NavbarMobileMenu } from "./navbar-mobile-menu";
-export { NavbarDropdown } from "./navbar-dropdown";
-export { NavbarContext, useNavbarContext } from "./navbar-context";
+export { NavbarWrapper } from "./wrapper";
+export { NavbarBrand } from "./brand";
+export { NavbarItems } from "./items";
+export { NavbarMenu } from "./menu";
+export { NavbarMobileMenu } from "./mobile-menu";
+export { NavbarDropdown } from "./dropdown";
+export { NavbarContext, useNavbarContext } from "./context";

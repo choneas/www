@@ -439,12 +439,12 @@
     display: none !important;
   }
 
-  /* Tweet 预览模式：隐藏图片 */
+  /* Moment preview mode: hide images */
   .tweet-preview .notion-asset-wrapper-image {
     display: none !important;
   }
 
-  /* Tweet 预览模式：基础文本大小 - 与 moment-card description 一致 */
+  /* Moment preview mode: base text size - matches moment-card description */
   .tweet-preview .notion {
     font-size: var(--text-base) !important;
     line-height: var(--line-height-snug) !important;
@@ -482,7 +482,7 @@
     }
   }
 
-  /* Tweet 预览模式：内容透明度效果 */
+  /* Moment preview mode: content opacity effect */
   .tweet-preview .notion {
     opacity: 0.8 !important;
     transition: opacity 0.3s ease !important;
@@ -492,7 +492,7 @@
     opacity: 1 !important;
   }
 
-  /* Tweet 预览模式：隐藏不必要的元素 */
+  /* Moment preview mode: hide unneeded elements */
   .tweet-preview .notion-page-icon,
   .tweet-preview .notion-page-title-text,
   .tweet-preview .notion-collection-page-properties,
@@ -509,7 +509,7 @@
     min-height: auto !important;
   }
 
-  /* Tweet 内容容器动画 */
+  /* Moment content container animation */
   .tweet-content-container {
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
     overflow: hidden !important;
@@ -678,7 +678,7 @@
     background: var(--color-accent-soft) !important;
   }
 
-  /* Notion 灰色文本 */
+  /* Notion gray text */
   .notion .notion-gray {
     color: color-mix(in srgb, var(--color-foreground) 70%, transparent) !important;
   }
@@ -689,7 +689,7 @@
     background-color: color-mix(in srgb, var(--color-accent-soft) 7%, var(--color-surface) 93%) !important;
   }
 
-  /* Notion Table 样式覆盖 */
+  /* Notion Table style overrides */
   .notion-simple-table {
     border-radius: var(--radius-lg) !important;
     overflow: hidden !important;
@@ -753,7 +753,7 @@
     margin-bottom: 0.5rem !important;
   }
 
-  /* Tweet 图片预览样式 */
+  /* Moment image preview styles */
   .tweet-images {
     display: grid;
     gap: 0.5rem;
@@ -790,7 +790,7 @@
     background: var(--color-surface-secondary);
   }
 
-  /* 根据图片数量调整高度 */
+  /* Image height by column count */
   .tweet-images.cols-1 .tweet-image-wrapper {
     max-height: 400px;
   }
@@ -896,10 +896,6 @@
   @keyframes sweep-rotate {
     0% { --sweep-angle: 0deg; }
     100% { --sweep-angle: 360deg; }
-  }
-
-  .navbar-island-glow {
-    /* Uniform glow removed — diffuse light follows the beam via ::after drop-shadow */
   }
 
   .navbar-island.navbar-island-glow::after {

@@ -93,9 +93,13 @@ export function detectDevice(ua: string): { d: 'm' | 'd' | 't'; device?: string 
         const osMatch = ua.match(/Android ([\d.]+)/i)
         const version = osMatch ? osMatch[1] : ''
 
+        // Model sits between "Android X;" and the next ";" or ")",
+        // e.g. "...; Pixel 8 Build/AP1A...; wv)..." -> "Pixel 8"
         const modelChunk = ua.match(/Android [\d.]+;\s*([^;)]+)/)
         let model = ''
         if (modelChunk) {
+            // Strip trailing build tags ("Build/..." / "wv/...") and reject
+            // locale codes ("en-US") or generic tokens ("Mobile", "WAP").
             const raw = modelChunk[1].trim().replace(/\s*(?:Build|wv)\/.*$/, '').trim()
             if (raw && !/^[a-z]{2}(-[A-Z]{2})?$/i.test(raw) && !/^(?:Mobile|WAP)$/i.test(raw)) {
                 model = raw

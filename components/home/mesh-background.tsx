@@ -6,8 +6,8 @@ import { MeshGradient } from "@paper-design/shaders-react";
 
 // Theme-specific gradient colors
 const GRADIENT_COLORS = {
-    light: ["#fff8f6", "#ffdad4", "#FCEAE7", "#ffb4a8"] as string[],
-    dark: ["#1a1110", "#2d1f1d", "#251a19", "#3d2520"] as string[],
+    light: ["#fff8f6", "#ffdad4", "#FCEAE7", "#ffb4a8"],
+    dark: ["#1a1110", "#2d1f1d", "#251a19", "#3d2520"],
 };
 
 /**

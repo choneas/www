@@ -244,7 +244,7 @@ export function ArticleFilter({
 
                     <button
                         onClick={() => scrollBy(-1)}
-                        aria-label="←"
+                        aria-label={t("scroll-left")}
                         tabIndex={-1}
                         aria-hidden={!canScrollLeft}
                         className={`absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full
@@ -256,11 +256,7 @@ export function ArticleFilter({
 
                     <div
                         ref={scrollRef}
-                        className="flex gap-3 w-full overflow-x-auto focus:outline-none"
-                        style={{
-                            scrollbarWidth: "none",
-                            msOverflowStyle: "none",
-                        }}
+                        className="flex gap-3 w-full overflow-x-auto focus:outline-none [scrollbar-width:none] [-ms-overflow-style:none]"
                         tabIndex={0}
                         role="listbox"
                         aria-label={t("filter-tags")}
@@ -279,7 +275,6 @@ export function ArticleFilter({
                     >
                         {orderedTags.map((tag, idx) => {
                             const isSelected = selectedTags.includes(tag);
-                            // const isActive = isListFocused && activeIndex === idx;
 
                             return (
                                 <motion.div
@@ -293,17 +288,11 @@ export function ArticleFilter({
                                         aria-selected={isSelected}
                                         id={`tag-${tag}`}
                                         data-tag-index={idx}
-                                        className={`px-3 py-2 rounded-full text-base font-medium justify-center cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis
+                                        className={`px-3 py-2 rounded-full text-base font-medium justify-center cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis shrink-0
+                                                    ${isSelected
+                                                        ? "bg-(--color-accent) text-(--color-accent-foreground)"
+                                                        : "bg-[color-mix(in_srgb,var(--color-surface)_90%,transparent)] text-(--color-foreground)"}
                                                     ${isListFocused && isKeyboardNavigation && activeIndex === idx ? "ring-inset ring-2 ring-accent" : ""}`}
-                                        style={{
-                                            backgroundColor: isSelected
-                                                ? "var(--color-accent)"
-                                                : "color-mix(in srgb, var(--color-surface) 90%, transparent)",
-                                            color: isSelected
-                                                ? "var(--color-accent-foreground)"
-                                                : "var(--color-foreground)",
-                                            flexShrink: 0,
-                                        }}
                                         onClick={(event) => {
                                             event.stopPropagation();
                                             setActiveIndex(idx);
@@ -322,7 +311,7 @@ export function ArticleFilter({
 
                     <button
                         onClick={() => scrollBy(1)}
-                        aria-label="→"
+                        aria-label={t("scroll-right")}
                         tabIndex={-1}
                         aria-hidden={!canScrollRight}
                         className={`absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Script from 'next/script';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -13,33 +13,36 @@ import { Providers } from "@/components/providers";
 import { SkipToContent } from "@/components/skip-to-content";
 import { CopyrightToast } from "@/components/copyright-toast";
 import { themeInitScript } from "@/utils/theme";
-import { DEFAULT_LOCALE } from "@/lib/locales.server";
+import { DEFAULT_LOCALE } from "@/lib/locale";
 import "overlayscrollbars/overlayscrollbars.css";
 import "./globals.css";
 
-export const metadata: Metadata = {
-    metadataBase: new URL('https://choneas.com'),
-    title: {
-        template: '%s – Choneas',
-        default: 'Choneas',
-    },
-    description: "Coding, Recording and life shares.",
-    openGraph: {
-        siteName: 'Choneas',
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-    },
-    icons: {
-        icon: '/favicon.ico',
-    },
-    robots: {
-        index: true,
-        follow: true,
-    },
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const t = await getTranslations("Metadata");
+    return {
+        metadataBase: new URL('https://choneas.com'),
+        title: {
+            template: '%s – Choneas',
+            default: 'Choneas',
+        },
+        description: t("site-description"),
+        openGraph: {
+            siteName: 'Choneas',
+            locale: 'en_US',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+        },
+        icons: {
+            icon: '/favicon.ico',
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+    };
+}
 
 const notoSerif = Noto_Serif_SC({
     variable: "--font-serif",

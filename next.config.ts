@@ -20,11 +20,40 @@ const nextConfig: NextConfig = {
       }
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/tweet/:path*',
+        destination: '/moment/:path*',
+        permanent: true,
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.notion.so"
+        hostname: "app.notion.com"
+      },
+      {
+        protocol: "https",
+        hostname: "file.notion.com"
+      },
+      {
+        protocol: "https",
+        hostname: "file.notion.so"
+      },
+      {
+        protocol: "https",
+        hostname: "img.notionusercontent.com"
+      },
+      {
+        protocol: "https",
+        hostname: "secure.notion-static.com"
+      },
+      {
+        protocol: "https",
+        hostname: "prod-files-secure.s3.us-west-2.amazonaws.com"
       },
       {
         protocol: "https",

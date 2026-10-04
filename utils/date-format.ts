@@ -82,30 +82,10 @@ export function formatDate(
 }
 
 /**
- * Format relative time (e.g., "2 hours ago", "in 3 days")
- * Uses Intl.RelativeTimeFormat for localized output
- */
-export function formatRelativeTime(date: Date, locale: string): string {
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-  const diffMs = date.getTime() - Date.now();
-  const diffAbs = Math.abs(diffMs);
-
-  const units: [number, Intl.RelativeTimeFormatUnit][] = [
-    [60_000, 'minute'], [3_600_000, 'hour'], [86_400_000, 'day'],
-    [604_800_000, 'week'], [2_592_000_000, 'month'], [31_536_000_000, 'year']
-  ];
-
-  for (const [ms, unit] of units) {
-    if (diffAbs < ms) return rtf.format(Math.round(diffMs / ms), unit);
-  }
-  return rtf.format(Math.round(diffMs / 31_536_000_000), 'year');
-}
-
-/**
  * Format reading time duration
  * @param minutes - Reading time in minutes
  * @param locale - Locale code
- * @returns Formatted reading time string (e.g., "5 minutes", "5 分钟")
+ * @returns Formatted reading time string (e.g., "5 min" or its locale equivalent)
  */
 export function formatReadingTime(minutes: number, locale: string): string {
   try {

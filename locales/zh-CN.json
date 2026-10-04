@@ -3,13 +3,16 @@
     "name": "Choneas",
     "title": "Choneas",
     "description": "Choneas 有着不同于常人的想法。这里有他的代码、作品和生活分享。",
+    "site-description": "代码、记录与生活分享。",
     "suffix": " – Choneas"
   },
   "Navbar": {
     "articles": "文章",
     "projects": "项目",
     "about": "关于",
-    "moments": "动态"
+    "moments": "动态",
+    "mobile-menu-label": "导航菜单",
+    "nav-list-label": "导航"
   },
   "Home": {
     "intro": {
@@ -84,7 +87,9 @@
     "light": "浅色",
     "dark": "深色",
     "system": "跟随系统",
-    "view-on": "查看网站"
+    "view-on": "查看网站",
+    "label-language": "语言选择",
+    "label-theme": "主题选择"
   },
   "Table-Of-Contents": {
     "toc": "目录",
@@ -105,7 +110,10 @@
     "view-details": "查看详情",
     "clap": "鼓掌",
     "clap-prompt": "赠与掌声",
-    "clap-thanks": "谢谢！"
+    "clap-thanks": "谢谢！",
+    "images-label": "图片",
+    "photo-alt": "附图",
+    "detail-loading": "内容加载完成后将显示详情。"
   },
   "Article-Filter": {
     "placeholder-tags": "标签",
@@ -113,7 +121,9 @@
     "placeholder-search": "搜索...",
     "label-search": "搜索文章标题或摘要",
     "not-found": "没有找到相关内容",
-    "filter-tags": "筛选标签"
+    "filter-tags": "筛选标签",
+    "scroll-left": "向左滚动标签",
+    "scroll-right": "向右滚动标签"
   },
   "Post-Header": {
     "created": "发布于 ",
@@ -217,7 +227,7 @@
     "lang-match-supported": "已支持",
     "lang-match-unsupported": "未支持",
     "lang-match-description": "你的博客是否覆盖了读者所使用的语言？",
-    "lang-match-blog-langs": "博客当前支持的语言",
+    "lang-match-blog-langs": "博客当前支持的语言：{langs}",
     "device-mobile": "手机",
     "device-desktop": "桌面",
     "device-tablet": "平板",
@@ -239,6 +249,14 @@
     "error-retry": "重试",
     "toggle-show-views": "浏览量",
     "toggle-show-claps": "鼓掌数",
-    "loading": "加载中..."
+    "loading": "加载中...",
+    "summary": "{articles} 篇文章 · 共 {views} 次阅读",
+    "tablist-label": "仪表盘分区",
+    "percent-label": "百分比"
+  },
+  "NotFound": {
+    "title": "你在找什么？",
+    "image-alt": "点头的 Theresa",
+    "go-home": "回首页"
   }
 }

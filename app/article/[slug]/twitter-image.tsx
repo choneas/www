@@ -1,4 +1,4 @@
-import { OG_SIZE, OG_CONTENT_TYPE, generateArticleOgImage } from '@/lib/og-image'
+import { OG_SIZE, OG_CONTENT_TYPE, generateArticleOgImage } from '@/components/og-image'
 
 export const alt = 'Article Twitter Image'
 export const size = OG_SIZE

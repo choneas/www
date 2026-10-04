@@ -3,13 +3,16 @@
     "name": "Choneas",
     "title": "Blog de Choneas",
     "description": "Código, grabación y compartir vida.",
+    "site-description": "Código, grabación y compartir vida.",
     "suffix": " – Blog de Choneas"
   },
   "Navbar": {
     "articles": "Artículos",
     "projects": "Proyectos",
     "about": "Acerca de",
-    "moments": "Momentos"
+    "moments": "Momentos",
+    "mobile-menu-label": "Menú de navegación",
+    "nav-list-label": "Navegación"
   },
   "Home": {
     "intro": {
@@ -97,7 +100,9 @@
     "light": "Claro",
     "dark": "Oscuro",
     "system": "Seguir Sistema",
-    "view-on": "Ver en"
+    "view-on": "Ver en",
+    "label-language": "Selección de idioma",
+    "label-theme": "Selección de tema"
   },
   "Table-Of-Contents": {
     "toc": "Tabla de Contenidos",
@@ -118,7 +123,10 @@
     "views": "vistas",
     "clap": "Aplaudir",
     "clap-prompt": "Dar aplausos",
-    "clap-thanks": "¡Gracias!"
+    "clap-thanks": "¡Gracias!",
+    "images-label": "Imágenes",
+    "photo-alt": "Foto adjunta",
+    "detail-loading": "El detalle estará disponible cuando termine de cargarse el contenido."
   },
   "Post-Header": {
     "created": "Publicado el ",
@@ -145,7 +153,9 @@
     "label-search": "Buscar título o descripción",
     "not-found": "Sin resultados.",
     "placeholder-tags": "Etiqueta",
-    "filter-tags": "Filtrar etiquetas"
+    "filter-tags": "Filtrar etiquetas",
+    "scroll-left": "Desplazar etiquetas a la izquierda",
+    "scroll-right": "Desplazar etiquetas a la derecha"
   },
   "Footer": {
     "copyright": "© 2024-2026 Choneas",
@@ -231,7 +241,7 @@
     "lang-match-supported": "Soportado",
     "lang-match-unsupported": "No Soportado",
     "lang-match-description": "¿Tu blog cubre los idiomas que usan tus lectores?",
-    "lang-match-blog-langs": "Idiomas soportados por tu blog",
+    "lang-match-blog-langs": "Idiomas soportados por tu blog: {langs}",
     "device-mobile": "Móvil",
     "device-desktop": "Escritorio",
     "device-tablet": "Tableta",
@@ -253,6 +263,14 @@
     "error-retry": "Reintentar",
     "toggle-show-views": "Visitas",
     "toggle-show-claps": "Aplausos",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "summary": "{articles} artículos · {views} visitas totales",
+    "tablist-label": "Secciones del panel",
+    "percent-label": "Porcentaje"
+  },
+  "NotFound": {
+    "title": "¿Qué estás buscando?",
+    "image-alt": "Theresa asintiendo",
+    "go-home": "Ir al inicio"
   }
 }

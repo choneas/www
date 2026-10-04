@@ -13,7 +13,6 @@ function isForced(): boolean {
 
 export async function trackView(slug: string): Promise<number | null> {
   if (!isForced() && isDebug()) {
-    console.log('[trackView] skip', slug)
     return null
   }
   try {
@@ -24,10 +23,8 @@ export async function trackView(slug: string): Promise<number | null> {
     })
     if (!res.ok) throw new Error(`${res.status}`)
     const data = await res.json()
-    console.log('[trackView] ok', slug, data.views)
     return data.views
-  } catch (e) {
-    console.error('[trackView] fail', slug, e)
+  } catch {
     return null
   }
 }

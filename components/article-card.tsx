@@ -10,7 +10,7 @@ import { Tags } from "@/components/tags";
 import { triggerNavigationLoading } from "@/components/navigation-loader";
 import type { PostMetadata } from "@/lib/content";
 import { formatDate } from "@/utils/date-format";
-import { useViewCount } from "@/utils/use-view-count";
+import { useViewCount } from "@/hooks/use-view-count";
 
 export function ArticleCard({
                                 article,

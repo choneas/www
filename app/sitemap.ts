@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     const tweetUrls: MetadataRoute.Sitemap = tweets.map(tweet => ({
-        url: `https://choneas.com/tweet/${tweet.slug}`,
+        url: `https://choneas.com/moment/${tweet.slug}`,
         lastModified: new Date(tweet.last_edited_time),
         changeFrequency: 'monthly',
         priority: 0.5,
