@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface WeekdayChartProps {
@@ -25,7 +26,7 @@ export function WeekdayChart({ weekdayDistribution }: WeekdayChartProps) {
             data: weekdayDistribution.map((v, i) => ({
                 value: v,
                 itemStyle: {
-                    color: i === 0 || i === 6 ? "#f59e0b" : "#6366f1",
+                    color: i === 0 || i === 6 ? CHART_COLORS.claps : CHART_COLORS.views,
                     borderRadius: [4, 4, 0, 0],
                 },
             })),

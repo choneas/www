@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface ReferrerBarChartProps {
@@ -27,7 +28,7 @@ export function ReferrerBarChart({ referrerMap }: ReferrerBarChartProps) {
                 name: t("chart-referrer-bar"),
                 type: "bar",
                 data: entries.map(([, v]) => v).reverse(),
-                itemStyle: { color: "#8b5cf6", borderRadius: [0, 4, 4, 0] },
+                itemStyle: { color: CHART_COLORS.violet, borderRadius: [0, 4, 4, 0] },
             }],
         }
     }, [referrerMap, t])

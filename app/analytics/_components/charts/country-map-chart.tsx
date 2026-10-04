@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper, echarts } from "./chart-wrapper"
+import { CHART_COLORS, MAP_RAMP } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 import { useEffect, useState } from "react"
 
@@ -59,8 +60,8 @@ export function CountryMapChart({ countryMap }: CountryMapChartProps) {
             max: Math.max(...Object.values(countryMap), 1),
             left: 8,
             bottom: 16,
-            inRange: { color: ["rgba(99,102,241,0.1)", "rgba(99,102,241,0.3)", "rgba(99,102,241,0.6)", "rgba(99,102,241,0.9)"] },
-            textStyle: { color: "#888", fontSize: 10 },
+            inRange: { color: MAP_RAMP },
+            textStyle: { color: CHART_COLORS.muted, fontSize: 10 },
         },
         series: [{
             name: t("chart-world-map"),

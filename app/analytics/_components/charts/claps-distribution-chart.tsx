@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface ClapsDistributionChartProps {
@@ -22,7 +23,7 @@ export function ClapsDistributionChart({ topByClaps }: ClapsDistributionChartPro
             name: t("chart-clap-distribution"),
             type: "bar",
             data: topByClaps.map((d) => d.claps).reverse(),
-            itemStyle: { color: "#f59e0b", borderRadius: [0, 4, 4, 0] },
+            itemStyle: { color: CHART_COLORS.claps, borderRadius: [0, 4, 4, 0] },
         }],
     }), [topByClaps, t])
 

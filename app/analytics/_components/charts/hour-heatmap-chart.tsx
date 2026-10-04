@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { HEAT_RAMP } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface HourHeatmapChartProps {
@@ -28,7 +29,7 @@ export function HourHeatmapChart({ hourlyDistribution }: HourHeatmapChartProps) 
             visualMap: {
                 min: 0, max: maxVal,
                 orient: "horizontal", left: "center", bottom: 4,
-                inRange: { color: ["rgba(99,102,241,0.1)", "rgba(99,102,241,0.4)", "rgba(99,102,241,0.9)"] },
+                inRange: { color: HEAT_RAMP },
                 textStyle: { fontSize: 10 },
             },
             series: [{

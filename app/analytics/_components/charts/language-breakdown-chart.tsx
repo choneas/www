@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_SERIES_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface LanguageBreakdownChartProps {
@@ -19,7 +20,7 @@ export function LanguageBreakdownChart({ languageMap }: LanguageBreakdownChartPr
         const data = top.map(([name, value]) => ({ name, value }))
         if (other > 0) data.push({ name: "Other", value: other })
 
-        const colors = ["#6366f1", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316", "#6b7280"]
+        const colors = CHART_SERIES_COLORS
 
         return {
             backgroundColor: "transparent",

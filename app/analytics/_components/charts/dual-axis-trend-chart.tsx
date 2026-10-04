@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS, VIEWS_AREA_RAMP, CLAPS_AREA_RAMP } from "./chart-theme"
 
 interface DualAxisTrendChartProps {
     days: { date: string; views: number; claps: number }[]
@@ -23,9 +24,9 @@ export function DualAxisTrendChart({ days, showViews, showClaps }: DualAxisTrend
                 type: "line",
                 data: days.map((d) => d.views),
                 smooth: true,
-                lineStyle: { color: "#6366f1", width: 2 },
-                itemStyle: { color: "#6366f1" },
-                areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: "rgba(99,102,241,0.3)" }, { offset: 1, color: "rgba(99,102,241,0.02)" }] } },
+                lineStyle: { color: CHART_COLORS.views, width: 2 },
+                itemStyle: { color: CHART_COLORS.views },
+                areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: VIEWS_AREA_RAMP } },
             })
             yAxis.push({ type: "value", axisLabel: { fontSize: 10 }, name: t("toggle-show-views") })
         }
@@ -37,9 +38,9 @@ export function DualAxisTrendChart({ days, showViews, showClaps }: DualAxisTrend
                 yAxisIndex: showViews ? 1 : 0,
                 data: days.map((d) => d.claps),
                 smooth: true,
-                lineStyle: { color: "#f59e0b", width: 2 },
-                itemStyle: { color: "#f59e0b" },
-                areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: "rgba(245,158,11,0.3)" }, { offset: 1, color: "rgba(245,158,11,0.02)" }] } },
+                lineStyle: { color: CHART_COLORS.claps, width: 2 },
+                itemStyle: { color: CHART_COLORS.claps },
+                areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: CLAPS_AREA_RAMP } },
             })
             yAxis.push({ type: "value", axisLabel: { fontSize: 10 }, name: t("toggle-show-claps") })
         }

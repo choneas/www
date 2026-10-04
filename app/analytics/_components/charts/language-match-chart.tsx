@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface LanguageMatchChartProps {
@@ -22,8 +23,8 @@ export function LanguageMatchChart({ matched, unmatched }: LanguageMatchChartPro
         series: [{
             type: "bar",
             data: [
-                { value: matched, itemStyle: { color: "#10b981", borderRadius: [0, 4, 4, 0] } },
-                { value: unmatched, itemStyle: { color: "#ef4444", borderRadius: [0, 4, 4, 0] } },
+                { value: matched, itemStyle: { color: CHART_COLORS.rate, borderRadius: [0, 4, 4, 0] } },
+                { value: unmatched, itemStyle: { color: CHART_COLORS.danger, borderRadius: [0, 4, 4, 0] } },
             ],
         }],
     }), [matched, unmatched, t])

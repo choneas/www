@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { useTranslations } from "next-intl"
 import { ChartWrapper } from "./chart-wrapper"
+import { CHART_COLORS } from "./chart-theme"
 import type { EChartsOption } from "./chart-wrapper"
 
 interface ClapSessionSizesChartProps {
@@ -30,7 +31,7 @@ export function ClapSessionSizesChart({ clapSessionSizes }: ClapSessionSizesChar
                 name: t("chart-clap-session-size"),
                 type: "bar",
                 data: entries.map((d) => d.count),
-                itemStyle: { color: "#f59e0b", borderRadius: [4, 4, 0, 0] },
+                itemStyle: { color: CHART_COLORS.claps, borderRadius: [4, 4, 0, 0] },
             }],
         }
     }, [clapSessionSizes, t])
