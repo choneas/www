@@ -501,28 +501,6 @@
     display: none !important;
   }
 
-  .moment-card-content {
-    overflow: hidden !important;
-  }
-
-  .moment-card-content.loaded {
-    min-height: auto !important;
-  }
-
-  /* Moment content container animation */
-  .tweet-content-container {
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
-    overflow: hidden !important;
-  }
-
-  .tweet-content-container.collapsed {
-    max-height: 240px !important;
-  }
-
-  .tweet-content-container.expanded {
-    max-height: none !important;
-  }
-
   .notion p {
     line-height: 1.75 !important;
   }
@@ -751,82 +729,6 @@
   .tweet-preview .notion p {
     margin-top: 0 !important;
     margin-bottom: 0.5rem !important;
-  }
-
-  /* Moment image preview styles */
-  .tweet-images {
-    display: grid;
-    gap: 0.5rem;
-    margin: 0.75rem 0;
-  }
-
-  .tweet-images.cols-1 {
-    grid-template-columns: 1fr;
-  }
-
-  .tweet-images.cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .tweet-images.cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .tweet-images.cols-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 768px) {
-    .tweet-images.cols-4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .tweet-image-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: var(--radius-sm);
-    background: var(--color-surface-secondary);
-  }
-
-  /* Image height by column count */
-  .tweet-images.cols-1 .tweet-image-wrapper {
-    max-height: 400px;
-  }
-
-  .tweet-images.cols-2 .tweet-image-wrapper,
-  .tweet-images.cols-3 .tweet-image-wrapper,
-  .tweet-images.cols-4 .tweet-image-wrapper {
-    height: 150px;
-  }
-
-  @media (min-width: 768px) {
-
-    .tweet-images.cols-2 .tweet-image-wrapper,
-    .tweet-images.cols-3 .tweet-image-wrapper,
-    .tweet-images.cols-4 .tweet-image-wrapper {
-      height: 180px;
-    }
-  }
-
-  .tweet-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.2s ease;
-  }
-
-  .island-base {
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    background-color: color-mix(in srgb, color-mix(in srgb, var(--color-background) 60%, var(--color-accent) 40%) 75%, transparent 25%);
-  }
-
-  .island-active {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background-color: color-mix(in srgb, var(--color-background) 96%, transparent 4%);
   }
 
   /* Navbar islands — fading border highlight */
