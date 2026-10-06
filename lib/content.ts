@@ -5,6 +5,7 @@ import { idToUuid, defaultMapImageUrl, getPageTableOfContents, getPageProperty }
 import { unstable_cache } from "next/cache";
 import { NotionAPI } from "notion-client";
 import { getReadingTime } from "@/utils/read-time";
+import type { PostMetadata } from "./content-types";
 
 export type {
     Platform,
