@@ -24,9 +24,12 @@ interface MomentHeaderProps {
   isTweet: boolean;
   isNotionPost: boolean;
   onOpenInNewTab: () => void;
+  titleHref?: string | null;
+  titleExternal?: boolean;
+  onTitleActivate?: () => void;
 }
 
-export function MomentHeader({ moment, locale, views, isTweet, isNotionPost, onOpenInNewTab }: MomentHeaderProps) {
+export function MomentHeader({ moment, locale, views, isTweet, isNotionPost, onOpenInNewTab, titleHref, titleExternal, onTitleActivate }: MomentHeaderProps) {
   const t = useTranslations('Moment')
 
   const platform = moment.platform
@@ -42,7 +45,7 @@ export function MomentHeader({ moment, locale, views, isTweet, isNotionPost, onO
             size="sm"
             aria-label={getOpenLabel(moment, t)}
             onPress={onOpenInNewTab}
-            className="text-accent"
+            className="relative z-10 text-accent"
           >
             <PlatformIcon size={20} />
           </Button>
@@ -50,10 +53,32 @@ export function MomentHeader({ moment, locale, views, isTweet, isNotionPost, onO
       </div>
 
       {(isNotionPost || moment.title) && (
-        <span className="text-xl font-semibold">
-          {moment.icon && <span className="mr-1" aria-hidden="true">{moment.icon}</span>}
-          {moment.title}
-        </span>
+        titleHref ? (
+          <a
+            href={titleHref}
+            target={titleExternal ? "_blank" : undefined}
+            rel={titleExternal ? "noopener noreferrer" : undefined}
+            onClick={titleExternal ? undefined : (e) => { e.preventDefault(); onTitleActivate?.(); }}
+            className="stretched-link block w-fit text-xl font-semibold hover:text-accent transition-colors"
+          >
+            {moment.icon && <span className="mr-1" aria-hidden="true">{moment.icon}</span>}
+            {moment.title}
+          </a>
+        ) : onTitleActivate ? (
+          <button
+            type="button"
+            onClick={onTitleActivate}
+            className="stretched-link block w-fit text-left text-xl font-semibold hover:text-accent transition-colors cursor-pointer"
+          >
+            {moment.icon && <span className="mr-1" aria-hidden="true">{moment.icon}</span>}
+            {moment.title}
+          </button>
+        ) : (
+          <span className="text-xl font-semibold">
+            {moment.icon && <span className="mr-1" aria-hidden="true">{moment.icon}</span>}
+            {moment.title}
+          </span>
+        )
       )}
 
       <div className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-content3-foreground mb-1">

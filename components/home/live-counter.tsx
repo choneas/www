@@ -114,9 +114,10 @@ export function LiveCounter({ birthDate, locale, title }: LiveCounterProps) {
             </p>
         </div>
         <div className="text-left">
-            <p className="text-glass-bg text-sm md:text-lg text-accent/90 font-serif inline-block">
+            <p className="text-glass-bg text-sm md:text-lg text-accent/90 font-serif inline-block" aria-hidden="true">
                 {formattedTime}
             </p>
+            <span className="sr-only">{title}</span>
         </div>
         </>
     );

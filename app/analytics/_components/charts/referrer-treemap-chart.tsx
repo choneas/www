@@ -36,6 +36,6 @@ export function ReferrerTreemapChart({ referrerMap }: ReferrerTreemapChartProps)
     }, [referrerMap, t])
 
     return (
-        <ChartWrapper option={option} height={400} />
+        <ChartWrapper option={option} height={400} label={t("chart-referrer-treemap")} />
     )
 }

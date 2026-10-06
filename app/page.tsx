@@ -12,6 +12,8 @@ import { SecondParagraphWithModal } from "@/components/home/second-paragraph-mod
 import { techStacks } from "@/components/site-links";
 import { rt } from "@/utils/rich-text";
 
+export const instant = false;
+
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("Metadata");
     return {
@@ -142,9 +144,10 @@ export default async function Home() {
 
             <HLine className="invisible md:visible left-0 mt-4 md:hidden"/>
 
+            <main id="main-content" tabIndex={-1} className="main-content">
             {/* Hero */}
-            <section id="main-content"
-                     className="main-content relative min-h-screen flex flex-col px-6 md:px-16 lg:px-20">
+            <section
+                     className="relative min-h-screen flex flex-col px-6 md:px-16 lg:px-20">
                 {/* First paragraph */}
                 <div
                     className="relative flex-1 flex flex-col justify-center pt-[40vh] pb-10 md:pb-0 md:flex-none md:pt-[10vh] md:min-h-[85vh]">
@@ -219,6 +222,7 @@ export default async function Home() {
                     </p>
                 </div>
             </section>
+            </main>
 
             <HLine className="invisible md:visible relative left-0 md:left-0 lg:left-0"/>
 

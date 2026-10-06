@@ -38,6 +38,6 @@ export function LanguageBreakdownChart({ languageMap }: LanguageBreakdownChartPr
     }, [languageMap, t])
 
     return (
-        <ChartWrapper option={option} height={300} />
+        <ChartWrapper option={option} height={300} label={t("chart-language-breakdown")} />
     )
 }

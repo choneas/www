@@ -28,6 +28,6 @@ export function ClapsDistributionChart({ topByClaps }: ClapsDistributionChartPro
     }), [topByClaps, t])
 
     return (
-        <ChartWrapper option={option} height={Math.max(200, topByClaps.length * 30)} />
+        <ChartWrapper option={option} height={Math.max(200, topByClaps.length * 30)} label={t("chart-clap-distribution")} />
     )
 }

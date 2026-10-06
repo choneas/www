@@ -65,7 +65,7 @@ export function PostHeader({ post, isTweet, views }: PostHeaderProps) {
                         <Image
                             fill
                             src={post.cover}
-                            alt={post.title}
+                            alt=""
                             quality={80}
                             className="h-full object-cover"
                         />
@@ -79,6 +79,7 @@ export function PostHeader({ post, isTweet, views }: PostHeaderProps) {
                                     />
                                 </motion.div>
                                 <motion.span
+                                    aria-hidden="true"
                                     className="text-5xl font-bold my-2"
                                     {...fadeUp}
                                     transition={{ ...TITLE_SPRING, delay: 0.03 }}
@@ -86,7 +87,6 @@ export function PostHeader({ post, isTweet, views }: PostHeaderProps) {
                                     {post.icon}
                                 </motion.span>
                                 <motion.h1
-                                    role="heading"
                                     className="text-3xl text-muted mix-blend-plus-lighter font-bold"
                                     {...fadeUp}
                                     transition={{ ...TITLE_SPRING, delay: 0.05 }}
@@ -117,13 +117,14 @@ export function PostHeader({ post, isTweet, views }: PostHeaderProps) {
                             size="lg"
                         />
                     </motion.div>
-                    <motion.h1
+                    <motion.span
+                        aria-hidden="true"
                         className="text-5xl font-bold my-2"
                         {...fadeUp}
                         transition={{ ...TITLE_SPRING, delay: 0.03 }}
                     >
                         {post.icon}
-                    </motion.h1>
+                    </motion.span>
                     <motion.h1
                         className={`${isTweet ? 'text-3xl!' : 'text-4xl!'} font-bold my-4`}
                         {...fadeUp}

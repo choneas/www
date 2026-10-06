@@ -32,6 +32,6 @@ export function DeviceDonutChart({ deviceMap }: DeviceDonutChartProps) {
     }), [deviceMap, t])
 
     return (
-        <ChartWrapper option={option} height={300} />
+        <ChartWrapper option={option} height={300} label={t("chart-device-breakdown")} />
     )
 }

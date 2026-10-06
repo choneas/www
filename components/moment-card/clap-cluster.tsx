@@ -32,7 +32,7 @@ export function ClapCluster({
   return (
     <div className="flex -mx-1.5 mt-2 items-center gap-1">
       <div className="relative">
-        <motion.div layout whileTap={{ scale: 0.85 }} className={isClapped ? "rounded-full bg-foreground/5" : ""}>
+        <motion.div layout whileTap={{ scale: 0.85 }} tabIndex={-1} className={isClapped ? "rounded-full bg-foreground/5" : ""}>
           <Button
             isIconOnly
             variant="ghost"
@@ -40,7 +40,10 @@ export function ClapCluster({
             onPress={onClap}
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
-            aria-label={t('clap-prompt')}
+            onFocus={onEnter}
+            onBlur={onLeave}
+            aria-label={displayClaps > 0 ? `${t('clap-prompt')}, ${displayClaps}` : t('clap-prompt')}
+            className="relative z-10"
           >
             {isClapped
               ? <PiHandsClappingFill size={18} className={isClapped || isHovering ? "text-accent transition-colors duration-200" : "text-foreground/60"} />
@@ -57,6 +60,7 @@ export function ClapCluster({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute left-1/2 top-0 pointer-events-none text-accent"
+              aria-hidden="true"
             >
               <PiHandsClappingFill size={14} />
             </motion.div>
@@ -75,6 +79,7 @@ export function ClapCluster({
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
             className="whitespace-nowrap text-sm text-accent/60"
+            aria-hidden="true"
           >
             {t('clap-thanks')}
           </motion.span>
@@ -89,6 +94,7 @@ export function ClapCluster({
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
             className="whitespace-nowrap text-sm text-accent/60"
+            aria-hidden="true"
           >
             {t('clap-prompt')}
           </motion.span>
@@ -102,7 +108,8 @@ export function ClapCluster({
             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
-            className={`whitespace-nowrap font-code text-sm inline-flex items-center cursor-pointer pointer-events-none ${isClapped || isHovering ? "text-accent" : "text-foreground/60"}`}
+            className={`whitespace-nowrap font-code text-sm inline-flex items-center pointer-events-none ${isClapped || isHovering ? "text-accent" : "text-foreground/60"}`}
+            aria-hidden="true"
           >
             <NumberFlow value={displayClaps} />
           </motion.span>

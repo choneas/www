@@ -93,6 +93,6 @@ export function CountryMapChart({ countryMap }: CountryMapChartProps) {
     }
 
     return (
-        <ChartWrapper option={option} height={350} />
+        <ChartWrapper option={option} height={350} label={t("chart-world-map")} />
     )
 }

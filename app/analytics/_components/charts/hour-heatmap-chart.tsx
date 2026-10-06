@@ -45,6 +45,6 @@ export function HourHeatmapChart({ hourlyDistribution }: HourHeatmapChartProps) 
     }, [hourlyDistribution, t])
 
     return (
-        <ChartWrapper option={option} height={140} />
+        <ChartWrapper option={option} height={140} label={t("chart-hour-heatmap")} />
     )
 }

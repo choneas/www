@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Image from "next/image";
 import { cn } from "@heroui/react";
 import type { ReactNode } from "react";
@@ -33,16 +33,17 @@ interface InlineModalProps {
 
 export function InlineModal({ children, modal, className = "", modalProps }: InlineModalProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const titleId = useId();
 
     const { title, paragraphs, image: imageInfo } = modal;
 
     const image = {
         src: imageInfo?.src || "/images/landscape.webp",
-        alt: imageInfo?.alt || "Landscape",
+        alt: imageInfo?.alt ?? "",
         className: imageInfo?.className || "",
     };
 
-    const titleString = typeof title === "string" ? title : "";
+    const titleString = typeof title === "string" ? title : "Details";
 
     const {
         backdropClassName,
@@ -68,6 +69,7 @@ export function InlineModal({ children, modal, className = "", modalProps }: Inl
                 isOpen={isOpen}
                 onOpenChange={setIsOpen}
                 label={titleString}
+                labelledBy={titleId}
                 backdropClassName={backdropClassName}
                 backdropVariant={backdropVariant}
                 isDismissable={isDismissable}
@@ -87,9 +89,9 @@ export function InlineModal({ children, modal, className = "", modalProps }: Inl
                             className={`object-cover ${image.className}`}
                             quality={75}
                         />
-                        <div className="absolute dark inset-0 bg-linear-to-t from-background/60 to-transparent" />
+                        <div className="absolute dark inset-0 bg-linear-to-t from-background/60 to-transparent" aria-hidden="true" />
                         <div className="absolute dark bottom-4 left-6 right-16">
-                            <h2 className="text-2xl md:text-3xl font-bold text-muted mix-blend-plus-lighter drop-shadow-lg">
+                            <h2 id={titleId} className="text-2xl md:text-3xl font-bold text-muted mix-blend-plus-lighter drop-shadow-lg">
                                 {title}
                             </h2>
                         </div>

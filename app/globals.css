@@ -212,6 +212,53 @@
     font-size: var(--text-base);
   }
 
+  :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  @media (forced-colors: active) {
+    :where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
+
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .navbar-island-single:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .navbar-island-single :is(a, button, [role="button"]):is(:focus-visible, [data-focus-visible="true"]) {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .search-field__group:is(:focus-within, [data-focus-within="true"]) .search-field__input:is(:focus, :focus-visible) {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  @media (forced-colors: active) {
+    .navbar-island-single:focus-within {
+      outline: 2px solid Highlight;
+    }
+  }
+
+  #main-content:focus {
+    outline: none;
+  }
+
   h1 {
     font-size: var(--text-4xl);
     @apply font-extrabold
@@ -392,7 +439,9 @@
     text-decoration: none !important;
   }
 
-  .notion .notion-h:hover .notion-hash-link {
+  .notion .notion-h:hover .notion-hash-link,
+  .notion .notion-h:focus-within .notion-hash-link,
+  .notion .notion-hash-link:focus-visible {
     opacity: 1 !important;
   }
 
@@ -888,6 +937,16 @@
 
 .os-theme-custom .os-scrollbar-handle {
   mix-blend-mode: plus-lighter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Mobile Dropdown positioning fixes */

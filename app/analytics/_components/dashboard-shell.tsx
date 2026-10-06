@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, type ReactNode } from "react"
-import { cn } from "@heroui/react"
+import { Tabs, TabList, Tab, TabPanel, type Key } from "react-aria-components"
 import { useTranslations } from "next-intl"
 
 type TabId = "overview" | "content" | "audience" | "geography" | "technology" | "sources" | "engagement" | "events"
@@ -25,28 +25,33 @@ export function DashboardShell({ children }: DashboardShellProps) {
     const t = useTranslations("Analytics")
     const [activeTab, setActiveTab] = useState<TabId>("overview")
 
+    const handleSelectionChange = (key: Key) => {
+        setActiveTab(key as TabId)
+    }
+
     return (
-        <div className="space-y-4">
-            <nav role="tablist" aria-label={t("tablist-label")} className="flex gap-1 overflow-x-auto pb-1 border-b border-foreground/10 overscroll-contain touch-manipulation">
+        <Tabs selectedKey={activeTab} onSelectionChange={handleSelectionChange} className="space-y-4">
+            <TabList
+                aria-label={t("tablist-label")}
+                className="flex gap-1 overflow-x-auto pb-1 border-b border-foreground/10 overscroll-contain touch-manipulation"
+            >
                 {tabs.map((tab) => (
-                    <button
+                    <Tab
                         key={tab.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeTab === tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={cn(
-                            "shrink-0 px-3 py-2 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap",
-                            activeTab === tab.id
+                        id={tab.id}
+                        className={({ isSelected }) =>
+                            `shrink-0 px-3 py-2 text-sm font-medium rounded-t-lg transition-colors whitespace-nowrap cursor-pointer ${isSelected
                                 ? "text-accent border-b-2 border-accent -mb-[1px]"
-                                : "text-foreground/60 hover:text-foreground"
-                        )}
+                                : "text-foreground/60 hover:text-foreground"}`
+                        }
                     >
                         {t(tab.i18nKey)}
-                    </button>
+                    </Tab>
                 ))}
-            </nav>
-            {children(activeTab)}
-        </div>
+            </TabList>
+            <TabPanel id={activeTab}>
+                {children(activeTab)}
+            </TabPanel>
+        </Tabs>
     )
 }

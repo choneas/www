@@ -88,7 +88,7 @@ export default function AnalyticsPage() {
 
     if (!checkedSession) return null
     if (!authed) return (
-        <main className="min-h-screen flex items-center justify-center px-4">
+        <main id="main-content" tabIndex={-1} className="min-h-screen flex items-center justify-center px-4">
             <div className="w-full max-w-sm text-center">
                 <p className="text-foreground/60 text-sm mb-2">{t("auth-description")}</p>
                 <Input type="password" name="password" autoComplete="current-password" placeholder={t("auth-placeholder")} value={password} onChange={e => { setPassword(e.target.value); setAuthError(false) }} onKeyDown={e => { if (e.key === "Enter") void handleAuth() }} autoFocus disabled={authLoading} className="rounded-full" />
@@ -97,7 +97,7 @@ export default function AnalyticsPage() {
         </main>
     )
     if (loading) return (
-        <div className="max-w-7xl mx-auto px-4 py-8 space-y-4" aria-busy="true">
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-4" aria-busy="true" role="status" aria-label={t("loading")}>
             <Skeleton className="h-8 w-48 rounded" />
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">{Array.from({length:8}).map((_,i) => <Skeleton key={i} className="h-20 rounded-lg" />)}</div>
                 <Skeleton className="h-75 rounded-lg" />
@@ -111,14 +111,14 @@ export default function AnalyticsPage() {
     )
 
     return (
-        <div className="min-h-screen mt-16">
+        <main id="main-content" tabIndex={-1} className="min-h-screen mt-16">
             <div className="max-w-7xl mx-auto px-4 py-6 space-y-4">
                 <div><h1 className="text-2xl font-bold">{t("page-title")}</h1><p className="text-sm text-foreground/50 mt-0.5">{t("summary", { articles: data.totalArticles, views: data.totalViews.toLocaleString() })}</p></div>
                 <DashboardShell>
                     {(activeTab) => {
                         switch (activeTab) {
                             case "overview": return <div className="space-y-4"><KpiGrid data={data} /><ChartCard title={t("chart-dual-axis")}><div className="flex items-center gap-4 mb-3"><Switch size="sm" isSelected={showViews} onChange={setShowViews}><Switch.Content><Switch.Control><Switch.Thumb /></Switch.Control><span className="text-xs">{t("toggle-show-views")}</span></Switch.Content></Switch><Switch size="sm" isSelected={showClaps} onChange={setShowClaps}><Switch.Content><Switch.Control><Switch.Thumb /></Switch.Control><span className="text-xs">{t("toggle-show-claps")}</span></Switch.Content></Switch></div>{trendData.length>0?<DualAxisTrendChart days={trendData} showViews={showViews} showClaps={showClaps}/>:                                    <div className="text-foreground/70">{t("empty-no-data")}</div>}</ChartCard></div>
-                            case "content": return <div className="space-y-4"><div className="grid grid-cols-1 md:grid-cols-3 gap-3"><ChartCard title={t("chart-top-articles-views")}><TopArticlesChart data={data.topByViews.map(a=>({slug:a.slug,value:a.views}))} color={CHART_COLORS.views} label={t("toggle-show-views")}/></ChartCard><ChartCard title={t("chart-top-articles-claps")}><TopArticlesChart data={data.topByClaps.map(a=>({slug:a.slug,value:a.claps}))} color={CHART_COLORS.claps} label={t("toggle-show-claps")}/></ChartCard><ChartCard title={t("chart-top-articles-rate")}><TopArticlesChart data={data.topByClapRate.map(a=>({slug:a.slug,value:Math.round(a.clapRate*10)/10}))} color={CHART_COLORS.rate} label={t("percent-label")}/></ChartCard></div><ChartCard title={t("tab-content")}><ArticlesTable articles={data.articles}/></ChartCard></div>
+                            case "content": return <div className="space-y-4"><div className="grid grid-cols-1 md:grid-cols-3 gap-3"><ChartCard title={t("chart-top-articles-views")}><TopArticlesChart data={data.topByViews.map(a=>({slug:a.slug,value:a.views}))} color={CHART_COLORS.views} label={t("toggle-show-views")} chartLabel={t("chart-top-articles-views")}/></ChartCard><ChartCard title={t("chart-top-articles-claps")}><TopArticlesChart data={data.topByClaps.map(a=>({slug:a.slug,value:a.claps}))} color={CHART_COLORS.claps} label={t("toggle-show-claps")} chartLabel={t("chart-top-articles-claps")}/></ChartCard><ChartCard title={t("chart-top-articles-rate")}><TopArticlesChart data={data.topByClapRate.map(a=>({slug:a.slug,value:Math.round(a.clapRate*10)/10}))} color={CHART_COLORS.rate} label={t("percent-label")} chartLabel={t("chart-top-articles-rate")}/></ChartCard></div><ChartCard title={t("tab-content")}><ArticlesTable articles={data.articles}/></ChartCard></div>
                             case "audience": return <div className="space-y-4"><div className="grid grid-cols-1 md:grid-cols-2 gap-3"><ChartCard title={t("chart-language-breakdown")}><LanguageBreakdownChart languageMap={data.languageMap}/></ChartCard><ChartCard title={t("lang-match-title")}><p className="text-xs text-foreground/50 mb-3">{t("lang-match-description")}</p><LanguageMatchChart matched={data.languageMatch.matched} unmatched={data.languageMatch.unmatched}/><p className="text-xs text-foreground/40 mt-2">{t("lang-match-blog-langs", { langs: "zh-CN, zh, en" })}</p></ChartCard></div><ChartCard title={t("chart-language-breakdown")}><div className="flex flex-wrap gap-1.5">{Object.entries(data.languageMap).sort(([,a],[,b])=>b-a).map(([lang,count])=>(<div key={lang} className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs border ${["zh-CN","zh","en"].includes(lang)||["zh-CN","zh","en"].includes(lang.split("-")[0])?"border-success/20 text-success bg-success/5":"border-foreground/10 text-foreground/60"}`}><span className="font-medium">{lang}</span><span className="tabular-nums">{count.toLocaleString()}</span></div>))}</div></ChartCard></div>
                             case "geography": return <div className="space-y-4"><ChartCard title={t("chart-world-map")}><CountryMapChart countryMap={data.countryMap}/></ChartCard><ChartCard title={t("table-col-country")}><CountryTable countryMap={data.countryMap}/></ChartCard></div>
                             case "technology": return <div className="space-y-4"><ChartCard title={t("chart-device-breakdown")}><DeviceDonutChart deviceMap={data.deviceMap}/></ChartCard><div className="grid grid-cols-3 gap-2">{[{key:"m",label:t("device-mobile"),icon:"📱"},{key:"d",label:t("device-desktop"),icon:"🖥"},{key:"t",label:t("device-tablet"),icon:"📟"}].map(d=>{const count=data.deviceMap[d.key as keyof typeof data.deviceMap]||0;const total=data.deviceMap.m+data.deviceMap.d+data.deviceMap.t;return <Card key={d.key} className="border border-foreground/10"><div className="p-2.5 text-center"><div className="text-lg mb-0.5">{d.icon}</div><div className="text-base font-bold tabular-nums">{count.toLocaleString()}</div><div className="text-xs text-foreground/50">{total>0?((count/total)*100).toFixed(1):"0"}%</div><div className="text-xs text-foreground/60 mt-0.5">{d.label}</div></div></Card>})}</div></div>
@@ -130,6 +130,6 @@ export default function AnalyticsPage() {
                     }}
                 </DashboardShell>
             </div>
-        </div>
+        </main>
     )
 }

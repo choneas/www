@@ -82,7 +82,8 @@ export function NavbarItems({ pathname, translations, onPendingNavigation }: Nav
                         onHoverEnd={handleCollapse}
                         onFocus={() => handleExpand(index)}
                         onBlur={handleCollapse}
-                        className={`h-11 p-4 min-h-0 min-w-0 text-accent rounded-full whitespace-nowrap outline-none transition-all duration-300 hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent_92%)] ${isActive ? "font-bold" : ""}`}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`h-11 p-4 min-h-0 min-w-0 text-accent rounded-full whitespace-nowrap transition-all duration-300 hover:bg-[color-mix(in_srgb,var(--color-accent)_8%,transparent_92%)] ${isActive ? "font-bold" : ""}`}
                     >
                         <motion.div
                             className="flex items-center justify-center"

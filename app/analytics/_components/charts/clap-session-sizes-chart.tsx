@@ -39,6 +39,6 @@ export function ClapSessionSizesChart({ clapSessionSizes }: ClapSessionSizesChar
     if (Object.keys(clapSessionSizes).length === 0) return null
 
     return (
-        <ChartWrapper option={option} height={250} />
+        <ChartWrapper option={option} height={250} label={t("chart-clap-session-size")} />
     )
 }

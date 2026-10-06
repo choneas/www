@@ -38,7 +38,7 @@ export default async function Contents() {
             <h1>{t('title')}</h1>
             <p>{t('description')}</p>
 
-            <div className='mt-8'>
+            <div className='mt-8 overflow-visible'>
                 <ArticleList articles={articles} />
             </div>
         </main>

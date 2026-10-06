@@ -11,7 +11,6 @@ import { GlassPanel } from "@/components/home/glass-panel";
 import { MomentModal } from "@/components/moment-modal"
 import type { ExtendedRecordMap } from "notion-types"
 import type { PostMetadata } from "@/lib/content"
-import { formatDate } from "@/utils/date-format"
 import { getPostRecordMap } from "@/lib/content"
 import { trackView } from "@/utils/track-view"
 import { useViewCount } from "@/hooks/use-view-count"
@@ -154,6 +153,19 @@ export function MomentCard({ moment }: MomentCardProps) {
   const hasPhotos = moment.photos != null && moment.photos.length > 0
   const showImagePreview = hasPhotos && (isNotionPost ? moment.imagePreview === true : true)
   const photos: string[] = showImagePreview && moment.photos ? moment.photos : []
+  const externalUrl = getExternalUrl(moment)
+  const articleHref = !isTweet && !externalUrl ? `/article/${moment.slug || moment.id}` : null
+  const titleHref = externalUrl ?? articleHref
+  const titleExternal = Boolean(externalUrl)
+  const handleTitleActivate = () => {
+    if (externalUrl || articleHref) handleCardClick()
+    else if (isTweet) setIsModalOpen(true)
+  }
+  const showTitleLink = Boolean(titleHref) || isTweet
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('a,button')) return
+    if (isNotionPost) handleCardClick()
+  }
 
   return (
     <>
@@ -166,22 +178,11 @@ export function MomentCard({ moment }: MomentCardProps) {
         }}
       >
         <Card
-          onClick={() => {
-            if (isNotionPost) handleCardClick()
-          }}
-          tabIndex={0}
-          role="article"
-          className="relative min-h-auto bg-transparent p-0 shadow-none rounded-none"
-          aria-label={`${moment.title} - ${formatDate(moment.created_time, locale, true)}`}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault()
-              handleCardClick()
-            }
-          }}
+          onClick={handleBackgroundClick}
+          className={`relative min-h-auto bg-transparent p-0 shadow-none rounded-none${isNotionPost ? " cursor-pointer" : ""}`}
         >
           <GlassPanel
-            className="backdrop-saturate-100 bg-background/40 hover:bg-background/90 focus:outline-none focus:ring-2 ring-accent transition-all duration-150 ease-out px-6 py-4 md:py-6 mx-0.5">
+            className="backdrop-saturate-100 bg-background/40 hover:bg-background/90 transition-all duration-150 ease-out px-6 py-4 md:py-6 mx-0.5">
             <MomentHeader
               moment={moment}
               locale={locale}
@@ -189,6 +190,9 @@ export function MomentCard({ moment }: MomentCardProps) {
               isTweet={isTweet}
               isNotionPost={isNotionPost}
               onOpenInNewTab={handleOpenInNewTab}
+              titleHref={titleHref}
+              titleExternal={titleExternal}
+              onTitleActivate={showTitleLink ? handleTitleActivate : undefined}
             />
             <MomentContent
               moment={moment}

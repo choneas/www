@@ -20,9 +20,10 @@ interface ChartWrapperProps {
     option: EChartsOption
     height?: number | string
     className?: string
+    label?: string
 }
 
-export function ChartWrapper({ option, height = 350, className }: ChartWrapperProps) {
+export function ChartWrapper({ option, height = 350, className, label = "Chart" }: ChartWrapperProps) {
     const containerRef = useRef<HTMLDivElement>(null)
     const chartRef = useRef<echarts.ECharts | null>(null)
     const [reducedMotion, setReducedMotion] = useState(false)
@@ -62,6 +63,6 @@ export function ChartWrapper({ option, height = 350, className }: ChartWrapperPr
     }, [])
 
     return (
-        <div ref={containerRef} className={className} style={{ height, width: "100%" }} role="img" aria-label="Chart" />
+        <div ref={containerRef} className={className} style={{ height, width: "100%" }} role="img" aria-label={label} />
     )
 }

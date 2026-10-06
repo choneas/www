@@ -107,9 +107,6 @@ export function MomentContent({
                         : ''
                         } pointer-events-none`}
                       inert={!isExpanded}
-                      aria-hidden={!isExpanded}
-                      tabIndex={-1}
-                      role="presentation"
                     >
                       <Suspense fallback={<NotionPageSkeleton />}>
                         <NotionPage recordMap={recordMap} type="tweet-preview" />
@@ -121,7 +118,7 @@ export function MomentContent({
                         <button
                           type="button"
                           onClick={onViewAll}
-                          className="text-sm text-accent/70 hover:text-accent underline underline-offset-4 transition-colors cursor-pointer"
+                          className="relative z-10 text-sm text-accent/70 hover:text-accent underline underline-offset-4 transition-colors cursor-pointer"
                         >
                           {t('view-more')}
                         </button>

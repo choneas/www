@@ -72,6 +72,8 @@ export function NavigationLoader() {
             {state.isLoading && (
                 <motion.div
                     key="nav-loading-overlay"
+                    role="status"
+                    aria-label="Loading"
                     className="fixed inset-0 z-41 bg-background overflow-hidden"
                     {...OVERLAY_ENTER}
                 >
@@ -110,7 +112,7 @@ function DefaultLoadingSpinner() {
  */
 function ArticleListSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon: boolean }) {
     return (
-        <main className={`container mx-auto px-8 ${hasCover ? "" : "sm:mt-20"} sm:px-24 pt-8`}>
+        <div aria-hidden="true" className={`container mx-auto px-8 ${hasCover ? "" : "sm:mt-20"} sm:px-24 pt-8`}>
             {hasIcon && <Skeleton className="h-14 w-14 rounded-lg mb-2" />}
             <Skeleton className="h-12 w-48 rounded-lg" />
             <Skeleton className="h-9 w-80 mt-2 rounded-lg" />
@@ -128,7 +130,7 @@ function ArticleListSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon
                     ))}
                 </div>
             </div>
-        </main>
+        </div>
     );
 }
 
@@ -137,7 +139,7 @@ function ArticleListSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon
  */
 function ArticleDetailSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIcon: boolean }) {
     return (
-        <main>
+        <div aria-hidden="true">
             {hasCover && (
                 <div className="relative -mt-[72px] max-w-screen overflow-hidden mb-3">
                     <Skeleton className="md:h-[50vh] h-[80vh] w-full rounded-none" />
@@ -180,7 +182,7 @@ function ArticleDetailSkeleton({ hasCover, hasIcon }: { hasCover: boolean; hasIc
                 <Skeleton className="h-5 w-4/5 rounded mb-3" />
                 <Skeleton className="h-5 w-full rounded mb-3" />
             </div>
-        </main>
+        </div>
     );
 }
 

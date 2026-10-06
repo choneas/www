@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { SearchField, Chip } from "@heroui/react";
-import { motion } from "framer-motion";
+import { SearchField } from "@heroui/react";
+import { TagGroup, TagList, Tag, type Selection } from "react-aria-components";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
 import type { PostMetadata } from "@/lib/content";
@@ -14,7 +14,6 @@ interface ArticleFilterProps {
     onFilterChange: (filtered: PostMetadata[], hasNoResults: boolean) => void;
 }
 
-/** Extract unique tags from articles */
 function parseTags(articles: PostMetadata[]): string[] {
     const tagSet = new Set<string>();
     articles.forEach((article) => {
@@ -23,7 +22,6 @@ function parseTags(articles: PostMetadata[]): string[] {
     return Array.from(tagSet);
 }
 
-/** Filter and sort articles based on tags and search value */
 function filterArticles(
     articles: PostMetadata[],
     selectedTags: string[],
@@ -32,13 +30,11 @@ function filterArticles(
 ): PostMetadata[] {
     return articles
         .filter((article) => {
-            // Tag filter
             if (selectedTags.length > 0) {
                 if (!article.tags || !selectedTags.some((t) => article.tags?.includes(t))) {
                     return false;
                 }
             }
-            // Search filter
             if (searchValue) {
                 const searchTerms = searchValue.toLowerCase().split(/\s+/).filter((term) => term.length > 0);
                 const titleLower = article.title.toLowerCase();
@@ -70,20 +66,8 @@ export function ArticleFilter({
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [searchValue, setSearchValue] = useState("");
 
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
-    const [isListFocused, setIsListFocused] = useState(false);
-    const [isKeyboardNavigation, setIsKeyboardNavigation] = useState(false);
-
     const tags = useMemo(() => parseTags(articles), [articles]);
 
-    const orderedTags = useMemo(() => {
-        const selectedSet = new Set(selectedTags);
-        const selectedFirst = selectedTags.filter((tag) => tags.includes(tag));
-        const remaining = tags.filter((tag) => !selectedSet.has(tag));
-        return [...selectedFirst, ...remaining];
-    }, [selectedTags, tags]);
-
-    // Compute filtered articles and hasNoResults together
     const { filteredArticles, hasNoResults } = useMemo(() => {
         const filtered = filterArticles(articles, selectedTags, searchValue, sortOrder);
         const isFiltering = selectedTags.length > 0 || searchValue.length > 0;
@@ -93,7 +77,6 @@ export function ArticleFilter({
         };
     }, [articles, selectedTags, searchValue, sortOrder]);
 
-    // Sync filter results to parent - pass both filtered articles and hasNoResults
     useEffect(() => {
         onFilterChange(filteredArticles, hasNoResults);
     }, [filteredArticles, hasNoResults, onFilterChange]);
@@ -120,12 +103,11 @@ export function ArticleFilter({
             container?.removeEventListener("scroll", updateScrollAvailability);
             window.removeEventListener("resize", handleResize);
         };
-    }, [orderedTags, updateScrollAvailability]);
+    }, [tags, updateScrollAvailability]);
 
-    const handleTagToggle = (tag: string) => {
-        setSelectedTags((prev) =>
-            prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-        );
+    const handleSelectionChange = (keys: Selection) => {
+        if (keys === "all") return;
+        setSelectedTags(Array.from(keys).map(String));
     };
 
     const scrollBy = (direction: number) => {
@@ -135,77 +117,8 @@ export function ArticleFilter({
         });
     };
 
-    const scrollActiveIntoView = (index: number) => {
-        const el = scrollRef.current?.querySelector<HTMLElement>(`[data-tag-index="${index}"]`);
-        el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    };
-
-    const onTagsFocus = () => {
-        setIsListFocused(true);
-        if (activeIndex == null && orderedTags.length > 0) {
-            setActiveIndex(0);
-        }
-    };
-    const onTagsBlur = () => {
-        setIsListFocused(false);
-        setActiveIndex(null);
-    };
-
-    // Roving focus
-    const onTagsKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (!isListFocused || orderedTags.length === 0) return;
-
-        switch (e.key) {
-            case "ArrowRight":
-            case "Right":
-                e.preventDefault();
-                setActiveIndex((i) => {
-                    const curr = i ?? 0;
-                    const next = Math.min(curr + 1, orderedTags.length - 1);
-                    scrollActiveIntoView(next);
-                    return next;
-                });
-                break;
-            case "ArrowLeft":
-            case "Left":
-                e.preventDefault();
-                setActiveIndex((i) => {
-                    const curr = i ?? 0;
-                    const prev = Math.max(curr - 1, 0);
-                    scrollActiveIntoView(prev);
-                    return prev;
-                });
-                break;
-            case "Home":
-                e.preventDefault();
-                scrollActiveIntoView(0);
-                setActiveIndex(0);
-                break;
-            case "End":
-                e.preventDefault();
-                scrollActiveIntoView(orderedTags.length - 1);
-                setActiveIndex(orderedTags.length - 1);
-                break;
-            case "Enter":
-            case " ":
-                e.preventDefault();
-                if (activeIndex != null) {
-                    handleTagToggle(orderedTags[activeIndex]);
-                }
-                break;
-            default:
-                break;
-        }
-    };
-
-    // aria activedescendant
-    const activeId =
-        isListFocused && activeIndex != null && orderedTags[activeIndex]
-            ? `tag-${orderedTags[activeIndex]}`
-            : undefined;
-
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 overflow-visible">
             <SearchField
                 fullWidth
                 isInvalid={hasNoResults}
@@ -214,7 +127,7 @@ export function ArticleFilter({
             >
                 <SearchField.Group className="rounded-full pl-1 py-3 md:pl-3 md:py-6">
                     <SearchField.SearchIcon fontSize={32}>
-                        <IoSearch/>
+                        <IoSearch />
                     </SearchField.SearchIcon>
                     <SearchField.Input
                         className="w-full md:text-[18px] backdrop-opacity-0"
@@ -242,90 +155,60 @@ export function ArticleFilter({
                         />
                     )}
 
-                    <button
-                        onClick={() => scrollBy(-1)}
-                        aria-label={t("scroll-left")}
-                        tabIndex={-1}
-                        aria-hidden={!canScrollLeft}
-                        className={`absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full
-                                bg-surface-secondary transition-opacity duration-200 ease-in-out transform
-                                ${canScrollLeft ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
-                    >
-                        <LuChevronLeft size={18} />
-                    </button>
+                    {canScrollLeft && (
+                        <button
+                            type="button"
+                            onClick={() => scrollBy(-1)}
+                            aria-label={t("scroll-left")}
+                            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-surface-secondary cursor-pointer"
+                        >
+                            <LuChevronLeft size={18} aria-hidden="true" />
+                        </button>
+                    )}
 
-                    <div
-                        ref={scrollRef}
-                        className="flex gap-3 w-full overflow-x-auto focus:outline-none [scrollbar-width:none] [-ms-overflow-style:none]"
-                        tabIndex={0}
-                        role="listbox"
+                    <TagGroup
                         aria-label={t("filter-tags")}
-                        aria-activedescendant={activeId}
-                        onKeyDown={(e) => {
-                            if (["ArrowRight", "ArrowLeft", "Right", "Left", "Home", "End", "Enter", " "].includes(e.key)) {
-                                setIsKeyboardNavigation(true);
-                            }
-                            onTagsKeyDown(e);
-                        }}
-                        onFocus={() => {
-                            onTagsFocus();
-                        }}
-                        onBlur={onTagsBlur}
-                        onPointerDown={() => setIsKeyboardNavigation(false)}
+                        selectionMode="multiple"
+                        selectedKeys={new Set(selectedTags)}
+                        onSelectionChange={handleSelectionChange}
                     >
-                        {orderedTags.map((tag, idx) => {
-                            const isSelected = selectedTags.includes(tag);
-
-                            return (
-                                <motion.div
-                                    key={tag}
-                                    layout
-                                    transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                        <TagList
+                            ref={scrollRef}
+                            items={tags.map((tag) => ({ id: tag, label: tag }))}
+                            className="flex gap-3 w-full overflow-x-auto py-1.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                        >
+                            {(item) => (
+                                <Tag
+                                    id={item.id}
+                                    textValue={item.label}
+                                    className={({ isSelected }) =>
+                                        `px-3 py-2 rounded-full text-base font-medium justify-center cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis shrink-0 transition-colors ${isSelected
+                                            ? "bg-(--color-accent) text-(--color-accent-foreground)"
+                                            : "bg-[color-mix(in_srgb,var(--color-surface)_90%,transparent)] text-(--color-foreground)"}`
+                                    }
                                 >
-                                    <Chip
-                                        tabIndex={-1}
-                                        role="option"
-                                        aria-selected={isSelected}
-                                        id={`tag-${tag}`}
-                                        data-tag-index={idx}
-                                        className={`px-3 py-2 rounded-full text-base font-medium justify-center cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis shrink-0
-                                                    ${isSelected
-                                                        ? "bg-(--color-accent) text-(--color-accent-foreground)"
-                                                        : "bg-[color-mix(in_srgb,var(--color-surface)_90%,transparent)] text-(--color-foreground)"}
-                                                    ${isListFocused && isKeyboardNavigation && activeIndex === idx ? "ring-inset ring-2 ring-accent" : ""}`}
-                                        onClick={(event) => {
-                                            event.stopPropagation();
-                                            setActiveIndex(idx);
-                                            handleTagToggle(tag);
-                                        }}
-                                        onMouseEnter={() => {
-                                            if (isListFocused) setActiveIndex(idx);
-                                        }}
-                                    >
-                                        {tag}
-                                    </Chip>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
+                                    {item.label}
+                                </Tag>
+                            )}
+                        </TagList>
+                    </TagGroup>
 
-                    <button
-                        onClick={() => scrollBy(1)}
-                        aria-label={t("scroll-right")}
-                        tabIndex={-1}
-                        aria-hidden={!canScrollRight}
-                        className={`absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full
-                            bg-surface-secondary transition-opacity duration-200 ease-in-out transform
-                            ${canScrollRight ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
-                    >
-                        <LuChevronRight size={18} />
-                    </button>
+                    {canScrollRight && (
+                        <button
+                            type="button"
+                            onClick={() => scrollBy(1)}
+                            aria-label={t("scroll-right")}
+                            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-surface-secondary cursor-pointer"
+                        >
+                            <LuChevronRight size={18} aria-hidden="true" />
+                        </button>
+                    )}
                 </div>
             </div>
 
             {hasNoResults && (
-                <div className="flex flex-col justify-center items-center h-32 mt-4">
-                    <IoSearch size={48} className="text-muted" />
+                <div role="status" className="flex flex-col justify-center items-center h-32 mt-4">
+                    <IoSearch size={48} className="text-muted" aria-hidden="true" />
                     <p className="pt-4 text-muted">{t("not-found")}</p>
                 </div>
             )}

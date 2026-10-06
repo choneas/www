@@ -26,9 +26,9 @@ export const modalAnimation = {
 
 export const modalBackdropGradient = "bg-linear-to-t from-foreground/70 via-accent/20 to-transparent";
 
-export function ModalCloseButton() {
+export function ModalCloseButton({ label = "Close" }: { label?: string }) {
     return (
-        <Modal.CloseTrigger className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 transition-colors rounded-full" />
+        <Modal.CloseTrigger aria-label={label} className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 transition-colors rounded-full" />
     );
 }
 
@@ -44,6 +44,8 @@ interface ModalShellProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
     label: string;
+    labelledBy?: string;
+    closeLabel?: string;
     children: ReactNode;
     backdropClassName?: string;
     backdropVariant?: "opaque" | "blur" | "transparent";
@@ -62,6 +64,8 @@ export function ModalShell({
     isOpen,
     onOpenChange,
     label,
+    labelledBy,
+    closeLabel,
     children,
     backdropClassName,
     backdropVariant = "blur",
@@ -92,8 +96,8 @@ export function ModalShell({
                 placement={containerPlacement}
                 scroll={containerScroll}
             >
-                <Modal.Dialog aria-label={label} className={dialogClassName}>
-                    {!hideCloseButton && <ModalCloseButton />}
+                <Modal.Dialog aria-label={labelledBy ? undefined : label} aria-labelledby={labelledBy} className={dialogClassName}>
+                    {!hideCloseButton && <ModalCloseButton label={closeLabel} />}
                     {children}
                     {footer && (
                         <Modal.Footer className="absolute bottom-0 left-0 right-0 flex justify-center p-6 bg-linear-to-t from-background via-background/90 to-transparent">

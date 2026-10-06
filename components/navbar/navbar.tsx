@@ -138,7 +138,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                 <div className="flex items-center justify-center gap-3 relative h-14 w-full">
                     {/* Brand island - Left */}
                     <motion.div
-                        className={`absolute flex items-center h-14 rounded-full pl-3 pr-4 navbar-island${getIslandGlowClass('brand')}`}
+                        tabIndex={-1}
+                        className={`absolute flex items-center h-14 rounded-full pl-3 pr-4 navbar-island navbar-island-single${getIslandGlowClass('brand')}`}
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(40vw - 180px)",
@@ -154,6 +155,7 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
 
                     {/* Items island - Center */}
                     <motion.div
+                        tabIndex={-1}
                         className={`absolute left-1/2 -translate-x-1/2 flex items-center p-1 h-14 rounded-full overflow-hidden navbar-island${getIslandGlowClass('items')}`}
                         style={islandStyle}
                         initial={false}
@@ -169,7 +171,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
 
                     {/* Dropdown island - Right */}
                     <motion.div
-                        className="absolute flex items-center justify-center h-14 w-14 rounded-full p-0 navbar-island"
+                        tabIndex={-1}
+                        className="absolute flex items-center justify-center h-14 w-14 rounded-full p-0 navbar-island navbar-island-single"
                         style={islandStyle}
                         initial={false}
                         animate={{ right: sideInset }}
@@ -194,7 +197,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                     style={{ padding: `0 ${LAYOUT.mobile.sideInset}px` }}
                 >
                     <motion.div
-                        className={`flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island${getIslandGlowClass('mobile')}`}
+                        tabIndex={-1}
+                        className={`relative flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island navbar-island-single${getIslandGlowClass('mobile')}`}
                         style={islandStyle}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TAP_CONFIG.transition}
@@ -208,7 +212,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                     </motion.div>
 
                     <motion.div
-                        className={`flex items-center h-14 rounded-full pl-3 pr-4 navbar-island${getIslandGlowClass('brand')}`}
+                        tabIndex={-1}
+                        className={`relative flex items-center h-14 rounded-full pl-3 pr-4 navbar-island navbar-island-single${getIslandGlowClass('brand')}`}
                         style={{
                             ...islandStyle,
                             maxWidth: "calc(100vw - 180px)",
@@ -221,7 +226,8 @@ export function Navbar({ translations, supportedLocales }: NavbarProps) {
                     </motion.div>
 
                     <motion.div
-                        className="flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island"
+                        tabIndex={-1}
+                        className="relative flex items-center justify-center h-14 w-14 rounded-full p-0 shrink-0 navbar-island navbar-island-single"
                         style={islandStyle}
                         whileTap={{ scale: TAP_CONFIG.scale }}
                         transition={TAP_CONFIG.transition}

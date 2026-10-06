@@ -9,6 +9,7 @@ interface SwallowProps {
 export function Swallow({ className }: SwallowProps) {
     return (
         <div
+            aria-hidden="true"
             className={cn(
                 "bg-accent/60",
                 className

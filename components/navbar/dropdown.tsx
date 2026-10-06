@@ -64,7 +64,7 @@ export function NavbarDropdown({ supportedLocales, onVisibilityChange }: NavbarD
                 onOpenChange={handleOpenChange}
             >
                 <Dropdown.Trigger
-                    className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none"
+                    className="flex h-14 w-14 items-center justify-center transition-colors rounded-full"
                     aria-label={t("preferences")}
                 >
                     <FiMoreHorizontal className="text-accent" size={20} />
@@ -169,7 +169,7 @@ export function NavbarDropdown({ supportedLocales, onVisibilityChange }: NavbarD
             onOpenChange={handleOpenChange}
         >
             <Dropdown.Trigger
-                className="flex h-14 w-14 items-center justify-center transition-colors rounded-full outline-none"
+                className="flex h-14 w-14 items-center justify-center transition-colors rounded-full"
                 aria-label={t("preferences")}
             >
                 <FiMoreHorizontal className="text-accent" size={20} />

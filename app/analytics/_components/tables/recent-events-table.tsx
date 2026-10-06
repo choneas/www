@@ -47,7 +47,7 @@ function FilterSelect({ value, onChange, options }: {
         <select
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="px-3 py-1.5 text-sm rounded-lg border border-foreground/10 bg-surface text-foreground focus:outline-none focus:ring-2 focus:ring-accent/30"
+            className="px-3 py-1.5 text-sm rounded-lg border border-foreground/10 bg-surface text-foreground"
         >
             {options.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>

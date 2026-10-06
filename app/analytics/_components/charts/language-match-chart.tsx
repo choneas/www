@@ -30,6 +30,6 @@ export function LanguageMatchChart({ matched, unmatched }: LanguageMatchChartPro
     }), [matched, unmatched, t])
 
     return (
-        <ChartWrapper option={option} height={160} />
+        <ChartWrapper option={option} height={160} label={t("lang-match-title")} />
     )
 }

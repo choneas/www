@@ -34,6 +34,6 @@ export function ReferrerBarChart({ referrerMap }: ReferrerBarChartProps) {
     }, [referrerMap, t])
 
     return (
-        <ChartWrapper option={option} height={Math.max(250, Object.keys(referrerMap).length * 18)} />
+        <ChartWrapper option={option} height={Math.max(250, Object.keys(referrerMap).length * 18)} label={t("chart-referrer-bar")} />
     )
 }

@@ -57,6 +57,6 @@ export function DualAxisTrendChart({ days, showViews, showClaps }: DualAxisTrend
     }, [days, showViews, showClaps, t])
 
     return (
-        <ChartWrapper option={option} height={300} />
+        <ChartWrapper option={option} height={300} label={t("chart-dual-axis")} />
     )
 }

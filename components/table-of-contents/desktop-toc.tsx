@@ -92,7 +92,6 @@ export function DesktopTOC({
 
   return (
     <nav
-      role="navigation"
       aria-label={t("toc")}
       className="hidden md:block"
       style={getPositionStyles()}

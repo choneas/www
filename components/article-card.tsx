@@ -66,11 +66,6 @@ export function ArticleCard({
         </div>
     );
 
-    // Consistent focus ring styles that match Card's border-radius
-    const focusClass =
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-[calc(var(--radius-xl)+2px)]";
-
-    // Trigger loading overlay on navigation
     const handleNavigate = () => {
         triggerNavigationLoading(href, {
             hasCover: !!article.cover,
@@ -82,8 +77,7 @@ export function ArticleCard({
         return (
             <NextLink
                 href={href}
-                className={`${focusClass} block`}
-                aria-label={`${article.title}, ${formatDate(article.created_time, locale, showTime)}${article.readingTime ? `, ${article.readingTime}` : ""}${article.tags && article.tags.length > 0 ? `, : ${article.tags.join(", ")}` : ""}`}
+                className="block rounded-[calc(var(--radius-xl)+2px)]"
                 onNavigate={handleNavigate}
             >
                 <Card className="bg-content2 hover:bg-surface-hover transition-all duration-100 border-none shadow-none">
@@ -91,7 +85,7 @@ export function ArticleCard({
                         <div
                             className="relative w-full aspect-video overflow-hidden rounded-b-md rounded-t-[calc(var(--radius-md)*2)]">
                             <Image
-                                alt={article.title}
+                                alt=""
                                 src={article.cover}
                                 fill
                                 className="object-cover"
@@ -104,7 +98,7 @@ export function ArticleCard({
                     <div className="hidden lg:grid lg:grid-cols-[1fr_380px] gap-4 p-4 h-[232px]">
                         <div className="flex flex-col gap-3 overflow-hidden">
                             <AuthorAndDate/>
-                            <span className="text-2xl font-semibold line-clamp-1 shrink-0">{article.title}</span>
+                            <h3 className="text-2xl font-semibold line-clamp-1 shrink-0">{article.title}</h3>
                             {article.tags && article.tags.length > 0 &&
                                 <div className="shrink-0"><Tags tags={article.tags}/></div>}
                             {article.description && (
@@ -115,7 +109,7 @@ export function ArticleCard({
                         </div>
 
                         <div className="relative w-full h-[200px] overflow-hidden rounded-[calc(var(--radius-md)*2)]">
-                            <Image alt={article.title} src={article.cover} fill className="object-cover"/>
+                            <Image alt="" src={article.cover} fill className="object-cover"/>
                         </div>
                     </div>
 
@@ -123,7 +117,7 @@ export function ArticleCard({
                     <Card.Content className="lg:hidden p-4">
                         <div className="flex flex-col gap-3">
                             <AuthorAndDate/>
-                            <span className="text-2xl font-semibold">{article.title}</span>
+                            <h3 className="text-2xl font-semibold">{article.title}</h3>
                             {article.tags && article.tags.length > 0 && <Tags tags={article.tags}/>}
                             {article.description && (
                                 <span className="text-sm text-foreground/60 line-clamp-3">{article.description}</span>
@@ -138,8 +132,7 @@ export function ArticleCard({
     return (
         <NextLink
             href={href}
-            className={`${focusClass} block`}
-            aria-label={`${article.title}，${formatDate(article.created_time, locale, showTime)}${article.readingTime ? `，ETA ${article.readingTime}` : ""}${article.tags && article.tags.length > 0 ? `，${article.tags.join(", ")}` : ""}`}
+            className="block rounded-[calc(var(--radius-xl)+2px)]"
             onNavigate={handleNavigate}
         >
             <article>
@@ -147,7 +140,7 @@ export function ArticleCard({
                     <Card.Content className="p-3">
                         <div className="flex flex-col gap-3">
                             <AuthorAndDate/>
-                            <span className="text-2xl font-semibold line-clamp-2">{article.title}</span>
+                            <h3 className="text-2xl font-semibold line-clamp-2">{article.title}</h3>
                             {article.tags && article.tags.length > 0 && <Tags tags={article.tags}/>}
                             {article.description && (
                                 <span className="text-sm text-foreground/60 line-clamp-3">

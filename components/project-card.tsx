@@ -48,14 +48,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 href={finalLink || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full block no-underline"
+                className="w-full block no-underline rounded-[calc(var(--radius-xl)+2px)]"
             >
                 <Card className="w-full transition-all duration-200" variant="default">
                     {project.cover && (
                         <div className="relative h-48 w-full overflow-hidden">
                             <Image
                                 src={project.cover}
-                                alt={project.name || ''}
+                                alt=""
                                 fill
                                 className="object-cover transition-transform duration-300 hover:scale-105"
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -70,7 +70,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         {project.link && (
                             <div className="flex items-center gap-1 text-sm text-muted">
                                 <span>{new URL(project.link).hostname}</span>
-                                <span className="text-xs">↗</span>
+                                <span className="text-xs" aria-hidden="true">↗</span>
                             </div>
                         )}
                     </Card.Header>
@@ -88,7 +88,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {project.isGithubRepo && repoInfo && !error && (
                         <Card.Footer className="flex items-center gap-3 text-sm text-muted">
                             <div className="flex items-center gap-1">
-                                <FaStar className="text-yellow-500" size={14} />
+                                <FaStar className="text-yellow-500" size={14} aria-hidden="true" />
                                 <span>{repoInfo.stargazers_count}</span>
                             </div>
                             <span>·</span>

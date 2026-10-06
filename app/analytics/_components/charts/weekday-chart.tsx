@@ -34,6 +34,6 @@ export function WeekdayChart({ weekdayDistribution }: WeekdayChartProps) {
     }), [weekdayDistribution, t])
 
     return (
-        <ChartWrapper option={option} height={250} />
+        <ChartWrapper option={option} height={250} label={t("chart-weekday")} />
     )
 }

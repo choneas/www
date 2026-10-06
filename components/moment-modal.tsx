@@ -90,7 +90,7 @@ export function MomentModal({
                                         <div key={i} className="relative w-full h-64 overflow-hidden rounded-lg">
                                             <Image
                                                 src={photo}
-                                                alt={metadata.title || tm('photo-alt')}
+                                                alt={metadata.photos!.length > 1 ? `${metadata.title || tm('photo-alt')} ${i + 1}/${metadata.photos!.length}` : (metadata.title || tm('photo-alt'))}
                                                 fill
                                                 className="object-cover"
                                             />

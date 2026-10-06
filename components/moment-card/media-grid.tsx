@@ -13,27 +13,25 @@ export function ImagePreview({ images, label, alt }: { images: string[]; label: 
   const displayImages = images.slice(0, 6);
 
   return (
-    <div
-      className={`flex flex-col md:grid ${gridClassForCount(displayImages.length)} gap-2 mt-2`}
-      role="list"
+    <ul
+      className={`flex flex-col md:grid ${gridClassForCount(displayImages.length)} gap-2 mt-2 list-none p-0 m-0`}
       aria-label={label}
     >
       {displayImages.map((image, i) => (
-        <div
+        <li
           key={i}
-          role="listitem"
           className="relative w-full h-36 overflow-hidden"
         >
           <Image
             src={image}
-            alt={alt}
+            alt={displayImages.length > 1 ? `${alt} ${i + 1}/${displayImages.length}` : alt}
             fill
             quality={75}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-[calc(var(--radius-md)*1.5)] object-cover"
           />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

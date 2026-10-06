@@ -74,7 +74,6 @@ export function TOCItem({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         className={`text-left w-full transition-colors flex items-center cursor-pointer ${getTextClass()}`}
-        tabIndex={0}
         aria-current={isActive ? 'location' : undefined}
       >
         <DOTIndicator indentLevel={entry.indentLevel as 0 | 1 | 2} />

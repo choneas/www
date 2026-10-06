@@ -8,9 +8,10 @@ interface TopArticlesChartProps {
     data: { slug: string; value: number }[]
     color: string
     label: string
+    chartLabel?: string
 }
 
-export function TopArticlesChart({ data, color, label }: TopArticlesChartProps) {
+export function TopArticlesChart({ data, color, label, chartLabel }: TopArticlesChartProps) {
     const option = useMemo<EChartsOption>(() => ({
         backgroundColor: "transparent",
         grid: { left: 100, right: 40, top: 8, bottom: 24 },
@@ -29,6 +30,6 @@ export function TopArticlesChart({ data, color, label }: TopArticlesChartProps) 
     }), [data, color, label])
 
     return (
-        <ChartWrapper option={option} height={Math.max(200, data.length * 30)} />
+        <ChartWrapper option={option} height={Math.max(200, data.length * 30)} label={chartLabel ?? label} />
     )
 }
